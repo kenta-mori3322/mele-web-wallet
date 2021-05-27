@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="37.43" height="37.43" viewBox="0 0 37.43 37.43">
+  <g id="Group_1152" data-name="Group 1152" transform="translate(-9014 2060)">
+    <path id="Path_243" data-name="Path 243" d="M79.309,187.527c-1.113-4.873-3.85-8.314-8.734-9.836a25.161,25.161,0,0,0-6.679-1.068,36.209,36.209,0,0,0-11.278.91,12.066,12.066,0,0,0-8.791,8.245,25.93,25.93,0,0,0-1.193,7.451,36.18,36.18,0,0,0,.818,10.313c1.113,4.237,3.475,7.406,7.712,8.973a22.175,22.175,0,0,0,6.372,1.318,40.284,40.284,0,0,0,11.437-.555c5.486-1.2,8.961-4.475,10.267-9.984a33.2,33.2,0,0,0,.772-8.11A31.27,31.27,0,0,0,79.309,187.527Z" transform="translate(8971.401 -2236.56)" fill="#002db0"/>
+    <g id="Group_491" data-name="Group 491" transform="translate(9023.09 -2051.52)">
+      <g id="document" transform="translate(0 0)">
+        <g id="Group_488" data-name="Group 488" transform="translate(16.751 6.007)">
+          <path id="Path_844" data-name="Path 844" d="M0,0H1.549V4.747H0Z" transform="translate(0 1.52) rotate(-45)" fill="#fff"/>
+        </g>
+        <g id="Group_489" data-name="Group 489">
+          <path id="Path_845" data-name="Path 845" d="M20.923,27.4H8.379A2.419,2.419,0,0,1,6,24.951V8.452A2.419,2.419,0,0,1,8.379,6h6.956V7.338H8.379A1.1,1.1,0,0,0,7.3,8.452v16.5a1.1,1.1,0,0,0,1.081,1.115H20.923A1.1,1.1,0,0,0,22,24.951V16.782h1.3v8.169A2.419,2.419,0,0,1,20.923,27.4Z" transform="translate(-6 -6)" fill="#fff"/>
+        </g>
+        <g id="Group_490" data-name="Group 490" transform="translate(9.04)">
+          <path id="Path_846" data-name="Path 846" d="M23.164,16.329a5.164,5.164,0,1,1,5.164-5.164A5.17,5.17,0,0,1,23.164,16.329Zm0-8.779a3.615,3.615,0,1,0,3.615,3.615A3.619,3.619,0,0,0,23.164,7.549Z" transform="translate(-18 -6)" fill="#fff"/>
+        </g>
+      </g>
+      <text id="KYC" transform="translate(7.744 15.702)" fill="#fff" font-size="5" font-family="SFUIDisplay-Black, SF UI Display" font-weight="800"><tspan x="-5.283" y="0">KYC</tspan></text>
+    </g>
+  </g>
+</svg>

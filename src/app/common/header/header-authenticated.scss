@@ -1,0 +1,119 @@
+#header-authenticated {
+	height: 69px;
+	display: flex;
+	width: 100%;
+	flex-direction: row;
+	border-bottom-width: 0.5px;
+	border-bottom-color: #dde5ed;
+	border-bottom-style: solid;
+	font-family: Circular Std Book;
+	.logo-container {
+		width: 64px;
+		display: flex;
+		align-items: center;
+		padding-left: 20px;
+		box-sizing: border-box;
+
+		.logo {
+			width: 44px;
+			height: 44px;
+			background-image: url(../../../public/images/logo-authed-1@2x.png);
+			background-position: center;
+
+			background-size: contain;
+			background-repeat: no-repeat;
+		}
+	}
+	.widget-container {
+		flex: 1;
+		display: flex;
+		align-items: center;
+		padding-left: 14px;
+		.transaction-search-input {
+			width: 337px;
+			.search-icon {
+				background-image: url(/static/media/search.de0c5a91.svg);
+				height: 18px;
+				width: 18px;
+				background-position: center;
+				background-size: contain;
+				position: absolute;
+				line-height: 1;
+				left: 0;
+				margin-left: 10px;
+			}
+		}
+
+		.ico-status {
+			width: 93px;
+			height: 27px;
+			background-color: #ecfdfb;
+			margin-left: 22px;
+			border-radius: 14px;
+			display: flex;
+			align-items: center;
+			.status-icon {
+				margin-left: 9px;
+				width: 12px;
+				height: 12px;
+				border-radius: 6px;
+				background-color: #d1f7f2;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				.status-icon-center {
+					width: 5px;
+					height: 5px;
+					border-radius: 3px;
+					background-color: #25dfc6;
+				}
+			}
+			.status-text {
+				margin-left: 6px;
+				font-family: Circular Std Bold;
+				letter-spacing: 0px;
+				color: #25dfc6;
+			}
+		}
+	}
+	.buttons-container {
+		width: 200px;
+		display: flex;
+
+		align-items: center;
+		justify-content: flex-end;
+
+		.go-to-website {
+			cursor: pointer;
+			width: 115px;
+			display: flex;
+			color: #101654;
+			text-decoration: none;
+			.to-website-icon {
+				border: solid #101654;
+				border-width: 0 1px 1px 0;
+				display: inline-block;
+				padding: 3px;
+				transform: rotate(135deg);
+				-webkit-transform: rotate(135deg);
+				height: 3px;
+				width: 3px;
+				margin-top: 6px;
+			}
+			.to-website-text {
+				letter-spacing: 0px;
+				font-size: 14px;
+				margin-left: 8px;
+			}
+		}
+		.buttons-separator {
+			width: 30px;
+		}
+
+		.send-coins-button {
+			width: 120px;
+			height: 41px;
+			margin-right: 33px;
+		}
+	}
+}

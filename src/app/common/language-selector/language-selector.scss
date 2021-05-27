@@ -1,0 +1,32 @@
+.language-selector {
+	border-radius: 0px;
+	width: 80px;
+	.language-selector__control {
+		border-width: 0px !important;
+		box-shadow: none !important;
+		cursor: pointer;
+
+		.language-selector__single-value {
+			font-size: 14px !important;
+			color: #101654;
+			opacity: 0.54;
+		}
+		.language-selector__indicator-separator {
+			display: none;
+		}
+		.language-selector__indicator {
+			padding-left: 0px;
+			padding-right: 0px;
+			color: #101654;
+		}
+	}
+	.language-selector__menu-list {
+		padding: 0px;
+		border-radius: 5px;
+		cursor: pointer;
+	}
+
+	.language-selector__option {
+		font-size: 14px !important;
+	}
+}

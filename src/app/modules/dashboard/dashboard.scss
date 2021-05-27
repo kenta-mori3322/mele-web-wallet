@@ -1,0 +1,86 @@
+#dashboard-module {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	padding-top: 50px;
+	background-color: #f5f6fb;
+	.dashboard-content {
+		width: 80%;
+		display: flex;
+		flex-direction: column;
+		.top-columns-titles {
+			display: flex;
+			flex-direction: row;
+			margin-bottom: 1%;
+
+			#sendCoinsCol {
+				width: 71%;
+				#dashboard-sendCoinsTitle {
+					text-align: left;
+					font: normal normal normal 20px/28px Circular Std Bold;
+					letter-spacing: 0px;
+					color: #101654;
+					opacity: 1;
+				}
+				#dashboard-sendCoinsSubTitle {
+					text-align: left;
+					font: normal normal normal 12px/16px Circular Std Book;
+					letter-spacing: -0.42px;
+					color: #2d376b;
+					opacity: 0.8;
+				}
+			}
+
+			#balanceCol {
+				width: 35%;
+				#dashboard-balanceTitle {
+					text-align: left;
+					font: normal normal normal 20px/28px Circular Std Bold;
+					letter-spacing: 0px;
+					color: #101654;
+					opacity: 1;
+				}
+				#dashboard-balanceSubTitle {
+					text-align: left;
+					font: normal normal normal 12px/16px Circular Std Book;
+					letter-spacing: -0.42px;
+					color: #2d376b;
+					opacity: 0.8;
+				}
+			}
+		}
+		.top-columns {
+			display: flex;
+			flex-direction: row;
+			margin-bottom: 5%;
+			.right-column {
+				width: 35%;
+			}
+			.left-column {
+				margin-right: 5%;
+				width: 65%;
+			}
+		}
+		#dashboard-transationsTitle {
+			text-align: left;
+			font: normal normal normal 20px/28px Circular Std Bold;
+			letter-spacing: 0px;
+			color: #101654;
+			opacity: 1;
+		}
+		#dashboard-transationsSubTitle {
+			text-align: left;
+			font: normal normal normal 12px/16px Circular Std Book;
+			letter-spacing: -0.42px;
+			color: #2d376b;
+			opacity: 0.8;
+			margin-bottom: 1%;
+		}
+		.bottom-column {
+			width: 100%;
+			align-self: flex-end;
+		}
+	}
+}

@@ -1,0 +1,29 @@
+.standard-input {
+	height: 42px;
+	background-color: #dde5ed !important;
+	border-radius: 4px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+
+	> input {
+		font-family: Circular Std Book !important;
+		background-color: #dde5ed !important;
+		border: none !important;
+		&::placeholder {
+			font-size: 14px;
+		}
+		&::-webkit-input-placeholder {
+			font-size: 14px;
+		}
+		&:-ms-input-placeholder {
+			font-size: 14px;
+		}
+	}
+
+	:not(:first-child) {
+		font-family: Circular Std Book !important;
+		margin-right: 10px;
+	}
+}

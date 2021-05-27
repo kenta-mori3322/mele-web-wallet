@@ -1,0 +1,422 @@
+.wallet-droplet {
+	display: flex;
+	flex-direction: column;
+	background: #ffffff 0% 0% no-repeat padding-box;
+	border-radius: 9px;
+	z-index: 100;
+	width: 250px;
+
+	.wallet-container {
+		width: 250px;
+		grid-template-columns: 20% 70% 10%;
+		display: grid;
+		z-index: 100;
+		margin-left: 26%;
+		cursor: pointer;
+		#walletIcon {
+			grid-column: 1;
+			width: 50px;
+			height: 43px;
+			background-size: 30px 30px;
+			border-radius: 10px !important;
+			background-image: url(../../../../public/images/wallet.png);
+			background-position: center;
+			background-repeat: no-repeat;
+		}
+		.text-container {
+			grid-column: 2;
+			#wallet-title {
+				text-align: left;
+				font: normal normal normal 16px/22px Circular Std Book;
+				letter-spacing: 0px;
+				color: #101654;
+				opacity: 1;
+				margin-top: 2%;
+			}
+			#wallet-subtitle {
+				text-align: left;
+				font: normal normal normal 12px/16px Circular Std Book;
+				letter-spacing: 0px;
+				color: #101654;
+				opacity: 0.43;
+				margin-bottom: 2%;
+			}
+		}
+		#wallet-arrow {
+			grid-column: 3;
+			border: 1px solid #101654;
+			border-width: 0 1px 1px 0;
+			display: inline-block;
+			padding: 3px;
+			transform: rotate(45deg);
+			-webkit-transform: rotate(45deg);
+			height: 3px;
+			width: 3px;
+			margin-top: 65%;
+		}
+	}
+}
+
+.wallet-droplet-opened {
+	display: flex;
+	flex-direction: column;
+	opacity: 1;
+	width: 100%;
+	z-index: 100;
+	background-color: rgba($color: #000000, $alpha: 0);
+
+	.wallet-container {
+		cursor: pointer;
+		width: 250px;
+		grid-template-columns: 20% 70% 10%;
+		display: grid;
+		z-index: 100;
+		background: #f5f6fb 0% 0% no-repeat padding-box;
+		border-radius: 9px;
+		margin-top: 82%;
+		margin-left: 20%;
+		#walletIcon {
+			grid-column: 1;
+			width: 50px;
+			height: 43px;
+			background-size: 30px 30px;
+			border-radius: 10px !important;
+			background-image: url(../../../../public/images/wallet.png);
+			background-position: center;
+			background-repeat: no-repeat;
+		}
+		.text-container {
+			grid-column: 2;
+			#wallet-title {
+				text-align: left;
+				font: normal normal normal 16px/22px Circular Std Book;
+				letter-spacing: 0px;
+				color: #101654;
+				opacity: 1;
+				margin-top: 2%;
+			}
+			#wallet-subtitle {
+				text-align: left;
+				font: normal normal normal 12px/16px Circular Std Book;
+				letter-spacing: 0px;
+				color: #101654;
+				opacity: 0.43;
+				margin-bottom: 2%;
+			}
+		}
+		#wallet-arrow {
+			grid-column: 3;
+			border: 1px solid #101654;
+			border-width: 0 1px 1px 0;
+			display: inline-block;
+			padding: 3px;
+			transform: rotate(45deg);
+			-webkit-transform: rotate(45deg);
+			height: 3px;
+			width: 3px;
+			margin-top: 65%;
+		}
+	}
+
+	#wallet-creation-container {
+		background: #ffffff 0% 0% no-repeat padding-box;
+		box-shadow: 0px 3px 6px #00000029;
+		border: 0.5px solid #0e11312b;
+		border-radius: 4px;
+		opacity: 1;
+		position: relative;
+		top: 10px;
+		z-index: 99;
+		width: 97.5%;
+		#wallet-creation-title {
+			text-align: left;
+			font: normal normal normal 18px/26px Circular Std Bold;
+			letter-spacing: -0.63px;
+			color: #101654;
+			opacity: 1;
+			margin-left: 8%;
+			margin-top: 5%;
+		}
+		#wallet-creation-subtitle {
+			text-align: left;
+			font: normal normal normal 14px/20px Circular Std Book;
+			letter-spacing: -0.49px;
+			color: #2d376b;
+			opacity: 0.8;
+			margin: 0 8% 5% 8%;
+		}
+		#wallet-creation-buttons-container {
+			display: grid;
+			grid-template-columns: 50% 50%;
+			margin: 0 8% 5% 8%;
+			height: 150px;
+
+			#wallet-creation-button-create {
+				cursor: pointer;
+				display: grid;
+				grid-template-rows: 50% 50%;
+				background: #013ec4 0% 0% no-repeat padding-box;
+				border: 0.5px solid #0e11312b;
+				border-radius: 4px;
+				opacity: 1;
+				text-align: left;
+				font: normal normal normal 14px/20px Circular Std Book;
+				letter-spacing: -0.49px;
+				color: #ffffff;
+				opacity: 1;
+				margin-right: 2.5%;
+
+				#createIcon {
+					grid-row: 1;
+					width: 50px;
+					height: 43px;
+					background-size: 30px 30px;
+					border-radius: 10px !important;
+					background-image: url(../../../../public/images/wallet.png);
+					background-position: center;
+					background-repeat: no-repeat;
+					margin-top: 5%;
+				}
+				#create-text {
+					grid-row: 2;
+					margin: 15% 8% 0 8%;
+				}
+			}
+			#wallet-creation-button-import {
+				cursor: pointer;
+				margin-left: 2.5%;
+				display: grid;
+				grid-template-rows: 50% 50%;
+				background: #ffffff 0% 0% no-repeat padding-box;
+				border: 0.5px solid #0e11312b;
+				border-radius: 4px;
+				opacity: 1;
+				text-align: left;
+				font: normal normal normal 14px/20px Circular Std Book;
+				letter-spacing: -0.49px;
+				color: #013ec4;
+				opacity: 1;
+
+				#importIcon {
+					grid-row: 1;
+					width: 50px;
+					height: 43px;
+					background-size: 30px 30px;
+					border-radius: 10px !important;
+					background-image: url(../../../../public/images/wallet.png);
+					background-position: center;
+					background-repeat: no-repeat;
+					margin-top: 5%;
+				}
+				#import-text {
+					grid-row: 2;
+					margin: 15% 8% 0 8%;
+				}
+			}
+		}
+
+		#wallet-creation-mnemonic-container {
+			background: #dde5ed 0% 0% no-repeat padding-box;
+			margin: 8%;
+			border-radius: 4px;
+			opacity: 1;
+			text-align: left;
+			font: normal normal normal 14px/20px Circular Std Book;
+			letter-spacing: -0.49px;
+			color: #2d376b;
+			opacity: 1;
+			display: grid;
+			grid-template-columns: repeat(2, 50%);
+			grid-template-rows: repeat(12, 8.3%);
+
+			.mnemonic-cell {
+				margin: 5% 25%;
+			}
+		}
+
+		#copyButton {
+			border: 0.5px solid #101654;
+			border-radius: 4px;
+			opacity: 1;
+			text-align: left;
+			font: normal normal normal 12px/16px Circular Std Bold;
+			letter-spacing: 0px;
+			color: #101654 !important;
+			opacity: 1;
+			background-color: white !important;
+			width: 83%;
+			margin-left: auto;
+			margin-right: auto;
+			margin-bottom: 5%;
+		}
+		#copiedButton {
+			border-radius: 4px;
+			opacity: 1;
+			text-align: left;
+			font: normal normal normal 12px/16px Circular Std Bold;
+			letter-spacing: 0px;
+			color: #101654 !important;
+			opacity: 1;
+			background: #80ffcb 0% 0% no-repeat padding-box !important;
+			width: 83%;
+			margin-left: auto;
+			margin-right: auto;
+			margin-bottom: 5%;
+		}
+		#savedButton {
+			width: 83%;
+			margin-left: auto;
+			margin-right: auto;
+			margin-bottom: 5%;
+			background: #013ec4 0% 0% no-repeat padding-box;
+			border-radius: 4px;
+			opacity: 1;
+			text-align: left;
+			font: normal normal normal 12px/16px Circular Std Bold;
+			letter-spacing: 0px;
+			color: #ffffff;
+			opacity: 1;
+		}
+
+		.recoveryContainer {
+			height: 110px;
+			width: 83%;
+			margin-left: 8%;
+			margin-right: 8%;
+		}
+
+		#importButton {
+			background: #013ec4 0% 0% no-repeat padding-box;
+			border-radius: 4px;
+			opacity: 1;
+			width: 80%;
+			margin: 5% auto;
+		}
+	}
+
+	#wallet-pin-container {
+		background: #ffffff 0% 0% no-repeat padding-box;
+		box-shadow: 0px 3px 6px #00000029;
+		border: 0.5px solid #0e11312b;
+		border-radius: 4px;
+		opacity: 1;
+		position: relative;
+		top: 10px;
+		left: 50px;
+		z-index: 99;
+		width: 97.5%;
+		#wallet-pin-title {
+			text-align: left;
+			font: normal normal normal 18px/26px Circular Std Bold;
+			letter-spacing: -0.63px;
+			color: #101654;
+			opacity: 1;
+			margin-left: 8%;
+			margin-top: 5%;
+		}
+		#wallet-pin-subtitle {
+			text-align: left;
+			font: normal normal normal 14px/20px Circular Std Book;
+			letter-spacing: -0.49px;
+			color: #2d376b;
+			opacity: 0.8;
+			margin: 0 8% 5% 8%;
+		}
+
+		#copyButton {
+			border: 0.5px solid #101654;
+			border-radius: 4px;
+			opacity: 1;
+			text-align: left;
+			font: normal normal normal 12px/16px Circular Std Bold;
+			letter-spacing: 0px;
+			color: #101654 !important;
+			opacity: 1;
+			background-color: white !important;
+			width: 83%;
+			margin-left: auto;
+			margin-right: auto;
+			margin-bottom: 5%;
+		}
+		#copiedButton {
+			border-radius: 4px;
+			opacity: 1;
+			text-align: left;
+			font: normal normal normal 12px/16px Circular Std Bold;
+			letter-spacing: 0px;
+			color: #101654 !important;
+			opacity: 1;
+			background: #80ffcb 0% 0% no-repeat padding-box !important;
+			width: 83%;
+			margin-left: auto;
+			margin-right: auto;
+			margin-bottom: 5%;
+		}
+		#savedButton {
+			width: 83%;
+			margin-left: auto;
+			margin-right: auto;
+			margin-bottom: 5%;
+			background: #013ec4 0% 0% no-repeat padding-box;
+			border-radius: 4px;
+			opacity: 1;
+			text-align: left;
+			font: normal normal normal 12px/16px Circular Std Bold;
+			letter-spacing: 0px;
+			color: #ffffff;
+			opacity: 1;
+		}
+
+		#pinContainer {
+			display: grid;
+			grid-template-columns: repeat(6, 16.7%);
+			margin-left: 5.5%;
+			margin-right: 9%;
+			column-gap: 1%;
+			margin-bottom: 10%;
+
+			.form-field {
+				height: 130% !important;
+			}
+
+			#pinOne {
+				grid-column: 1;
+				height: 20%;
+				width: 10px;
+			}
+			#pinTwo {
+				grid-column: 2;
+				height: 8%;
+				width: 10px;
+			}
+			#pinThree {
+				grid-column: 3;
+				height: 8%;
+				width: 10px;
+			}
+			#pinFour {
+				grid-column: 4;
+				height: 8%;
+				width: 10px;
+			}
+			#pinFive {
+				grid-column: 5;
+				height: 8%;
+				width: 10px;
+			}
+			#pinSix {
+				grid-column: 6;
+				height: 8%;
+				width: 10px;
+			}
+		}
+
+		#finishButton {
+			background: #013ec4 0% 0% no-repeat padding-box;
+			border-radius: 4px;
+			opacity: 1;
+			width: 80%;
+			margin: 5% auto;
+		}
+	}
+}

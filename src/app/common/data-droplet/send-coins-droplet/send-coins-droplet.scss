@@ -1,0 +1,240 @@
+.send-coins-droplet {
+	display: flex;
+	flex-direction: column;
+
+	.send-coins-droplet-title {
+		display: flex;
+		flex-direction: row;
+		padding-left: 20px;
+		padding-right: 20px;
+		padding-top: 14px;
+		padding-bottom: 14px;
+		border-bottom-width: 1px;
+		border-bottom-style: solid;
+		border-bottom-color: #1016541f;
+		.send-coins-droplet-subtitle {
+			flex: 1;
+			text-align: left;
+			font: normal normal normal 25px/35px Circular Std Bold Black !important;
+			font-family: Circular Std Bold !important;
+			letter-spacing: 0px !important;
+			color: #013ec4 !important;
+			opacity: 1;
+		}
+		.notification-icon {
+			background-image: url(../../../../public/images/icons/info-blue.svg);
+			background-size: contain;
+			height: 16px;
+			width: 16px;
+			cursor: pointer;
+			margin-top: 2.5%;
+		}
+	}
+	.send-coins-droplet-USD {
+		padding-left: 20px;
+		padding-right: 20px;
+		padding-top: 14px;
+		padding-bottom: 14px;
+	}
+
+	.input-container {
+		padding-left: 16px;
+		padding-right: 16px;
+		margin-top: 75px;
+
+		.send-coins-label {
+			text-align: left;
+			margin-left: 1%;
+			margin-bottom: 2%;
+			font: normal normal normal 14px/22px Circular Std Book !important;
+			letter-spacing: 0px !important;
+			color: #101654 !important;
+			opacity: 1;
+		}
+
+		.send-coins-input-inner-container {
+			width: 100%;
+			grid-template-columns: 12% 87%;
+			display: grid;
+			#walletIcon {
+				grid-column: 1;
+				width: 65px;
+				height: 43px;
+				background-size: 50px 50px;
+				border-radius: 10px !important;
+				background-image: url(../../../../public/images/wallet.png);
+				background-position: center;
+				background-repeat: no-repeat;
+			}
+			.login-field {
+				grid-column: 2;
+			}
+		}
+	}
+	.button-container {
+		padding-left: 20px;
+		padding-right: 20px;
+		padding-top: 25px;
+		padding-bottom: 50px;
+		width: 100%;
+		.fee-button {
+			text-align: left;
+			font: normal normal normal 14px/22px Circular Std Book !important;
+			letter-spacing: 0px !important;
+			color: #101654 !important;
+			opacity: 0.15;
+			margin: 0 !important;
+			margin-right: 2% !important;
+			float: left;
+			background-color: white !important;
+		}
+		.reset-button {
+			text-align: left;
+			font: normal normal normal 12px/16px Circular Std Bold !important;
+			letter-spacing: 0px !important;
+			color: #013ec4 !important;
+			opacity: 1 !important;
+			margin: 0 !important;
+			margin-right: 2% !important;
+			float: right;
+			background-color: white !important;
+		}
+		.send-button {
+			background: #013ec4 0% 0% no-repeat padding-box !important;
+			border-radius: 4px !important;
+			opacity: 1;
+			width: 15%;
+			text-align: left;
+			font: normal normal normal 12px/16px Circular Std Bold !important;
+			letter-spacing: 0px;
+			color: #ffffff !important;
+			opacity: 1;
+			margin: 0;
+			float: right;
+		}
+	}
+}
+
+.send-coins-droplet-notlogged {
+	display: flex;
+	flex-direction: column;
+	pointer-events: none;
+	opacity: 0.1;
+	.send-coins-droplet-title {
+		display: flex;
+		flex-direction: row;
+		padding-left: 20px;
+		padding-right: 20px;
+		padding-top: 14px;
+		padding-bottom: 14px;
+		border-bottom-width: 1px;
+		border-bottom-style: solid;
+		border-bottom-color: #1016541f;
+		.send-coins-droplet-subtitle {
+			flex: 1;
+			text-align: left;
+			font: normal normal normal 25px/35px Circular Std Bold Black !important;
+			font-family: Circular Std Bold !important;
+			letter-spacing: 0px !important;
+			color: #013ec4 !important;
+			opacity: 1;
+		}
+		.notification-icon {
+			background-image: url(../../../../public/images/icons/info-blue.svg);
+			background-size: contain;
+			height: 16px;
+			width: 16px;
+			cursor: pointer;
+			margin-top: 2.5%;
+		}
+	}
+	.send-coins-droplet-USD {
+		padding-left: 20px;
+		padding-right: 20px;
+		padding-top: 14px;
+		padding-bottom: 14px;
+	}
+
+	.input-container {
+		padding-left: 16px;
+		padding-right: 16px;
+		padding-top: 75px;
+
+		.send-coins-label {
+			text-align: left;
+			margin-left: 1%;
+			margin-bottom: 2%;
+			font: normal normal normal 14px/22px Circular Std Book !important;
+			letter-spacing: 0px !important;
+			color: #101654 !important;
+			opacity: 1;
+		}
+
+		.send-coins-input-inner-container {
+			width: 100%;
+			grid-template-columns: 12% 87%;
+			display: grid;
+			#walletIcon {
+				grid-column: 1;
+				width: 65px;
+				height: 43px;
+				background-size: 50px 50px;
+				border-radius: 10px !important;
+				background-image: url(../../../../public/images/wallet.png);
+				background-position: center;
+				background-repeat: no-repeat;
+			}
+			.login-field {
+				grid-column: 2;
+			}
+		}
+	}
+	.button-container {
+		padding-left: 20px;
+		padding-right: 20px;
+		padding-top: 14px;
+		padding-bottom: 14px;
+		width: 100%;
+		.fee-button {
+			text-align: left;
+			font: normal normal normal 14px/22px Circular Std Book !important;
+			letter-spacing: 0px !important;
+			color: #101654 !important;
+			opacity: 0.15;
+			margin: 0 !important;
+			margin-right: 2% !important;
+			float: left;
+			background-color: white !important;
+		}
+		.reset-button {
+			text-align: left;
+			font: normal normal normal 12px/16px Circular Std Bold !important;
+			letter-spacing: 0px !important;
+			color: #013ec4 !important;
+			opacity: 1 !important;
+			margin: 0 !important;
+			margin-right: 2% !important;
+			float: right;
+			background-color: white !important;
+		}
+		.send-button {
+			background: #013ec4 0% 0% no-repeat padding-box !important;
+			border-radius: 4px !important;
+			opacity: 1;
+			width: 15%;
+			text-align: left;
+			font: normal normal normal 12px/16px Circular Std Bold !important;
+			letter-spacing: 0px;
+			color: #ffffff !important;
+			opacity: 1;
+			margin: 0;
+			float: right;
+		}
+	}
+}
+
+@media only screen and (min-width: 1824px) {
+	.input-container {
+		padding-top: 0px !important;
+	}
+}

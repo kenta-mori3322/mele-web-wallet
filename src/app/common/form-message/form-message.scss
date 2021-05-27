@@ -1,0 +1,24 @@
+.form-message {
+    display: flex;
+
+    .error-icon {
+        background-image: url(../../../public/images/icons/error.svg);
+        height: 19px;
+        width: 19px;
+        background-size: cover;
+    }
+    .form-message-text{
+        font-size: 14px;
+        font-family: Circular Std Book;
+        letter-spacing: 0px;
+        margin-left: 5px;
+        &.form-message-error{
+            color: #F63434;
+        }
+        &.form-message-success{
+            color: #009900;
+        }
+    }
+    
+    
+}
