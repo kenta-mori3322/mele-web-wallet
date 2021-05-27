@@ -1,0 +1,185 @@
+#transactions-droplet-module {
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	width: 100%;
+	min-height: 400px;
+	background-color: #f5f6fb;
+
+	#transactions-content {
+		width: 100%;
+		display: flex;
+		margin: auto;
+		flex-direction: column;
+		background-color: white;
+		flex: 2;
+		margin-bottom: 5%;
+
+		#loadingTransactions {
+			width: 100%;
+			margin: auto;
+			text-align: center;
+		}
+
+		.transactions-list-table {
+			display: table;
+			width: 100%;
+		}
+		.transactions-list-tr {
+			display: inline-table;
+			width: 100%;
+			clear: both;
+		}
+		.transactions-list-th {
+			display: grid;
+			grid-template-columns: 20% 21% 20.5% 25% 15.5%;
+			width: 100%;
+			border-bottom: 1px #eaedf9 solid;
+			padding-bottom: 1%;
+			padding-left: 1%;
+			margin: 1% 1% 1% 0;
+		}
+
+		.transactions-header-cell {
+			text-align: left;
+			font: normal normal normal 12px/16px Circular Std Book;
+			letter-spacing: -0.42px;
+			color: #2d376b;
+			opacity: 0.8;
+			display: table-cell;
+			padding: 0.7% 5%;
+			width: max-content;
+		}
+		.transactions-list-td {
+			float: left; /* fix for  buggy browsers */
+			display: table-column;
+			padding: 0.7% 0;
+			padding-left: 4%;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			text-align: left;
+			font: normal normal normal 14px/20px Circular Std Book;
+			letter-spacing: -0.49px;
+			color: #555d87;
+			opacity: 1;
+		}
+
+		#amountHeader {
+			grid-column: 1;
+			text-align: center;
+			margin-left: 10%;
+		}
+		#typeHeader {
+			grid-column: 2;
+			text-align: center;
+			margin-left: 5%;
+		}
+		#senderCell {
+			grid-column: 3;
+			text-align: center;
+			margin-left: 10%;
+		}
+		#recipientHeader {
+			grid-column: 4;
+			text-align: center;
+			margin-left: 8%;
+		}
+		#feeCell {
+			grid-column: 5;
+			text-align: center;
+			margin-left: 10%;
+		}
+
+		.amountCell {
+			text-align: left;
+			width: 18%;
+		}
+		.typeCell {
+			text-align: left;
+			width: 22.5%;
+			.pill-green {
+				display: inline-block;
+				background: #f1fcf9 0% 0% no-repeat padding-box;
+				border-radius: 11px;
+				padding: 2% 12%;
+				margin-left: -5%;
+				color: #1edf92;
+				font-weight: bold;
+				margin-left: 0 !important;
+			}
+			.pill-orange {
+				display: inline-block;
+				background: #fef9e6 0% 0% no-repeat padding-box;
+				border-radius: 11px;
+				padding: 2% 12%;
+				margin-left: -5%;
+				color: #f4bd00;
+				font-weight: bold;
+				margin-left: 0 !important;
+			}
+		}
+		.senderCell {
+			text-align: left;
+			width: 20.5%;
+		}
+		.recipientHeader {
+			text-align: left;
+			width: 24%;
+		}
+		.feeCell {
+			width: 18%;
+		}
+
+		.pagination {
+			.prev {
+				position: relative;
+				right: 1%;
+				background: #f5f6fb 0% 0% no-repeat padding-box;
+				border-radius: 4px;
+				opacity: 1;
+				text-align: center;
+				font: normal normal normal 12px/22px Circular Std Book;
+				letter-spacing: 0px;
+				color: #101654;
+				opacity: 1;
+				border: none;
+				width: fit-content !important;
+			}
+			.next {
+				position: relative;
+				left: 1%;
+				background: #f5f6fb 0% 0% no-repeat padding-box;
+				border-radius: 4px;
+				opacity: 1;
+				text-align: center;
+				font: normal normal normal 12px/22px Circular Std Book;
+				letter-spacing: 0px;
+				color: #101654;
+				opacity: 1;
+				border: none;
+				width: fit-content !important;
+			}
+			.pagination-item {
+				display: inline-block;
+				border: none;
+				border-radius: 4px;
+				margin: 0.2%;
+				opacity: 1;
+				width: 30px;
+				text-align: center;
+				color: #101654;
+				letter-spacing: 0px;
+				font: normal normal normal 12px/22px Circular Std Book;
+				background: #f5f6fb 0% 0% no-repeat padding-box;
+			}
+			.active {
+				width: 30px !important;
+				background: #013ec4 0% 0% no-repeat padding-box !important;
+				color: #ffffff;
+				opacity: 1;
+				text-align: center;
+			}
+		}
+	}
+}

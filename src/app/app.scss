@@ -1,0 +1,52 @@
+@import "./fonts.scss";
+
+html,
+body {
+	display: flex;
+	flex: 1;
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	font-family: Circular Std Book;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+
+	#root {
+		flex: 1;
+		min-height: 100%;
+		position: relative;
+		box-shadow: -10px 2px 16px 0 rgba(0, 0, 0, 0.2);
+		display: flex;
+
+		#content {
+			display: flex;
+			flex-direction: column;
+			flex: 1;
+			align-items: stretch;
+			header {
+				height: auto;
+				//width: 100%;
+			}
+
+			#main-body {
+				display: inherit;
+
+				flex: 1;
+				overflow: hidden;
+				nav {
+					display: flex;
+				}
+				main {
+					flex: 1;
+					//width: 100%;
+					display: flex;
+					background-color: white;
+				}
+			}
+
+			footer {
+				//width: 100%;
+			}
+		}
+	}
+}

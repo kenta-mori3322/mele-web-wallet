@@ -1,0 +1,113 @@
+.balance-droplet {
+	display: flex;
+	flex-direction: column;
+	.balance-droplet-title {
+		display: flex;
+		flex-direction: row;
+		padding-left: 20px;
+		padding-right: 20px;
+		padding-top: 14px;
+		padding-bottom: 14px;
+		border-bottom-width: 1px;
+		border-bottom-style: solid;
+		border-bottom-color: #1016541f;
+		.balance-droplet-subtitle {
+			flex: 1;
+			text-align: left;
+			font: normal normal normal 25px/35px Circular Std Bold Black !important;
+			font-family: Circular Std Bold !important;
+			letter-spacing: 0px !important;
+			color: #013ec4 !important;
+			opacity: 1;
+		}
+		.notification-icon {
+			background-image: url(../../../../public/images/icons/info-blue.svg);
+			background-size: contain;
+			height: 16px;
+			width: 16px;
+			cursor: pointer;
+			margin-top: 2.5%;
+		}
+	}
+	.balance-droplet-USD {
+		padding-left: 20px;
+		padding-right: 20px;
+		padding-top: 14px;
+		padding-bottom: 14px;
+	}
+
+	.calculator-container {
+		padding-left: 16px;
+		padding-right: 16px;
+	}
+	.purchase-coins-container {
+		padding-left: 20px;
+		padding-right: 20px;
+		padding-top: 14px;
+		padding-bottom: 14px;
+		.purchase-coins-button {
+			width: 100%;
+		}
+	}
+}
+
+.balance-droplet-notlogged {
+	display: flex;
+	flex-direction: column;
+	pointer-events: none;
+	opacity: 0.1;
+	.balance-droplet-title {
+		display: flex;
+		flex-direction: row;
+		padding-left: 20px;
+		padding-right: 20px;
+		padding-top: 14px;
+		padding-bottom: 14px;
+		border-bottom-width: 1px;
+		border-bottom-style: solid;
+		border-bottom-color: #1016541f;
+		.balance-droplet-subtitle {
+			flex: 1;
+			text-align: left;
+			font: normal normal normal 25px/35px Circular Std Bold Black !important;
+			font-family: Circular Std Bold !important;
+			letter-spacing: 0px !important;
+			color: #013ec4 !important;
+			opacity: 1;
+		}
+		.notification-icon {
+			background-image: url(../../../../public/images/icons/info-blue.svg);
+			background-size: contain;
+			height: 16px;
+			width: 16px;
+			cursor: pointer;
+			margin-top: 2.5%;
+		}
+	}
+	.balance-droplet-USD {
+		padding-left: 20px;
+		padding-right: 20px;
+		padding-top: 14px;
+		padding-bottom: 14px;
+	}
+
+	.calculator-container {
+		padding-left: 16px;
+		padding-right: 16px;
+	}
+	.purchase-coins-container {
+		padding-left: 20px;
+		padding-right: 20px;
+		padding-top: 14px;
+		padding-bottom: 14px;
+		.purchase-coins-button {
+			width: 100%;
+		}
+	}
+}
+
+@media only screen and (min-width: 1824px) {
+	.purchase-coins-container {
+		padding-top: 25px !important;
+	}
+}

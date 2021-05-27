@@ -1,0 +1,53 @@
+{
+	"navigation": {
+		"next": "Next",
+		"prev": "Prev"
+	},
+	"transactions": {
+		"title": "Transactions",
+		"subtitle": "A list of your current transactions.",
+		"amount": "Amount",
+		"type": "Type",
+		"sender": "Sender",
+		"recipient": "Recipient",
+		"fee": "Fee",
+		"loading": "When you get started, all your fund transfers will show up here.  \n Simply buy coins, and away you go.",
+		"loadingNoLogged": "Create/Import you wallet to start making transactions.",
+		"recent": "Recent Transactions",
+		"recentText": "A list of your recent transactions"
+	},
+	"dashboard": {
+		"send": "Send Coins",
+		"sendText": "Enter the address & the amount to send coins.",
+		"balance": "My Balance",
+		"balanceText": "Your current coin balance.",
+		"purchaseCoins": "Purchase Coins"
+	},
+	"calculator": {
+		"title": "Your balance, explained",
+		"description": "Mele is a two-coin blockchain model. MELG is a gold-backed stable coin. MELC is a reward and payment token. \n When you buy coins you are buying an allocation of MELC and MELG at a ratio of 2:1."
+	},
+	"send": {
+		"reset": "Reset",
+		"send": "Send",
+		"fees": "Fees"
+	},
+	"wallet": {
+		"creationTitle": "Access Wallet",
+		"creationSubTitle": "Create or import your existing wallet to manage your Melecoin.",
+		"createButton": "Create a new wallet.",
+		"importButton": "Import your existing wallet",
+		"creationTitleTwo": "Create a new wallet",
+		"creationSubtitleTwo": "Please write down these phrases as you will need them to recover your wallet.",
+		"copy": "Copy Phrase",
+		"savedIt": "I saved it",
+		"copied": "Copied",
+		"choosePIN": "Choose your PIN",
+		"choosePINDesc": "You will use your PIN to access your wallet.",
+		"finish": "Finish",
+		"import": "Import",
+		"importTitle": "Import Existing Wallet",
+		"importSubtitle": "Paste your recovery phrase below to import your wallet.",
+		"importPlaceholder": "Paste your phrase here"
+	}
+}

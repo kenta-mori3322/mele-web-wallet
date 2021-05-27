@@ -1,0 +1,9 @@
+{
+	"compilerOptions": {
+		"baseUrl": "./",
+		"paths": {
+			"mele-web-wallet/*": ["./src/*"],
+			"mele-sdk/*": ["./mele-sdk/src/*"]
+		}
+	}
+}

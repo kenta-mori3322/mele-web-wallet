@@ -1,0 +1,35 @@
+.standard-checkbox {
+    >input {
+        outline: none;
+    }
+
+    label {
+        font-family:Circular Std Book !important;
+        font-size: 12px !important;
+        &:focus {
+            outline: none;
+        }
+        &::after {
+            border: none;
+            outline: none;
+            color: white !important;
+            background-color: #013EC4;
+            border-radius: 3px;
+            outline: none;
+            &:focus {
+                outline: none;
+            }
+        }
+        &::before {
+            border: none  !important;
+            background-color: #013EC4 !important;
+            outline: none;
+            &:focus {
+                outline: none;
+            }
+        }
+    }
+
+    
+
+}
