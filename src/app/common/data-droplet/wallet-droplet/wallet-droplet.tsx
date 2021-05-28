@@ -60,6 +60,7 @@ class WalletDropletComponent extends React.Component<
 	componentDidMount() {
 		if (!isLogged) {
 			this.setState({ open: true });
+			this.setState({ mnemonic: this.generateMnemonic() });
 		}
 	}
 
@@ -82,7 +83,7 @@ class WalletDropletComponent extends React.Component<
 								style={{
 									marginTop:
 										this.state.state === 1
-											? "200%"
+											? "162%"
 											: this.state.state === 3
 											? "88%"
 											: "82%",
@@ -139,145 +140,73 @@ class WalletDropletComponent extends React.Component<
 											className="mnemonic-cell"
 											style={{ gridColumn: 1, gridRow: 1 }}
 										>
-											1 switch
+											1 {this.state.mnemonic[0]}
 										</div>
 										<div
 											className="mnemonic-cell"
 											style={{ gridColumn: 2, gridRow: 1 }}
 										>
-											12 switch
+											7 {this.state.mnemonic[6]}
 										</div>
 										<div
 											className="mnemonic-cell"
 											style={{ gridColumn: 1, gridRow: 2 }}
 										>
-											2 switch
+											2 {this.state.mnemonic[1]}
 										</div>
 										<div
 											className="mnemonic-cell"
 											style={{ gridColumn: 2, gridRow: 2 }}
 										>
-											14 switch
+											8 {this.state.mnemonic[7]}
 										</div>
 										<div
 											className="mnemonic-cell"
 											style={{ gridColumn: 1, gridRow: 3 }}
 										>
-											3 switch
+											3 {this.state.mnemonic[2]}
 										</div>
 										<div
 											className="mnemonic-cell"
 											style={{ gridColumn: 2, gridRow: 3 }}
 										>
-											15 switch
+											9 {this.state.mnemonic[8]}
 										</div>
 										<div
 											className="mnemonic-cell"
 											style={{ gridColumn: 1, gridRow: 4 }}
 										>
-											4 switch
+											4 {this.state.mnemonic[3]}
 										</div>
 										<div
 											className="mnemonic-cell"
 											style={{ gridColumn: 2, gridRow: 4 }}
 										>
-											16 switch
+											10 {this.state.mnemonic[9]}
 										</div>
 										<div
 											className="mnemonic-cell"
 											style={{ gridColumn: 1, gridRow: 5 }}
 										>
-											5 switch
+											5 {this.state.mnemonic[4]}
 										</div>
 										<div
 											className="mnemonic-cell"
 											style={{ gridColumn: 2, gridRow: 5 }}
 										>
-											17 switch
+											11 {this.state.mnemonic[10]}
 										</div>
 										<div
 											className="mnemonic-cell"
 											style={{ gridColumn: 1, gridRow: 6 }}
 										>
-											6 switch
+											6 {this.state.mnemonic[5]}
 										</div>
 										<div
 											className="mnemonic-cell"
 											style={{ gridColumn: 2, gridRow: 6 }}
 										>
-											18 switch
-										</div>
-										<div
-											className="mnemonic-cell"
-											style={{ gridColumn: 1, gridRow: 7 }}
-										>
-											7 switch
-										</div>
-										<div
-											className="mnemonic-cell"
-											style={{ gridColumn: 2, gridRow: 7 }}
-										>
-											19 switch
-										</div>
-										<div
-											className="mnemonic-cell"
-											style={{ gridColumn: 1, gridRow: 8 }}
-										>
-											8 switch
-										</div>
-										<div
-											className="mnemonic-cell"
-											style={{ gridColumn: 2, gridRow: 8 }}
-										>
-											20 switch
-										</div>
-										<div
-											className="mnemonic-cell"
-											style={{ gridColumn: 1, gridRow: 9 }}
-										>
-											9 switch
-										</div>
-										<div
-											className="mnemonic-cell"
-											style={{ gridColumn: 2, gridRow: 9 }}
-										>
-											21 switch
-										</div>
-										<div
-											className="mnemonic-cell"
-											style={{ gridColumn: 1, gridRow: 10 }}
-										>
-											10 switch
-										</div>
-										<div
-											className="mnemonic-cell"
-											style={{ gridColumn: 2, gridRow: 10 }}
-										>
-											22 switch
-										</div>
-										<div
-											className="mnemonic-cell"
-											style={{ gridColumn: 1, gridRow: 11 }}
-										>
-											11 switch
-										</div>
-										<div
-											className="mnemonic-cell"
-											style={{ gridColumn: 2, gridRow: 11 }}
-										>
-											23 switch
-										</div>
-										<div
-											className="mnemonic-cell"
-											style={{ gridColumn: 1, gridRow: 12 }}
-										>
-											12 switch
-										</div>
-										<div
-											className="mnemonic-cell"
-											style={{ gridColumn: 2, gridRow: 12 }}
-										>
-											24 switch
+											12 {this.state.mnemonic[11]}
 										</div>
 									</div>
 									<StandardButton
@@ -311,9 +240,13 @@ class WalletDropletComponent extends React.Component<
 										<StandardInput
 											value={this.state.pinOne}
 											className="form-field login-field"
-											onChange={(e) =>
-												this.setState({ pinOne: e.target.value })
-											}
+											onChange={(e) => {
+												const reg = new RegExp("^[0-9]+$");
+
+												if (reg.test(e.target.value)) {
+													this.setState({ pinOne: e.target.value });
+												}
+											}}
 											maxLength="1"
 											type="text"
 											id="pinOne"
@@ -321,9 +254,13 @@ class WalletDropletComponent extends React.Component<
 										<StandardInput
 											value={this.state.pinTwo}
 											className="form-field login-field"
-											onChange={(e) =>
-												this.setState({ pinTwo: e.target.value })
-											}
+											onChange={(e) => {
+												const reg = new RegExp("^[0-9]+$");
+
+												if (reg.test(e.target.value)) {
+													this.setState({ pinTwo: e.target.value });
+												}
+											}}
 											maxLength="1"
 											type="text"
 											id="pinTwo"
@@ -331,9 +268,13 @@ class WalletDropletComponent extends React.Component<
 										<StandardInput
 											value={this.state.pinThree}
 											className="form-field login-field"
-											onChange={(e) =>
-												this.setState({ pinThree: e.target.value })
-											}
+											onChange={(e) => {
+												const reg = new RegExp("^[0-9]+$");
+
+												if (reg.test(e.target.value)) {
+													this.setState({ pinThree: e.target.value });
+												}
+											}}
 											maxLength="1"
 											type="text"
 											id="pinThree"
@@ -341,9 +282,13 @@ class WalletDropletComponent extends React.Component<
 										<StandardInput
 											value={this.state.pinFour}
 											className="form-field login-field"
-											onChange={(e) =>
-												this.setState({ pinFour: e.target.value })
-											}
+											onChange={(e) => {
+												const reg = new RegExp("^[0-9]+$");
+
+												if (reg.test(e.target.value)) {
+													this.setState({ pinFour: e.target.value });
+												}
+											}}
 											maxLength="1"
 											type="text"
 											id="pinFour"
@@ -351,9 +296,13 @@ class WalletDropletComponent extends React.Component<
 										<StandardInput
 											value={this.state.pinFive}
 											className="form-field login-field"
-											onChange={(e) =>
-												this.setState({ pinFive: e.target.value })
-											}
+											onChange={(e) => {
+												const reg = new RegExp("^[0-9]+$");
+
+												if (reg.test(e.target.value)) {
+													this.setState({ pinFive: e.target.value });
+												}
+											}}
 											maxLength="1"
 											type="text"
 											id="pinFive"
@@ -361,9 +310,13 @@ class WalletDropletComponent extends React.Component<
 										<StandardInput
 											value={this.state.pinSix}
 											className="form-field login-field"
-											onChange={(e) =>
-												this.setState({ pinSix: e.target.value })
-											}
+											onChange={(e) => {
+												const reg = new RegExp("^[0-9]+$");
+
+												if (reg.test(e.target.value)) {
+													this.setState({ pinSix: e.target.value });
+												}
+											}}
 											maxLength="1"
 											type="text"
 											id="pinSix"
