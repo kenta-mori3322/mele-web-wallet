@@ -92,8 +92,14 @@ class WalletDropletComponent extends React.Component<
 							>
 								<div id="walletIcon" />
 								<div className="text-container">
-									<div id="wallet-title">Test</div>
-									<div id="wallet-subtitle">asf3fdsad23321...123</div>
+									<div id="wallet-title">
+										{!isLogged ? "No Wallet" : "Test"}
+									</div>
+									<div id="wallet-subtitle">
+										{!isLogged
+											? "Create/Import your Wallet"
+											: "asf3fdsad23321...123"}
+									</div>
 								</div>
 								<div id="wallet-arrow" />
 							</div>
@@ -366,8 +372,12 @@ class WalletDropletComponent extends React.Component<
 						>
 							<div id="walletIcon" />
 							<div className="text-container">
-								<div id="wallet-title">Test</div>
-								<div id="wallet-subtitle">asf3fdsad23321...123</div>
+								<div id="wallet-title">{!isLogged ? "No Wallet" : "Test"}</div>
+								<div id="wallet-subtitle">
+									{!isLogged
+										? "Create/Import your Wallet"
+										: "asf3fdsad23321...123"}
+								</div>
 							</div>
 							<div id="wallet-arrow" />
 						</div>
