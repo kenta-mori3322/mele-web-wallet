@@ -25,6 +25,8 @@ const languages = {
 	ar: require("../../translations/ar.json"),
 };
 
+const isLogged = false;
+
 class NavigationComponent extends React.Component<INavigationComponentProps> {
 	constructor(props: INavigationComponentProps) {
 		super(props);
@@ -44,6 +46,7 @@ class NavigationComponent extends React.Component<INavigationComponentProps> {
 					<NavigationButton
 						buttonIconClass={classNames("button-icon", "icon-transactions", {
 							selected: this.props.activeButton == "transactions",
+							disabled: !isLogged,
 						})}
 						to={`/${this.props.languageState.currentLanguage}/transactions`}
 					/>

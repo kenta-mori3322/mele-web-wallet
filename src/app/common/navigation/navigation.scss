@@ -26,51 +26,56 @@
 		width: 68px;
 		background-position: center;
 		background-repeat: no-repeat;
-        background-size: contain;
+		background-size: contain;
 		&.icon-home {
-            background-image: url(../../../public/images/icons/home-white.svg);
-            &:hover {
-                background-image: url(../../../public/images/icons/home-blue.svg);
-            }
-            &.selected{
-                background-image: url(../../../public/images/icons/home-blue.svg);
-            }
-        }
-        
-        &.icon-transactions {
-            background-image: url(../../../public/images/icons/transactions-white.svg);
-            &:hover {
-                background-image: url(../../../public/images/icons/transactions-blue.svg);
-            }
-            &.selected{
-                background-image: url(../../../public/images/icons/transactions-blue.svg);
-            }
+			background-image: url(../../../public/images/icons/home-white.svg);
+			&:hover {
+				background-image: url(../../../public/images/icons/home-blue.svg);
+			}
+			&.selected {
+				background-image: url(../../../public/images/icons/home-blue.svg);
+			}
 		}
-        
-        &.icon-kyc {
-            background-image: url(../../../public/images/icons/kyc-white.svg);
-            &:hover {
-                background-image: url(../../../public/images/icons/kyc-blue.svg);
-            }
-            &.selected{
-                background-image: url(../../../public/images/icons/kyc-blue.svg);
-            }
+
+		&.icon-transactions {
+			background-image: url(../../../public/images/icons/transactions-white.svg);
+			&:hover {
+				background-image: url(../../../public/images/icons/transactions-blue.svg);
+			}
+			&.selected {
+				background-image: url(../../../public/images/icons/transactions-blue.svg);
+			}
+			&.disabled {
+				background-image: url(../../../public/images/icons/transactions-white.svg);
+				cursor: not-allowed;
+				opacity: 0.3;
+			}
 		}
-        &.icon-profile {
-            background-image: url(../../../public/images/icons/profile-white.svg);
-            &:hover {
-                background-image: url(../../../public/images/icons/profile-blue.svg);
-            }
-            &.selected{
-                background-image: url(../../../public/images/icons/profile-blue.svg);
-            }
+
+		&.icon-kyc {
+			background-image: url(../../../public/images/icons/kyc-white.svg);
+			&:hover {
+				background-image: url(../../../public/images/icons/kyc-blue.svg);
+			}
+			&.selected {
+				background-image: url(../../../public/images/icons/kyc-blue.svg);
+			}
+		}
+		&.icon-profile {
+			background-image: url(../../../public/images/icons/profile-white.svg);
+			&:hover {
+				background-image: url(../../../public/images/icons/profile-blue.svg);
+			}
+			&.selected {
+				background-image: url(../../../public/images/icons/profile-blue.svg);
+			}
 		}
 		// &.icon-transactions {
 		// 	background-image: url(../../../public/images/icons/t.svg);
-        // }
-        &.icon-logout {
-            background-image: url(../../../public/images/icons/sign-out.svg);
-            background-size: 30px;
+		// }
+		&.icon-logout {
+			background-image: url(../../../public/images/icons/sign-out.svg);
+			background-size: 30px;
 		}
 	}
 }
