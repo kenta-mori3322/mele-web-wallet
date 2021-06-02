@@ -43,13 +43,22 @@ class NavigationComponent extends React.Component<INavigationComponentProps> {
 						})}
 						to={`/${this.props.languageState.currentLanguage}/dashboard`}
 					/>
-					<NavigationButton
-						buttonIconClass={classNames("button-icon", "icon-transactions", {
-							selected: this.props.activeButton == "transactions",
-							disabled: !isLogged,
-						})}
-						to={`/${this.props.languageState.currentLanguage}/transactions`}
-					/>
+					{!isLogged ? (
+						<NavigationButton
+							buttonIconClass={classNames("button-icon", "icon-transactions", {
+								selected: this.props.activeButton == "transactions",
+								disabled: !isLogged,
+							})}
+						/>
+					) : (
+						<NavigationButton
+							buttonIconClass={classNames("button-icon", "icon-transactions", {
+								selected: this.props.activeButton == "transactions",
+								disabled: !isLogged,
+							})}
+							to={`/${this.props.languageState.currentLanguage}/transactions`}
+						/>
+					)}
 				</div>
 			</div>
 		);

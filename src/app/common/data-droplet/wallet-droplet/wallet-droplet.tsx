@@ -25,6 +25,14 @@ interface WalletDropletState {
 	pinFour: string;
 	pinFive: string;
 	pinSix: string;
+	setPINError: boolean;
+	pinOneConfirm: string;
+	pinTwoConfirm: string;
+	pinThreeConfirm: string;
+	pinFourConfirm: string;
+	pinFiveConfirm: string;
+	pinSixConfirm: string;
+	confirmError: boolean;
 	recoveryPhrase: string;
 }
 
@@ -53,6 +61,14 @@ class WalletDropletComponent extends React.Component<
 			pinFour: "",
 			pinFive: "",
 			pinSix: "",
+			setPINError: false,
+			pinOneConfirm: "",
+			pinTwoConfirm: "",
+			pinThreeConfirm: "",
+			pinFourConfirm: "",
+			pinFiveConfirm: "",
+			pinSixConfirm: "",
+			confirmError: false,
 			recoveryPhrase: "",
 		};
 	}
@@ -68,6 +84,34 @@ class WalletDropletComponent extends React.Component<
 		return Utils.generateMnemonic().split(" ").slice(0, 12);
 	};
 
+	setPIN = () => {
+		if (
+			this.state.pinOne !== "" &&
+			this.state.pinTwo !== "" &&
+			this.state.pinThree !== "" &&
+			this.state.pinFour !== "" &&
+			this.state.pinFive !== "" &&
+			this.state.pinSix !== ""
+		) {
+			this.setState({
+				pin: `${this.state.pinOne},${this.state.pinTwo},${this.state.pinThree},${this.state.pinFour},${this.state.pinFive},${this.state.pinSix}`,
+				state: 3,
+				setPINError: false,
+			});
+		} else {
+			this.setState({ setPINError: true });
+		}
+	};
+
+	checkPIN = () => {
+		const pin = `${this.state.pinOneConfirm},${this.state.pinTwoConfirm},${this.state.pinThreeConfirm},${this.state.pinFourConfirm},${this.state.pinFiveConfirm},${this.state.pinSixConfirm}`;
+		if (this.state.pin === pin) {
+			this.setState({ state: 0, open: false, confirmError: false });
+		} else {
+			this.setState({ confirmError: true });
+		}
+	};
+
 	render() {
 		const localeData = languages[this.props.languageState.currentLanguage];
 		return (
@@ -78,16 +122,35 @@ class WalletDropletComponent extends React.Component<
 							<div
 								className="wallet-container"
 								onClick={() =>
-									this.setState({ open: false, state: 0, copied: false })
+									this.setState({
+										open: false,
+										state: 0,
+										copied: false,
+										confirmError: false,
+										setPINError: false,
+									})
 								}
 								style={{
 									marginTop:
 										this.state.state === 1
 											? "162%"
-											: this.state.state === 3
+											: this.state.state === 4
 											? "88%"
+											: this.state.state === 2 && this.state.setPINError
+											? "75%"
+											: this.state.state === 3 && this.state.confirmError
+											? "75%"
+											: this.state.state === 3 && !this.state.confirmError
+											? "68%"
 											: "82%",
-									marginLeft: this.state.state === 2 ? "25%" : "20%",
+									marginLeft:
+										this.state.state === 2 && !this.state.setPINError
+											? "25%"
+											: this.state.state === 2 && this.state.setPINError
+											? "25%"
+											: this.state.state === 3
+											? "25%"
+											: "20%",
 								}}
 							>
 								<div id="walletIcon" />
@@ -123,7 +186,7 @@ class WalletDropletComponent extends React.Component<
 										</div>
 										<div
 											id="wallet-creation-button-import"
-											onClick={() => this.setState({ state: 3 })}
+											onClick={() => this.setState({ state: 4 })}
 										>
 											<div id="importIcon" />
 											<div id="import-text">
@@ -219,7 +282,9 @@ class WalletDropletComponent extends React.Component<
 										id={this.state.copied ? "copiedButton" : "copyButton"}
 										onClick={() => {
 											navigator.clipboard.writeText(
-												JSON.stringify(this.state.mnemonic),
+												JSON.stringify(this.state.mnemonic)
+													.replace(/[\[\]']+/g, "")
+													.replace(/['"]+/g, ""),
 											);
 											this.setState({ copied: true });
 										}}
@@ -239,8 +304,16 @@ class WalletDropletComponent extends React.Component<
 							{!isLogged && this.state.state === 2 && (
 								<div id="wallet-pin-container">
 									<div id="wallet-pin-title">{localeData.wallet.choosePIN}</div>
-									<div id="wallet-pin-subtitle">
-										{localeData.wallet.choosePINDesc}
+									<div
+										id={
+											this.state.setPINError
+												? "wallet-pin-subtitle-error"
+												: "wallet-pin-subtitle"
+										}
+									>
+										{this.state.setPINError
+											? localeData.wallet.choosePINError
+											: localeData.wallet.choosePINDesc}
 									</div>
 									<div id="pinContainer">
 										<StandardInput
@@ -249,7 +322,7 @@ class WalletDropletComponent extends React.Component<
 											onChange={(e) => {
 												const reg = new RegExp("^[0-9]+$");
 
-												if (reg.test(e.target.value)) {
+												if (reg.test(e.target.value) || e.target.value == "") {
 													this.setState({ pinOne: e.target.value });
 												}
 											}}
@@ -263,7 +336,7 @@ class WalletDropletComponent extends React.Component<
 											onChange={(e) => {
 												const reg = new RegExp("^[0-9]+$");
 
-												if (reg.test(e.target.value)) {
+												if (reg.test(e.target.value) || e.target.value == "") {
 													this.setState({ pinTwo: e.target.value });
 												}
 											}}
@@ -277,7 +350,7 @@ class WalletDropletComponent extends React.Component<
 											onChange={(e) => {
 												const reg = new RegExp("^[0-9]+$");
 
-												if (reg.test(e.target.value)) {
+												if (reg.test(e.target.value) || e.target.value == "") {
 													this.setState({ pinThree: e.target.value });
 												}
 											}}
@@ -291,7 +364,7 @@ class WalletDropletComponent extends React.Component<
 											onChange={(e) => {
 												const reg = new RegExp("^[0-9]+$");
 
-												if (reg.test(e.target.value)) {
+												if (reg.test(e.target.value) || e.target.value == "") {
 													this.setState({ pinFour: e.target.value });
 												}
 											}}
@@ -305,7 +378,7 @@ class WalletDropletComponent extends React.Component<
 											onChange={(e) => {
 												const reg = new RegExp("^[0-9]+$");
 
-												if (reg.test(e.target.value)) {
+												if (reg.test(e.target.value) || e.target.value == "") {
 													this.setState({ pinFive: e.target.value });
 												}
 											}}
@@ -319,7 +392,7 @@ class WalletDropletComponent extends React.Component<
 											onChange={(e) => {
 												const reg = new RegExp("^[0-9]+$");
 
-												if (reg.test(e.target.value)) {
+												if (reg.test(e.target.value) || e.target.value == "") {
 													this.setState({ pinSix: e.target.value });
 												}
 											}}
@@ -330,13 +403,116 @@ class WalletDropletComponent extends React.Component<
 									</div>
 									<StandardButton
 										id="finishButton"
-										onClick={() => this.setState({ state: 0, open: false })}
+										onClick={() => this.setPIN()}
+									>
+										{localeData.wallet.continue}
+									</StandardButton>
+								</div>
+							)}
+							{!isLogged && this.state.state === 3 && (
+								<div id="wallet-pin-container">
+									<div id="wallet-pin-title">
+										{localeData.wallet.confirmPIN}
+									</div>
+									<div id="wallet-pin-subtitle-error">
+										{this.state.confirmError &&
+											localeData.wallet.choosePINError}
+									</div>
+									<div id="pinContainer">
+										<StandardInput
+											value={this.state.pinOneConfirm}
+											className="form-field login-field"
+											onChange={(e) => {
+												const reg = new RegExp("^[0-9]+$");
+
+												if (reg.test(e.target.value) || e.target.value == "") {
+													this.setState({ pinOneConfirm: e.target.value });
+												}
+											}}
+											maxLength="1"
+											type="text"
+											id="pinOne"
+										/>
+										<StandardInput
+											value={this.state.pinTwoConfirm}
+											className="form-field login-field"
+											onChange={(e) => {
+												const reg = new RegExp("^[0-9]+$");
+
+												if (reg.test(e.target.value) || e.target.value == "") {
+													this.setState({ pinTwoConfirm: e.target.value });
+												}
+											}}
+											maxLength="1"
+											type="text"
+											id="pinTwo"
+										/>
+										<StandardInput
+											value={this.state.pinThreeConfirm}
+											className="form-field login-field"
+											onChange={(e) => {
+												const reg = new RegExp("^[0-9]+$");
+
+												if (reg.test(e.target.value) || e.target.value == "") {
+													this.setState({ pinThreeConfirm: e.target.value });
+												}
+											}}
+											maxLength="1"
+											type="text"
+											id="pinThree"
+										/>
+										<StandardInput
+											value={this.state.pinFourConfirm}
+											className="form-field login-field"
+											onChange={(e) => {
+												const reg = new RegExp("^[0-9]+$");
+
+												if (reg.test(e.target.value) || e.target.value == "") {
+													this.setState({ pinFourConfirm: e.target.value });
+												}
+											}}
+											maxLength="1"
+											type="text"
+											id="pinFour"
+										/>
+										<StandardInput
+											value={this.state.pinFiveConfirm}
+											className="form-field login-field"
+											onChange={(e) => {
+												const reg = new RegExp("^[0-9]+$");
+
+												if (reg.test(e.target.value) || e.target.value == "") {
+													this.setState({ pinFiveConfirm: e.target.value });
+												}
+											}}
+											maxLength="1"
+											type="text"
+											id="pinFive"
+										/>
+										<StandardInput
+											value={this.state.pinSixConfirm}
+											className="form-field login-field"
+											onChange={(e) => {
+												const reg = new RegExp("^[0-9]+$");
+
+												if (reg.test(e.target.value) || e.target.value == "") {
+													this.setState({ pinSixConfirm: e.target.value });
+												}
+											}}
+											maxLength="1"
+											type="text"
+											id="pinSix"
+										/>
+									</div>
+									<StandardButton
+										id="finishButton"
+										onClick={() => this.checkPIN()}
 									>
 										{localeData.wallet.finish}
 									</StandardButton>
 								</div>
 							)}
-							{!isLogged && this.state.state === 3 && (
+							{!isLogged && this.state.state === 4 && (
 								<div id="wallet-creation-container">
 									<div id="wallet-creation-title">
 										{localeData.wallet.importTitle}
