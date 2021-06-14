@@ -1,15 +1,11 @@
-import { AccountsState } from "./reducers/account-reducer";
+import { WalletState } from "./reducers/wallet-reducer";
 import { LanguageState } from "./reducers/language-reducer";
 import { TransactionsState } from "./reducers/transactions-reducer";
-import { BlocksState } from "./reducers/blocks-reducer";
-import { StatisticsState } from "./reducers/statistics-reducer";
-import { ValidatorsState } from "./reducers/validators-reducer";
+import { StaticState } from "./reducers/static-reducer";
 
 export default class ApplicationState {
-	account: AccountsState = new AccountsState();
+	wallet: WalletState = new WalletState();
 	language: LanguageState = new LanguageState();
 	transactions: TransactionsState = new TransactionsState();
-	blocks: BlocksState = new BlocksState();
-	statistics: StatisticsState = new StatisticsState();
-	validators: ValidatorsState = new ValidatorsState();
+	static: StaticState = new StaticState();
 }

@@ -13,12 +13,14 @@ import { StandardButton } from "../../buttons/standard-button";
 import { IActionCreators } from "./../../../../redux/methods/map-dispatch-to-props";
 import { TransactionsState } from "mele-web-wallet/redux/reducers/transactions-reducer";
 import { PaginatedList } from "react-paginated-list";
+import { WalletState } from "./../../../../redux/reducers/wallet-reducer";
 
 interface TransactionsDropletProps
 	extends React.HTMLAttributes<HTMLDivElement> {
 	languageState: LanguageState;
 	actionCreators: IActionCreators;
 	transactionsState: TransactionsState;
+	walletState: WalletState;
 }
 
 const languages = {
@@ -29,39 +31,17 @@ const languages = {
 class TransactionsDropletComponent extends React.Component<
 	TransactionsDropletProps
 > {
+	componentDidMount() {
+		if (this.props.walletState.loadedWalletAddress)
+			this.props.actionCreators.transactions.searchTransactions(
+				this.props.walletState.loadedWalletAddress,
+			);
+	}
+
 	render() {
 		const localeData = languages[this.props.languageState.currentLanguage];
-		const transactions = [
-			{
-				amount: "21,600 MELC",
-				type: "Send",
-				sender: "52CAA058...B8EC8A0A",
-				recipient: "52CAA058...B8EC8A0A",
-				fee: "0.02 MELC",
-			},
-			{
-				amount: "21,600 MELC",
-				type: "Receive",
-				sender: "52CAA058...B8EC8A0A",
-				recipient: "52CAA058...B8EC8A0A",
-				fee: "0.02 MELC",
-			},
-			{
-				amount: "21,600 MELC",
-				type: "Send",
-				sender: "52CAA058...B8EC8A0A",
-				recipient: "52CAA058...B8EC8A0A",
-				fee: "0.02 MELC",
-			},
-			{
-				amount: "21,600 MELC",
-				type: "Receive",
-				sender: "52CAA058...B8EC8A0A",
-				recipient: "52CAA058...B8EC8A0A",
-				fee: "0.02 MELC",
-			},
-		];
-		const isLogged = false;
+		const walletAddress = this.props.walletState.loadedWalletAddress;
+		const transactions = this.props.transactionsState.loadedTransactions;
 		return (
 			<div id="transactions-droplet-module">
 				<div id="transactions-content">
@@ -83,16 +63,21 @@ class TransactionsDropletComponent extends React.Component<
 						</div>
 					</div>
 					<PaginatedList
-						list={transactions}
-						isLoading={true}
+						list={transactions !== undefined ? transactions.slice(0, 5) : []}
+						isLoading={
+							walletAddress === undefined ||
+							walletAddress === "" ||
+							transactions === undefined ||
+							transactions.length === 0
+						}
 						loadingItem={() => (
 							<div id="loadingTransactions">
-								{isLogged
+								{walletAddress !== undefined || walletAddress !== ""
 									? localeData.transactions.loading
 									: localeData.transactions.loadingNoLogged}
 							</div>
 						)}
-						itemsPerPage={20}
+						itemsPerPage={5}
 						nextText={localeData.navigation.next}
 						prevText={localeData.navigation.prev}
 						renderList={(list: any) => (
@@ -101,22 +86,34 @@ class TransactionsDropletComponent extends React.Component<
 									return (
 										<div key={id} className="transactions-list-tr">
 											<div className="transactions-list-td amountCell">
-												{data.amount}
+												{data.msgs[0].data.amount}
 											</div>
 											<div className="transactions-list-td typeCell">
 												<div
 													className={
-														data.type === "Send" ? "pill-orange" : "pill-green"
+														data.msgs[0].data.recipient ===
+														this.props.walletState.loadedWalletAddress
+															? "pill-green"
+															: "pill-orange"
 													}
 												>
-													{data.type}
+													{data.msgs[0].data.recipient ===
+													this.props.walletState.loadedWalletAddress
+														? localeData.transactions.receive
+														: localeData.transactions.send}
 												</div>
 											</div>
 											<div className="transactions-list-td senderCell">
-												{data.sender}
+												{data.msgs[0].data.sender.substring(0, 15)}...
+												{data.msgs[0].data.sender.substr(
+													data.msgs[0].data.sender.length - 5,
+												)}
 											</div>
 											<div className="transactions-list-td recipientHeader">
-												{data.recipient}
+												{data.msgs[0].data.recipient.substring(0, 15)}...
+												{data.msgs[0].data.recipient.substr(
+													data.msgs[0].data.recipient.length - 5,
+												)}
 											</div>
 											<div className="transactions-list-td feeHeader">
 												{data.fee}
@@ -137,6 +134,7 @@ const mapStateToProps = (state: ApplicationState) => {
 	return {
 		languageState: state.language,
 		transactionsState: state.transactions,
+		walletState: state.wallet,
 	};
 };
 

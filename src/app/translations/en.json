@@ -14,7 +14,9 @@
 		"loading": "When you get started, all your fund transfers will show up here.  \n Simply buy coins, and away you go.",
 		"loadingNoLogged": "Create/Import you wallet to start making transactions.",
 		"recent": "Recent Transactions",
-		"recentText": "A list of your recent transactions"
+		"recentText": "A list of your recent transactions",
+		"receive": "Receive",
+		"send": "Send"
 	},
 	"dashboard": {
 		"send": "Send Coins",
@@ -30,7 +32,14 @@
 	"send": {
 		"reset": "Reset",
 		"send": "Send",
-		"fees": "Fees"
+		"fees": "Fees",
+		"sendTo": "Send To:",
+		"amount": "Amount",
+		"recipient": "Recipient",
+		"success": "Transaction successful",
+		"error": "Error on transaction, please check the recipient address",
+		"sameWallet": "Can't transfer MELC or MELG between the same wallet.",
+		"notEnough": "Not enough credits for this transaction"
 	},
 	"wallet": {
 		"creationTitle": "Access Wallet",
@@ -51,6 +60,11 @@
 		"import": "Import",
 		"importTitle": "Import Existing Wallet",
 		"importSubtitle": "Paste your recovery phrase below to import your wallet.",
-		"importPlaceholder": "Paste your phrase here"
+		"importPlaceholder": "Paste your phrase here",
+		"createOrImport": "Create/Import your Wallet",
+		"noWallet": "No Wallet",
+		"logout": "Logout",
+		"login": "Login",
+		"insertPIN": "Insert your PIN to login"
 	}
 }

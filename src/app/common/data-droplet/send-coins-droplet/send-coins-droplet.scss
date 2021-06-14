@@ -54,20 +54,24 @@
 
 		.send-coins-input-inner-container {
 			width: 100%;
-			grid-template-columns: 12% 87%;
+			grid-template-columns: 15% 25% 60%;
 			display: grid;
-			#walletIcon {
+			.select-field {
 				grid-column: 1;
-				width: 65px;
-				height: 43px;
-				background-size: 50px 50px;
-				border-radius: 10px !important;
-				background-image: url(../../../../public/images/wallet.png);
-				background-position: center;
-				background-repeat: no-repeat;
+				grid-row: 1;
+				background: #013ec4 0% 0% no-repeat padding-box !important;
+				color: white;
 			}
-			.login-field {
+			.amount-field {
 				grid-column: 2;
+				grid-row: 1;
+				margin-left: 5px;
+			}
+			.recipient-field {
+				grid-column: 3;
+				grid-row: 1;
+				width: 97%;
+				margin-left: 10px;
 			}
 		}
 	}
@@ -75,7 +79,7 @@
 		padding-left: 20px;
 		padding-right: 20px;
 		padding-top: 25px;
-		padding-bottom: 50px;
+		padding-bottom: 3.5%;
 		width: 100%;
 		.fee-button {
 			text-align: left;
@@ -172,20 +176,24 @@
 
 		.send-coins-input-inner-container {
 			width: 100%;
-			grid-template-columns: 12% 87%;
+			grid-template-columns: 15% 25% 60%;
 			display: grid;
-			#walletIcon {
+			.select-field {
 				grid-column: 1;
-				width: 65px;
-				height: 43px;
-				background-size: 50px 50px;
-				border-radius: 10px !important;
-				background-image: url(../../../../public/images/wallet.png);
-				background-position: center;
-				background-repeat: no-repeat;
+				grid-row: 1;
+				background: #013ec4 0% 0% no-repeat padding-box !important;
+				color: white;
 			}
-			.login-field {
+			.amount-field {
 				grid-column: 2;
+				grid-row: 1;
+				margin-left: 5px;
+			}
+			.recipient-field {
+				grid-column: 3;
+				grid-row: 1;
+				width: 97%;
+				margin-left: 10px;
 			}
 		}
 	}

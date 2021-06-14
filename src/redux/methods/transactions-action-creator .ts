@@ -8,9 +8,10 @@ export default class TransactionsActionCreator extends BaseActionCreator<
 	TransactionsStateActionTypes,
 	ITransactionsReducerAction
 > {
-	searchTransactions = async () => {
+	searchTransactions = async (address: string) => {
 		this.dispatch({
 			type: TransactionsStateActionTypes.LOAD_TRANSACTIONS_REQUEST,
+			address: address,
 		});
 	};
 
@@ -24,6 +25,21 @@ export default class TransactionsActionCreator extends BaseActionCreator<
 		this.dispatch({
 			type: TransactionsStateActionTypes.LOAD_TRANSACTION_REQUEST,
 			hash: hash,
+		});
+	};
+
+	cleanTransactions = async () => {
+		this.dispatch({
+			type: TransactionsStateActionTypes.CLEAN_TRANSACTIONS,
+		});
+	};
+
+	sendTransaction = async (address: string, denom: string, amount: string) => {
+		this.dispatch({
+			type: TransactionsStateActionTypes.SEND_TRANSACTION_REQUEST,
+			address: address,
+			denom: denom,
+			amount: amount,
 		});
 	};
 }

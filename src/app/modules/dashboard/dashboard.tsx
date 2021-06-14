@@ -59,7 +59,7 @@ class DashboardComponent extends React.Component<IDashboardProps> {
 							<SendCoinsDroplet />
 						</div>
 						<div className="right-column">
-							<BalanceDroplet cents={"0"} />
+							<BalanceDroplet />
 						</div>
 					</div>
 					<div id="dashboard-transationsTitle">

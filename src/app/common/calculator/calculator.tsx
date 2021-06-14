@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { mapDispatchToProps } from "mele-web-wallet/redux/methods/map-dispatch-to-props";
 import ApplicationState from "mele-web-wallet/redux/application-state";
 import { LanguageState } from "mele-web-wallet/redux/reducers/language-reducer";
-import { StatisticsState } from "mele-web-wallet/redux/reducers/statistics-reducer";
+import { StaticState } from "mele-web-wallet/redux/reducers/static-reducer";
 import { MeleCalculator } from "mele-web-wallet/app/common/calculator/mele-calculator";
 import { CalculatorExplanationWindow } from "./calculator-explanation-window";
 
@@ -12,7 +12,7 @@ interface CalculatorProps {
 	centsAmount: string;
 	isBlue?: boolean;
 	languageState: LanguageState;
-	statisticsState: StatisticsState;
+	staticState: StaticState;
 	disableExplanationWindow?: boolean;
 	onExplanationTriggerZoneMouseEnter?: () => void;
 	onExplanationTriggerZoneMouseLeave?: () => void;
@@ -32,17 +32,15 @@ class CalculatorComponent extends React.Component<CalculatorProps> {
 		let priceOfGoldPerGram = "1";
 		let melgPerGramOfGold = "1";
 
-		if (this.props.statisticsState.loaded) {
-			meleCoinPrice = this.props.statisticsState.staticInfo.melecPrice;
+		if (this.props.staticState.loaded) {
+			meleCoinPrice = this.props.staticState.staticInfo.melecPrice;
 			meleCoins = MeleCalculator.CentsToMeleCFormatted(
 				this.props.centsAmount,
 				meleCoinPrice,
 			);
 
-			priceOfGoldPerGram = this.props.statisticsState.staticInfo
-				.priceOfGoldPerGram;
-			melgPerGramOfGold = this.props.statisticsState.staticInfo
-				.melgPerGramOfGold;
+			priceOfGoldPerGram = this.props.staticState.staticInfo.priceOfGoldPerGram;
+			melgPerGramOfGold = this.props.staticState.staticInfo.melgPerGramOfGold;
 			meleGold = MeleCalculator.CentsToMeleGFormatted(
 				this.props.centsAmount,
 				melgPerGramOfGold,
@@ -164,7 +162,7 @@ class CalculatorComponent extends React.Component<CalculatorProps> {
 const mapStateToProps = (state: ApplicationState) => {
 	return {
 		languageState: state.language,
-		statisticsState: state.statistics,
+		staticState: state.static,
 	};
 };
 

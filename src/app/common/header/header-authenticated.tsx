@@ -63,7 +63,7 @@ class HeaderAuthenticatedComponent extends React.Component<
 
 const mapStateToProps = (state: ApplicationState) => {
 	return {
-		accountState: state.account,
+		walletState: state.wallet,
 		languageState: state.language,
 	};
 };

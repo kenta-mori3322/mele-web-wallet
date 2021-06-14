@@ -35,6 +35,10 @@ export enum TransactionsStateActionTypes {
 	GET_TRANSACTIONS_COUNT_REQUEST = "@@Transactions/GET_TRANSACTIONS_COUNT_REQUEST",
 	GET_TRANSACTIONS_COUNT_SUCCESS = "@@Transactions/GET_TRANSACTIONS_COUNT_SUCCESS",
 	GET_TRANSACTIONS_COUNT_ERROR = "@@Transactions/GET_TRANSACTIONS_COUNT_ERROR",
+	SEND_TRANSACTION_REQUEST = "@@Transactions/SEND_TRANSACTION_REQUEST",
+	SEND_TRANSACTION_SUCCESS = "@@Transactions/SEND_TRANSACTION_SUCCESS",
+	SEND_TRANSACTION_ERROR = "@@Transactions/SEND_TRANSACTION_ERROR",
+	CLEAN_TRANSACTIONS = "@@Transactions/CLEAN_TRANSACTIONS",
 }
 
 export enum LoadTransactionsStatus {
@@ -42,6 +46,9 @@ export enum LoadTransactionsStatus {
 	SUCCESS,
 	ERROR,
 	TRANSACTIONS_COUNT_REQUESTED,
+	SEND_REQUEST,
+	SEND_SUCCESS,
+	SEND_ERROR,
 }
 
 export class TransactionsState {
@@ -61,6 +68,9 @@ export class ITransactionsReducerAction {
 	totalCount: number;
 	loadedTransaction: ITRANSACTIONModel;
 	generatedTransactionsCount: number;
+	address: string;
+	denom: string;
+	amount: string;
 }
 
 export const initialState: TransactionsState = new TransactionsState();
@@ -112,11 +122,34 @@ const TransactionsReducer = (
 			return {
 				...state,
 				loadedTransaction: action.loadedTransaction,
+				loadTransactionsStatus: LoadTransactionsStatus.SUCCESS,
 			};
 		case TransactionsStateActionTypes.LOAD_TRANSACTION_ERROR:
 			return {
 				...state,
 				loadedTransaction: undefined,
+				loadTransactionsStatus: LoadTransactionsStatus.ERROR,
+			};
+		case TransactionsStateActionTypes.SEND_TRANSACTION_REQUEST:
+			return {
+				...state,
+				loadTransactionsStatus: LoadTransactionsStatus.SEND_REQUEST,
+			};
+		case TransactionsStateActionTypes.SEND_TRANSACTION_SUCCESS:
+			return {
+				...state,
+				loadTransactionsStatus: LoadTransactionsStatus.SEND_SUCCESS,
+			};
+		case TransactionsStateActionTypes.SEND_TRANSACTION_ERROR:
+			return {
+				...state,
+				loadTransactionsStatus: LoadTransactionsStatus.SEND_ERROR,
+			};
+		case TransactionsStateActionTypes.CLEAN_TRANSACTIONS:
+			return {
+				...state,
+				loadedTransaction: undefined,
+				loadedTransactions: [],
 			};
 		default:
 			return {

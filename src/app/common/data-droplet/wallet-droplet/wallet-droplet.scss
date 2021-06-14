@@ -297,6 +297,25 @@
 		}
 	}
 
+	#wallet-creation-buttons-logout-container {
+		display: grid;
+		grid-template-columns: 50% 50%;
+		margin: 0 8% 5% 8%;
+		height: fit-content;
+		align-content: center;
+
+		#logoutButton {
+			background: #013ec4 0% 0% no-repeat padding-box;
+			border-radius: 4px;
+			opacity: 1;
+			width: 100%;
+			margin: 0 auto;
+			margin-top: 5%;
+			grid-column: span 2;
+			align-self: center;
+		}
+	}
+
 	#wallet-pin-container {
 		background: #ffffff 0% 0% no-repeat padding-box;
 		box-shadow: 0px 3px 6px #00000029;
@@ -430,5 +449,42 @@
 			width: 80%;
 			margin: 5% auto;
 		}
+	}
+
+	.modal {
+		display: none; /* Hidden by default */
+		position: fixed; /* Stay in place */
+		z-index: 1; /* Sit on top */
+		left: 0;
+		top: 0;
+		width: 100%; /* Full width */
+		height: 100%; /* Full height */
+		overflow: auto; /* Enable scroll if needed */
+		background-color: rgb(0, 0, 0); /* Fallback color */
+		background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+	}
+
+	/* Modal Content/Box */
+	.modal-content {
+		background-color: #fefefe;
+		margin: 15% auto; /* 15% from the top and centered */
+		padding: 20px;
+		border: 1px solid #888;
+		width: 80%; /* Could be more or less, depending on screen size */
+	}
+
+	/* The Close Button */
+	.close {
+		color: #aaa;
+		float: right;
+		font-size: 28px;
+		font-weight: bold;
+	}
+
+	.close:hover,
+	.close:focus {
+		color: black;
+		text-decoration: none;
+		cursor: pointer;
 	}
 }

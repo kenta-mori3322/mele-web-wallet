@@ -12,6 +12,7 @@ import { TransactionsState } from "mele-web-wallet/redux/reducers/transactions-r
 import { PaginatedList } from "react-paginated-list";
 import Moment from "react-moment";
 import Tooltip from "react-tooltip-lite";
+import { WalletState } from "mele-web-wallet/redux/reducers/wallet-reducer";
 
 interface ITransactionsState {}
 
@@ -21,6 +22,7 @@ interface ITransactionsProps {
 	languageState: LanguageState;
 	transactionsState: TransactionsState;
 	actionCreators: IActionCreators;
+	walletState: WalletState;
 }
 
 const languages = {
@@ -32,38 +34,17 @@ class TransactionsComponent extends React.Component<
 	ITransactionsProps,
 	ITransactionsState
 > {
+	componentDidMount() {
+		if (this.props.walletState.loadedWalletAddress)
+			this.props.actionCreators.transactions.searchTransactions(
+				this.props.walletState.loadedWalletAddress,
+			);
+	}
+
 	render() {
 		const localeData = languages[this.props.languageState.currentLanguage];
-		const transactions = [
-			{
-				amount: "21,600 MELC",
-				type: "Send",
-				sender: "52CAA058...B8EC8A0A",
-				recipient: "52CAA058...B8EC8A0A",
-				fee: "0.02 MELC",
-			},
-			{
-				amount: "21,600 MELC",
-				type: "Receive",
-				sender: "52CAA058...B8EC8A0A",
-				recipient: "52CAA058...B8EC8A0A",
-				fee: "0.02 MELC",
-			},
-			{
-				amount: "21,600 MELC",
-				type: "Send",
-				sender: "52CAA058...B8EC8A0A",
-				recipient: "52CAA058...B8EC8A0A",
-				fee: "0.02 MELC",
-			},
-			{
-				amount: "21,600 MELC",
-				type: "Receive",
-				sender: "52CAA058...B8EC8A0A",
-				recipient: "52CAA058...B8EC8A0A",
-				fee: "0.02 MELC",
-			},
-		];
+		const walletAddress = this.props.walletState.loadedWalletAddress;
+		const transactions = this.props.transactionsState.loadedTransactions;
 		return (
 			<div id="transactions-module">
 				<div id="transactions-title">{localeData.transactions.title}</div>
@@ -88,13 +69,20 @@ class TransactionsComponent extends React.Component<
 					</div>
 					<PaginatedList
 						list={transactions}
-						isLoading={false}
+						isLoading={
+							walletAddress === undefined ||
+							walletAddress === "" ||
+							transactions === undefined ||
+							transactions.length === 0
+						}
 						loadingItem={() => (
 							<div id="loadingTransactions">
-								{localeData.transactions.loading}
+								{walletAddress !== undefined || walletAddress !== ""
+									? localeData.transactions.loading
+									: localeData.transactions.loadingNoLogged}
 							</div>
 						)}
-						itemsPerPage={20}
+						itemsPerPage={10}
 						nextText={localeData.navigation.next}
 						prevText={localeData.navigation.prev}
 						renderList={(list: any) => (
@@ -103,22 +91,34 @@ class TransactionsComponent extends React.Component<
 									return (
 										<div key={id} className="transactions-list-tr">
 											<div className="transactions-list-td amountCell">
-												{data.amount}
+												{data.msgs[0].data.amount}
 											</div>
 											<div className="transactions-list-td typeCell">
 												<div
 													className={
-														data.type === "Send" ? "pill-orange" : "pill-green"
+														data.msgs[0].data.recipient ===
+														this.props.walletState.loadedWalletAddress
+															? "pill-green"
+															: "pill-orange"
 													}
 												>
-													{data.type}
+													{data.msgs[0].data.recipient ===
+													this.props.walletState.loadedWalletAddress
+														? localeData.transactions.receive
+														: localeData.transactions.send}
 												</div>
 											</div>
 											<div className="transactions-list-td senderCell">
-												{data.sender}
+												{data.msgs[0].data.sender.substring(0, 15)}...
+												{data.msgs[0].data.sender.substr(
+													data.msgs[0].data.sender.length - 5,
+												)}
 											</div>
 											<div className="transactions-list-td recipientHeader">
-												{data.recipient}
+												{data.msgs[0].data.recipient.substring(0, 15)}...
+												{data.msgs[0].data.recipient.substr(
+													data.msgs[0].data.recipient.length - 5,
+												)}
 											</div>
 											<div className="transactions-list-td feeHeader">
 												{data.fee}
@@ -139,6 +139,7 @@ const mapStateToProps = (state: ApplicationState) => {
 	return {
 		languageState: state.language,
 		transactionsState: state.transactions,
+		walletState: state.wallet,
 	};
 };
 
