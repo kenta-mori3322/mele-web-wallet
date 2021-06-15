@@ -26,7 +26,6 @@ interface WalletDropletState {
 	mnemonic: string[];
 	state: number;
 	open: boolean;
-	openPIN: boolean;
 	copied: boolean;
 	pin: string;
 	pinOne: string;
@@ -70,7 +69,6 @@ class WalletDropletComponent extends React.Component<
 			mnemonic: [],
 			state: 0,
 			open: false,
-			openPIN: false,
 			copied: false,
 			pin: "",
 			pinOne: "",
@@ -114,7 +112,7 @@ class WalletDropletComponent extends React.Component<
 			address !== undefined &&
 			address !== ""
 		) {
-			this.setState({ openPIN: true });
+			this.setState({ state: 6 });
 		}
 	}
 
@@ -136,7 +134,8 @@ class WalletDropletComponent extends React.Component<
 	};
 
 	generateMnemonic = () => {
-		return Utils.generateMnemonic().split(" ").slice(0, 12);
+		const mnemonic = Utils.generateMnemonic();
+		return mnemonic.split(" ").slice(0, 12);
 	};
 
 	setPIN = () => {
@@ -250,7 +249,7 @@ class WalletDropletComponent extends React.Component<
 	render() {
 		const localeData = languages[this.props.languageState.currentLanguage];
 		const wallet = this.props.walletState.loadedWallet;
-		//console.log(wallet.value.address);
+		const walletAddress = this.props.walletState.loadedWalletAddress;
 		return (
 			<BaseDroplet {...this.props} style={{ border: "none" }}>
 				{this.state.open ? (
@@ -282,6 +281,8 @@ class WalletDropletComponent extends React.Component<
 											? "68%"
 											: this.state.state === 5
 											? "27%"
+											: this.state.state === 6
+											? "68%"
 											: "82%",
 									marginLeft:
 										this.state.state === 2 && !this.state.setPINError
@@ -298,24 +299,22 @@ class WalletDropletComponent extends React.Component<
 								<div id="walletIcon" />
 								<div className="text-container">
 									<div id="wallet-title">
-										{wallet === undefined || wallet === ""
+										{/* {walletAddress === undefined || wallet === ""
 											? localeData.wallet.noWallet
-											: wallet.value.account_number}
+											: wallet === undefined ? "" : wallet.value.account_number} */}
 									</div>
 									<div id="wallet-subtitle">
-										{wallet === undefined || wallet === ""
+										{walletAddress === undefined || walletAddress === ""
 											? localeData.wallet.createOrImport
-											: `${wallet.value.address.substring(
+											: `${walletAddress.substring(
 													0,
 													15,
-											  )}...${wallet.value.address.substr(
-													wallet.value.address.length - 5,
-											  )}`}
+											  )}...${walletAddress.substr(walletAddress.length - 5)}`}
 									</div>
 								</div>
 								<div id="wallet-arrow" />
 							</div>
-							{(wallet === undefined || wallet === "") &&
+							{(walletAddress === undefined || walletAddress === "") &&
 								this.state.state === 0 && (
 									<div id="wallet-creation-container">
 										<div id="wallet-creation-title">
@@ -452,7 +451,7 @@ class WalletDropletComponent extends React.Component<
 										</StandardButton>
 									</div>
 								)}
-							{(wallet === undefined || wallet === "") &&
+							{(walletAddress === undefined || walletAddress === "") &&
 								this.state.state === 2 && (
 									<div id="wallet-pin-container">
 										<div id="wallet-pin-title">
@@ -581,7 +580,7 @@ class WalletDropletComponent extends React.Component<
 										</StandardButton>
 									</div>
 								)}
-							{(wallet === undefined || wallet === "") &&
+							{(walletAddress === undefined || walletAddress === "") &&
 								this.state.state === 3 && (
 									<div id="wallet-pin-container">
 										<div id="wallet-pin-title">
@@ -703,7 +702,7 @@ class WalletDropletComponent extends React.Component<
 										</StandardButton>
 									</div>
 								)}
-							{(wallet === undefined || wallet === "") &&
+							{(walletAddress === undefined || walletAddress === "") &&
 								this.state.state === 4 && (
 									<div id="wallet-creation-container">
 										<div id="wallet-creation-title">
@@ -719,7 +718,6 @@ class WalletDropletComponent extends React.Component<
 											onChange={(e) =>
 												this.setState({ recoveryPhrase: e.target.value })
 											}
-											maxLength="50"
 											type="text"
 										/>
 										<StandardButton
@@ -747,131 +745,136 @@ class WalletDropletComponent extends React.Component<
 									</div>
 								</div>
 							)}
+							{this.state.state === 6 && (
+								<div id="wallet-pin-container-login">
+									<div id="wallet-pin-title">{localeData.wallet.login}</div>
+									<div id="wallet-pin-subtitle-error">
+										{this.state.confirmError && localeData.wallet.insertPIN}
+									</div>
+									<div id="pinContainer">
+										<StandardInput
+											value={this.state.loginPinOne}
+											className="form-field login-field"
+											onChange={(e) => {
+												const reg = new RegExp("^[0-9]+$");
+
+												if (reg.test(e.target.value) || e.target.value == "") {
+													this.setState({ loginPinOne: e.target.value });
+												}
+											}}
+											maxLength="1"
+											type="text"
+											id="pinOne"
+										/>
+										<StandardInput
+											value={this.state.loginPinTwo}
+											className="form-field login-field"
+											onChange={(e) => {
+												const reg = new RegExp("^[0-9]+$");
+
+												if (reg.test(e.target.value) || e.target.value == "") {
+													this.setState({ loginPinTwo: e.target.value });
+												}
+											}}
+											maxLength="1"
+											type="text"
+											id="pinTwo"
+										/>
+										<StandardInput
+											value={this.state.loginPinThree}
+											className="form-field login-field"
+											onChange={(e) => {
+												const reg = new RegExp("^[0-9]+$");
+
+												if (reg.test(e.target.value) || e.target.value == "") {
+													this.setState({ loginPinThree: e.target.value });
+												}
+											}}
+											maxLength="1"
+											type="text"
+											id="pinThree"
+										/>
+										<StandardInput
+											value={this.state.loginPinFour}
+											className="form-field login-field"
+											onChange={(e) => {
+												const reg = new RegExp("^[0-9]+$");
+
+												if (reg.test(e.target.value) || e.target.value == "") {
+													this.setState({ loginPinFour: e.target.value });
+												}
+											}}
+											maxLength="1"
+											type="text"
+											id="pinFour"
+										/>
+										<StandardInput
+											value={this.state.loginPinFive}
+											className="form-field login-field"
+											onChange={(e) => {
+												const reg = new RegExp("^[0-9]+$");
+
+												if (reg.test(e.target.value) || e.target.value == "") {
+													this.setState({ loginPinFive: e.target.value });
+												}
+											}}
+											maxLength="1"
+											type="text"
+											id="pinFive"
+										/>
+										<StandardInput
+											value={this.state.loginPinSix}
+											className="form-field login-field"
+											onChange={(e) => {
+												const reg = new RegExp("^[0-9]+$");
+
+												if (reg.test(e.target.value) || e.target.value == "") {
+													this.setState({ loginPinSix: e.target.value });
+												}
+											}}
+											maxLength="1"
+											type="text"
+											id="pinSix"
+										/>
+									</div>
+									<StandardButton
+										id="finishButton"
+										onClick={() => this.loginPIN()}
+									>
+										{localeData.wallet.login}
+									</StandardButton>
+								</div>
+							)}
 						</div>
 					</>
 				) : (
 					<div className="wallet-droplet">
 						<div
 							className="wallet-container"
-							onClick={() => this.setState({ open: true, state: 5 })}
+							onClick={() => {
+								walletAddress !== ""
+									? this.setState({ open: true, state: 5 })
+									: this.setState({ open: true, state: 0 });
+							}}
 						>
 							<div id="walletIcon" />
 							<div className="text-container">
-								<div id="wallet-title">
-									{wallet === undefined || wallet === ""
+								{/* <div id="wallet-title">
+									{walletAddress === undefined || walletAddress === ""
 										? localeData.wallet.noWallet
-										: wallet.value.account_number}
-								</div>
+										: wallet === undefined ? "" : wallet.value.account_number}
+								</div> */}
 								<div id="wallet-subtitle">
-									{wallet === undefined || wallet === ""
+									{walletAddress === undefined || walletAddress === ""
 										? localeData.wallet.createOrImport
-										: `${wallet.value.address.substring(
+										: `${walletAddress.substring(
 												0,
 												15,
-										  )}...${wallet.value.address.substr(
-												wallet.value.address.length - 5,
-										  )}`}
+										  )}...${walletAddress.substr(walletAddress.length - 5)}`}
 								</div>
 							</div>
 							<div id="wallet-arrow" />
 						</div>
-					</div>
-				)}
-				{this.state.openPIN && (
-					<div id="wallet-pin-container">
-						<div id="wallet-pin-title">{localeData.wallet.login}</div>
-						<div id="wallet-pin-subtitle-error">
-							{this.state.confirmError && localeData.wallet.insertPIN}
-						</div>
-						<div id="pinContainer">
-							<StandardInput
-								value={this.state.loginPinOne}
-								className="form-field login-field"
-								onChange={(e) => {
-									const reg = new RegExp("^[0-9]+$");
-
-									if (reg.test(e.target.value) || e.target.value == "") {
-										this.setState({ loginPinOne: e.target.value });
-									}
-								}}
-								maxLength="1"
-								type="text"
-								id="pinOne"
-							/>
-							<StandardInput
-								value={this.state.loginPinTwo}
-								className="form-field login-field"
-								onChange={(e) => {
-									const reg = new RegExp("^[0-9]+$");
-
-									if (reg.test(e.target.value) || e.target.value == "") {
-										this.setState({ loginPinTwo: e.target.value });
-									}
-								}}
-								maxLength="1"
-								type="text"
-								id="pinTwo"
-							/>
-							<StandardInput
-								value={this.state.loginPinThree}
-								className="form-field login-field"
-								onChange={(e) => {
-									const reg = new RegExp("^[0-9]+$");
-
-									if (reg.test(e.target.value) || e.target.value == "") {
-										this.setState({ loginPinThree: e.target.value });
-									}
-								}}
-								maxLength="1"
-								type="text"
-								id="pinThree"
-							/>
-							<StandardInput
-								value={this.state.loginPinFour}
-								className="form-field login-field"
-								onChange={(e) => {
-									const reg = new RegExp("^[0-9]+$");
-
-									if (reg.test(e.target.value) || e.target.value == "") {
-										this.setState({ loginPinFour: e.target.value });
-									}
-								}}
-								maxLength="1"
-								type="text"
-								id="pinFour"
-							/>
-							<StandardInput
-								value={this.state.loginPinFive}
-								className="form-field login-field"
-								onChange={(e) => {
-									const reg = new RegExp("^[0-9]+$");
-
-									if (reg.test(e.target.value) || e.target.value == "") {
-										this.setState({ loginPinFive: e.target.value });
-									}
-								}}
-								maxLength="1"
-								type="text"
-								id="pinFive"
-							/>
-							<StandardInput
-								value={this.state.loginPinSix}
-								className="form-field login-field"
-								onChange={(e) => {
-									const reg = new RegExp("^[0-9]+$");
-
-									if (reg.test(e.target.value) || e.target.value == "") {
-										this.setState({ loginPinSix: e.target.value });
-									}
-								}}
-								maxLength="1"
-								type="text"
-								id="pinSix"
-							/>
-						</div>
-						<StandardButton id="finishButton" onClick={() => this.loginPIN()}>
-							{localeData.wallet.login}
-						</StandardButton>
 					</div>
 				)}
 			</BaseDroplet>

@@ -121,7 +121,7 @@ class TransactionsComponent extends React.Component<
 												)}
 											</div>
 											<div className="transactions-list-td feeHeader">
-												{data.fee}
+												{data.fee !== undefined ? data.fee.total_fee : ""}
 											</div>
 										</div>
 									);

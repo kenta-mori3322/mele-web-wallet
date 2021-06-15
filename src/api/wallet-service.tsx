@@ -9,10 +9,10 @@ export interface ISearchWalletParameter {
 
 export default class WalletService extends MainService {
 	getWalletAddress = async (p: ISearchWalletParameter) => {
-		const signer = new MnemonicSigner(
-			"betray theory cargo way left cricket doll room donkey wire reunion fall left surprise hamster corn village happy bulb token artist twelve whisper expire",
-		);
-		//new MnemonicSigner(p.mnemonic)
+		// const signer = new MnemonicSigner(
+		// 	"betray theory cargo way left cricket doll room donkey wire reunion fall left surprise hamster corn village happy bulb token artist twelve whisper expire",
+		// );
+		const signer = new MnemonicSigner(p.mnemonic);
 		const address = signer.getAddress();
 		const cookies = new Cookies();
 		cookies.set("address", address);
@@ -24,13 +24,10 @@ export default class WalletService extends MainService {
 			nodeUrl: "http://3.126.68.149:26657/",
 			indexerEndpoint: "http://18.192.179.29:3100/api/v1",
 			chainId: "devnet",
-			signer: new MnemonicSigner(
-				"betray theory cargo way left cricket doll room donkey wire reunion fall left surprise hamster corn village happy bulb token artist twelve whisper expire",
-			),
+			signer: new MnemonicSigner(p.mnemonic),
 		});
-		//new MnemonicSigner("betray theory cargo way left cricket doll room donkey wire reunion fall left surprise hamster corn village happy bulb token artist twelve whisper expire"),
-		const wallet = await mele.query.getAccountInfo(mele.signer.getAddress());
-		console.log(wallet);
+		const cookies = new Cookies();
+		const wallet = await mele.query.getAccountInfo(cookies.get("address"));
 		return wallet;
 	};
 }

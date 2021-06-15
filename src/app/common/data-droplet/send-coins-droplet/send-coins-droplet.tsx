@@ -48,7 +48,7 @@ class SendCoinsDropletComponent extends React.Component<
 		this.state = {
 			recipient: "",
 			amount: undefined,
-			denom: "melc",
+			denom: "umelc",
 		};
 	}
 
@@ -58,10 +58,7 @@ class SendCoinsDropletComponent extends React.Component<
 			this.state.amount > 0 &&
 			this.state.recipient !== ""
 		) {
-			if (
-				this.props.walletState.loadedWallet.value.address ===
-				this.state.recipient
-			) {
+			if (this.props.walletState.loadedWalletAddress === this.state.recipient) {
 				toast.error(localeData.send.sameWallet, {
 					position: "top-right",
 					autoClose: 2000,
@@ -71,13 +68,23 @@ class SendCoinsDropletComponent extends React.Component<
 					draggable: true,
 					progress: undefined,
 				});
+			} else if (this.props.walletState.loadedWallet === undefined) {
+				toast.error(localeData.send.notEnough, {
+					position: "top-right",
+					autoClose: 2000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+				});
 			} else if (
-				(this.state.denom === "melc" &&
+				(this.state.denom === "umelc" &&
 					this.state.amount >
 						parseFloat(
 							this.props.walletState.loadedWallet.value.coins[0].amount,
 						)) ||
-				(this.state.denom === "melg" &&
+				(this.state.denom === "umelg" &&
 					this.state.amount >
 						parseFloat(
 							this.props.walletState.loadedWallet.value.coins[1].amount,
@@ -151,8 +158,8 @@ class SendCoinsDropletComponent extends React.Component<
 		const wallet = this.props.walletState.loadedWalletAddress;
 		const localeData = languages[this.props.languageState.currentLanguage];
 		const coins: { key: string; text: string; value: string }[] = [
-			{ key: "melc", text: "MELC", value: "melc" },
-			{ key: "melg", text: "MELG", value: "melg" },
+			{ key: "umelc", text: "UMELC", value: "umelc" },
+			{ key: "umelg", text: "UMELG", value: "umelg" },
 		];
 		return (
 			<BaseDroplet {...this.props}>

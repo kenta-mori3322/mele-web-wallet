@@ -44,7 +44,6 @@ class BalanceDropletComponent extends React.Component<BalanceDropletProps> {
 			priceOfGoldPerGram = this.props.staticState.staticInfo.priceOfGoldPerGram;
 			melgPerGramOfGold = this.props.staticState.staticInfo.melgPerGramOfGold;
 		}
-
 		return (
 			<BaseDroplet {...this.props}>
 				<div
@@ -60,7 +59,8 @@ class BalanceDropletComponent extends React.Component<BalanceDropletProps> {
 								<div className="mele-display-numbers">
 									<div className="mele-coins-amount">
 										<div className={"coin-count"}>
-											{wallet !== undefined
+											{wallet !== undefined &&
+											wallet.value.coins[0] !== undefined
 												? wallet.value.coins[0].amount
 												: "0"}
 										</div>
@@ -77,7 +77,9 @@ class BalanceDropletComponent extends React.Component<BalanceDropletProps> {
 							</div>
 
 							{this.getMelegoldPart(
-								wallet !== undefined ? wallet.value.coins[1].amount : "0",
+								wallet !== undefined && wallet.value.coins[1] !== undefined
+									? wallet.value.coins[1].amount
+									: "0",
 								melgPerGramOfGold,
 								priceOfGoldPerGram,
 							)}
