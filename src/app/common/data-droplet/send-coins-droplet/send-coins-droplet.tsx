@@ -133,6 +133,7 @@ class SendCoinsDropletComponent extends React.Component<
 			this.props.actionCreators.transactions.searchTransactions(
 				this.props.walletState.loadedWalletAddress,
 			);
+			this.setState({ amount: undefined, recipient: "" });
 		} else if (
 			prevProps.transactionState.loadTransactionsStatus !==
 				this.props.transactionState.loadTransactionsStatus &&

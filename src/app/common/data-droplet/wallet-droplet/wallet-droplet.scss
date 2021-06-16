@@ -304,6 +304,15 @@
 		height: fit-content;
 		align-content: center;
 
+		#wallet-pin-subtitle-address {
+			width: 205%;
+			font: normal normal normal 12px/16px Circular Std Book;
+			letter-spacing: 0px;
+			color: #101654;
+			margin-top: 7%;
+			overflow-wrap: break-word;
+		}
+
 		#logoutButton {
 			background: #013ec4 0% 0% no-repeat padding-box;
 			border-radius: 4px;

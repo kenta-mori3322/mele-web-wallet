@@ -1,12 +1,8 @@
 import "react-circular-progressbar/dist/styles.css";
 import "./transactions-droplet.scss";
 import * as React from "react";
-import { BaseDroplet } from "mele-web-wallet/app/common/data-droplet/base-droplet/base-droplet";
 import ApplicationState from "mele-web-wallet/redux/application-state";
 import { connect } from "react-redux";
-import Moment from "react-moment";
-import Tooltip from "react-tooltip-lite";
-import { History } from "history";
 import { mapDispatchToProps } from "mele-web-wallet/redux/methods/map-dispatch-to-props";
 import { LanguageState } from "mele-web-wallet/redux/reducers/language-reducer";
 import { StandardButton } from "../../buttons/standard-button";
@@ -14,6 +10,7 @@ import { IActionCreators } from "./../../../../redux/methods/map-dispatch-to-pro
 import { TransactionsState } from "mele-web-wallet/redux/reducers/transactions-reducer";
 import { PaginatedList } from "react-paginated-list";
 import { WalletState } from "./../../../../redux/reducers/wallet-reducer";
+import { Utils } from "mele-sdk";
 
 interface TransactionsDropletProps
 	extends React.HTMLAttributes<HTMLDivElement> {
@@ -83,10 +80,27 @@ class TransactionsDropletComponent extends React.Component<
 						renderList={(list: any) => (
 							<>
 								{list.map((data: any, id: number) => {
+									const denom = data.msgs[0].data.amount.substr(
+										data.msgs[0].data.amount.length - 5,
+									);
 									return (
 										<div key={id} className="transactions-list-tr">
 											<div className="transactions-list-td amountCell">
-												{data.msgs[0].data.amount}
+												{denom === "umelc"
+													? `${Utils.fromUmelc(
+															data.msgs[0].data.amount.substring(
+																0,
+																data.msgs[0].data.amount.length - 5,
+															),
+															"melc",
+													  )} MELC`
+													: `${Utils.fromUmelg(
+															data.msgs[0].data.amount.substring(
+																0,
+																data.msgs[0].data.amount.length - 5,
+															),
+															"melg",
+													  )} MELG`}
 											</div>
 											<div className="transactions-list-td typeCell">
 												<div
@@ -116,7 +130,23 @@ class TransactionsDropletComponent extends React.Component<
 												)}
 											</div>
 											<div className="transactions-list-td feeHeader">
-												{data.fee !== undefined ? data.fee.total_fee : ""}
+												{data.fee !== undefined
+													? denom === "umelc"
+														? `${Utils.fromUmelc(
+																data.fee.total_fee.substring(
+																	0,
+																	data.fee.total_fee.length - 5,
+																),
+																"melc",
+														  )} MELC`
+														: `${Utils.fromUmelg(
+																data.fee.total_fee.substring(
+																	0,
+																	data.fee.total_fee.length - 5,
+																),
+																"melg",
+														  )} MELG`
+													: ""}
 											</div>
 										</div>
 									);

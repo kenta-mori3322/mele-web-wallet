@@ -11,6 +11,7 @@ import { StandardButton } from "mele-web-wallet/app/common/buttons/standard-butt
 import { CalculatorExplanationWindow } from "mele-web-wallet/app/common/calculator/calculator-explanation-window";
 import { WalletState } from "./../../../../redux/reducers/wallet-reducer";
 import { StaticState } from "mele-web-wallet/redux/reducers/static-reducer";
+import { Utils } from "mele-sdk";
 
 interface BalanceDropletProps extends React.HTMLAttributes<HTMLDivElement> {
 	languageState: LanguageState;
@@ -61,7 +62,7 @@ class BalanceDropletComponent extends React.Component<BalanceDropletProps> {
 										<div className={"coin-count"}>
 											{wallet !== undefined &&
 											wallet.value.coins[0] !== undefined
-												? wallet.value.coins[0].amount
+												? Utils.fromUmelc(wallet.value.coins[0].amount, "melc")
 												: "0"}
 										</div>
 									</div>
@@ -78,7 +79,7 @@ class BalanceDropletComponent extends React.Component<BalanceDropletProps> {
 
 							{this.getMelegoldPart(
 								wallet !== undefined && wallet.value.coins[1] !== undefined
-									? wallet.value.coins[1].amount
+									? Utils.fromUmelg(wallet.value.coins[1].amount, "melg")
 									: "0",
 								melgPerGramOfGold,
 								priceOfGoldPerGram,

@@ -280,7 +280,7 @@ class WalletDropletComponent extends React.Component<
 											: this.state.state === 3 && !this.state.confirmError
 											? "68%"
 											: this.state.state === 5
-											? "27%"
+											? "40%"
 											: this.state.state === 6
 											? "68%"
 											: "82%",
@@ -292,7 +292,7 @@ class WalletDropletComponent extends React.Component<
 											: this.state.state === 3
 											? "25%"
 											: this.state.state === 5
-											? "25%"
+											? "24.5%"
 											: "20%",
 								}}
 							>
@@ -736,6 +736,7 @@ class WalletDropletComponent extends React.Component<
 									style={{ marginLeft: "25%" }}
 								>
 									<div id="wallet-creation-buttons-logout-container">
+										<div id="wallet-pin-subtitle-address">{walletAddress}</div>
 										<StandardButton
 											id="logoutButton"
 											onClick={() => this.logout()}
