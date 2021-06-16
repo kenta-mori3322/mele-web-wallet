@@ -219,6 +219,7 @@ class WalletDropletComponent extends React.Component<
 			open: false,
 			confirmError: false,
 			updateWallet: true,
+			recoveryPhrase: "",
 		});
 		this.resetPIN();
 	};
