@@ -207,10 +207,12 @@ class WalletDropletComponent extends React.Component<
 
 	restoreWallet = async (mnemonic: string) => {
 		await this.props.actionCreators.static.setMnemonicAndPin(
-			mnemonic.replace(",", " "),
+			mnemonic.replace(/,/g, " "),
 			"",
 		);
-		await this.props.actionCreators.wallet.getWalletAddress(mnemonic);
+		await this.props.actionCreators.wallet.getWalletAddress(
+			mnemonic.replace(/,/g, " "),
+		);
 
 		this.setState({
 			state: 0,
