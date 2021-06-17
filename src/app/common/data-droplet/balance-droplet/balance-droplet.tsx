@@ -45,6 +45,7 @@ class BalanceDropletComponent extends React.Component<BalanceDropletProps> {
 			priceOfGoldPerGram = this.props.staticState.staticInfo.priceOfGoldPerGram;
 			melgPerGramOfGold = this.props.staticState.staticInfo.melgPerGramOfGold;
 		}
+
 		return (
 			<BaseDroplet {...this.props}>
 				<div
@@ -61,8 +62,13 @@ class BalanceDropletComponent extends React.Component<BalanceDropletProps> {
 									<div className="mele-coins-amount">
 										<div className={"coin-count"}>
 											{wallet !== undefined &&
-											wallet.value.coins[0] !== undefined
+											wallet.value.coins[0] !== undefined &&
+											wallet.value.coins[0].denom === "umelc"
 												? Utils.fromUmelc(wallet.value.coins[0].amount, "melc")
+												: wallet !== undefined &&
+												  wallet.value.coins[1] !== undefined &&
+												  wallet.value.coins[1].denom === "umelc"
+												? Utils.fromUmelc(wallet.value.coins[1].amount, "melc")
 												: "0"}
 										</div>
 									</div>
@@ -78,7 +84,13 @@ class BalanceDropletComponent extends React.Component<BalanceDropletProps> {
 							</div>
 
 							{this.getMelegoldPart(
-								wallet !== undefined && wallet.value.coins[1] !== undefined
+								wallet !== undefined &&
+									wallet.value.coins[0] !== undefined &&
+									wallet.value.coins[0].denom === "umelg"
+									? Utils.fromUmelg(wallet.value.coins[0].amount, "melg")
+									: wallet !== undefined &&
+									  wallet.value.coins[1] !== undefined &&
+									  wallet.value.coins[1].denom === "umelg"
 									? Utils.fromUmelg(wallet.value.coins[1].amount, "melg")
 									: "0",
 								melgPerGramOfGold,

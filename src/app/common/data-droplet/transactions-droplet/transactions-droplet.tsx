@@ -131,21 +131,13 @@ class TransactionsDropletComponent extends React.Component<
 											</div>
 											<div className="transactions-list-td feeHeader">
 												{data.fee !== undefined
-													? denom === "umelc"
-														? `${Utils.fromUmelc(
-																data.fee.total_fee.substring(
-																	0,
-																	data.fee.total_fee.length - 5,
-																),
-																"melc",
-														  )} MELC`
-														: `${Utils.fromUmelg(
-																data.fee.total_fee.substring(
-																	0,
-																	data.fee.total_fee.length - 5,
-																),
-																"melg",
-														  )} MELG`
+													? `${Utils.fromUmelc(
+															data.fee.total_fee.substring(
+																0,
+																data.fee.total_fee.length - 5,
+															),
+															"melc",
+													  )} MELC`
 													: ""}
 											</div>
 										</div>

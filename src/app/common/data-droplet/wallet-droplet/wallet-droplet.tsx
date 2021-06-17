@@ -112,7 +112,7 @@ class WalletDropletComponent extends React.Component<
 			address !== undefined &&
 			address !== ""
 		) {
-			this.setState({ state: 6 });
+			this.setState({ state: 0 });
 		}
 	}
 
