@@ -16,7 +16,8 @@
 		"recent": "Recent Transactions",
 		"recentText": "A list of your recent transactions",
 		"receive": "Receive",
-		"send": "Send"
+		"send": "Send",
+		"seeMore": "See all Transactions"
 	},
 	"dashboard": {
 		"send": "Send Coins",

@@ -11,6 +11,7 @@ import { TransactionsState } from "mele-web-wallet/redux/reducers/transactions-r
 import { PaginatedList } from "react-paginated-list";
 import { WalletState } from "./../../../../redux/reducers/wallet-reducer";
 import { Utils } from "mele-sdk";
+import { History } from "history";
 
 interface TransactionsDropletProps
 	extends React.HTMLAttributes<HTMLDivElement> {
@@ -18,6 +19,7 @@ interface TransactionsDropletProps
 	actionCreators: IActionCreators;
 	transactionsState: TransactionsState;
 	walletState: WalletState;
+	history: History;
 }
 
 const languages = {
@@ -34,6 +36,12 @@ class TransactionsDropletComponent extends React.Component<
 				this.props.walletState.loadedWalletAddress,
 			);
 	}
+
+	goToTransactions = () => {
+		this.props.history.push(
+			`/${this.props.languageState.currentLanguage}/transactions`,
+		);
+	};
 
 	render() {
 		const localeData = languages[this.props.languageState.currentLanguage];
@@ -75,8 +83,9 @@ class TransactionsDropletComponent extends React.Component<
 							</div>
 						)}
 						itemsPerPage={5}
-						nextText={localeData.navigation.next}
-						prevText={localeData.navigation.prev}
+						showPrev={false}
+						showNext={false}
+						displayNumbers={false}
 						renderList={(list: any) => (
 							<>
 								{list.map((data: any, id: number) => {
@@ -146,6 +155,12 @@ class TransactionsDropletComponent extends React.Component<
 							</>
 						)}
 					/>
+					<div
+						id="transactions-droplet-more"
+						onClick={() => this.goToTransactions()}
+					>
+						{localeData.transactions.seeMore}
+					</div>
 				</div>
 			</div>
 		);

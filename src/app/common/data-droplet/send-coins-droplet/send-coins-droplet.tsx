@@ -19,6 +19,7 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { StaticState } from "mele-web-wallet/redux/reducers/static-reducer";
+import { Utils } from "mele-sdk";
 
 interface SendCoinsDropletProps extends React.HTMLAttributes<HTMLDivElement> {
 	languageState: LanguageState;
@@ -30,7 +31,7 @@ interface SendCoinsDropletProps extends React.HTMLAttributes<HTMLDivElement> {
 
 interface SendCoinsDropletState {
 	recipient: string;
-	amount: number | undefined;
+	amount: string;
 	denom: string;
 }
 
@@ -47,17 +48,17 @@ class SendCoinsDropletComponent extends React.Component<
 		super(props);
 		this.state = {
 			recipient: "",
-			amount: undefined,
-			denom: "umelc",
+			amount: "",
+			denom: "melc",
 		};
 	}
 
 	sendCoins = (localeData: any) => {
-		if (
-			this.state.amount !== undefined &&
-			this.state.amount > 0 &&
-			this.state.recipient !== ""
-		) {
+		if (this.state.amount !== "" && this.state.recipient !== "") {
+			const mainDenomValue =
+				this.state.denom === "melc"
+					? Utils.toUmelc(this.state.amount, this.state.denom)
+					: Utils.toUmelg(this.state.amount, this.state.denom);
 			if (this.props.walletState.loadedWalletAddress === this.state.recipient) {
 				toast.error(localeData.send.sameWallet, {
 					position: "top-right",
@@ -79,13 +80,15 @@ class SendCoinsDropletComponent extends React.Component<
 					progress: undefined,
 				});
 			} else if (
-				(this.state.denom === "umelc" &&
-					this.state.amount >
+				(this.state.denom ===
+					this.props.walletState.loadedWallet.value.coins[0].denom &&
+					parseFloat(this.state.amount) >
 						parseFloat(
 							this.props.walletState.loadedWallet.value.coins[0].amount,
 						)) ||
-				(this.state.denom === "umelg" &&
-					this.state.amount >
+				(this.state.denom ===
+					this.props.walletState.loadedWallet.value.coins[1].denom &&
+					parseFloat(this.state.amount) >
 						parseFloat(
 							this.props.walletState.loadedWallet.value.coins[1].amount,
 						))
@@ -102,8 +105,8 @@ class SendCoinsDropletComponent extends React.Component<
 			} else {
 				this.props.actionCreators.transactions.sendTransaction(
 					this.state.recipient,
-					this.state.denom,
-					this.state.amount.toString(),
+					`u${this.state.denom}`,
+					mainDenomValue.toString(),
 				);
 			}
 		}
@@ -133,7 +136,7 @@ class SendCoinsDropletComponent extends React.Component<
 			this.props.actionCreators.transactions.searchTransactions(
 				this.props.walletState.loadedWalletAddress,
 			);
-			this.setState({ amount: undefined, recipient: "" });
+			this.setState({ amount: "", recipient: "" });
 		} else if (
 			prevProps.transactionState.loadTransactionsStatus !==
 				this.props.transactionState.loadTransactionsStatus &&
@@ -159,8 +162,8 @@ class SendCoinsDropletComponent extends React.Component<
 		const wallet = this.props.walletState.loadedWalletAddress;
 		const localeData = languages[this.props.languageState.currentLanguage];
 		const coins: { key: string; text: string; value: string }[] = [
-			{ key: "umelc", text: "UMELC", value: "umelc" },
-			{ key: "umelg", text: "UMELG", value: "umelg" },
+			{ key: "melc", text: "MELC", value: "melc" },
+			{ key: "melg", text: "MELG", value: "melg" },
 		];
 		return (
 			<BaseDroplet {...this.props}>
@@ -196,9 +199,7 @@ class SendCoinsDropletComponent extends React.Component<
 							<StandardInput
 								value={this.state.amount}
 								className="amount-field"
-								onChange={(e) =>
-									this.setState({ amount: parseFloat(e.target.value) })
-								}
+								onChange={(e) => this.setState({ amount: e.target.value })}
 								placeholder={localeData.send.amount}
 								maxLength="10"
 								type="number"
@@ -225,7 +226,7 @@ class SendCoinsDropletComponent extends React.Component<
 						</StandardButton>
 						<StandardButton
 							className="reset-button"
-							onClick={() => this.setState({ recipient: "", amount: 0 })}
+							onClick={() => this.setState({ recipient: "", amount: "" })}
 						>
 							{localeData.send.reset}
 						</StandardButton>

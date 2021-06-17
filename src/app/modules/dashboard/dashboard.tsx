@@ -69,7 +69,7 @@ class DashboardComponent extends React.Component<IDashboardProps> {
 						{localeData.transactions.recentText}
 					</div>
 					<div className="bottom-column">
-						<TransactionsDroplet />
+						<TransactionsDroplet history={this.props.history} />
 					</div>
 				</div>
 			</div>

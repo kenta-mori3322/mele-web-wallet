@@ -44,6 +44,7 @@ export default class TransactionsService extends MainService {
 		const response = await mele.bank
 			.transfer(address, [{ denom: denom, amount: amount }])
 			.sendTransaction();
+		console.log(response);
 		return response;
 	};
 }
