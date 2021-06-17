@@ -104,7 +104,6 @@ class WalletDropletComponent extends React.Component<
 			address === undefined
 		) {
 			this.setState({ open: true });
-			this.setState({ mnemonic: this.generateMnemonic() });
 		}
 		if (
 			(this.props.walletState.loadedWallet === undefined ||
@@ -155,6 +154,10 @@ class WalletDropletComponent extends React.Component<
 		} else {
 			this.setState({ setPINError: true });
 		}
+	};
+
+	createWallet = () => {
+		this.setState({ mnemonic: this.generateMnemonic(), state: 1 });
 	};
 
 	loginPIN = async () => {
@@ -329,7 +332,7 @@ class WalletDropletComponent extends React.Component<
 										<div id="wallet-creation-buttons-container">
 											<div
 												id="wallet-creation-button-create"
-												onClick={() => this.setState({ state: 1 })}
+												onClick={() => this.createWallet()}
 											>
 												<div id="createIcon" />
 												<div id="create-text">
