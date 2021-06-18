@@ -40,7 +40,8 @@
 		"success": "Transaction successful",
 		"error": "Error on transaction, please check the recipient address",
 		"sameWallet": "Can't transfer MELC or MELG between the same wallet.",
-		"notEnough": "Not enough credits for this transaction"
+		"notEnough": "Not enough credits for this transaction",
+		"sendMoreThanZero": "Please choose a value greater than 0"
 	},
 	"wallet": {
 		"creationTitle": "Access Wallet",
