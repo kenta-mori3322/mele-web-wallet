@@ -2,7 +2,10 @@ import "./balance-droplet.scss";
 import * as React from "react";
 import { BaseDroplet } from "mele-web-wallet/app/common/data-droplet/base-droplet/base-droplet";
 import { connect } from "react-redux";
-import { mapDispatchToProps } from "mele-web-wallet/redux/methods/map-dispatch-to-props";
+import {
+	IActionCreators,
+	mapDispatchToProps,
+} from "mele-web-wallet/redux/methods/map-dispatch-to-props";
 import ApplicationState from "mele-web-wallet/redux/application-state";
 import { LanguageState } from "mele-web-wallet/redux/reducers/language-reducer";
 import { MeleCalculator } from "mele-web-wallet/app/common/calculator/mele-calculator";
@@ -17,6 +20,7 @@ interface BalanceDropletProps extends React.HTMLAttributes<HTMLDivElement> {
 	languageState: LanguageState;
 	walletState: WalletState;
 	staticState: StaticState;
+	actionCreators: IActionCreators;
 }
 
 const languages = {
@@ -30,6 +34,11 @@ class BalanceDropletComponent extends React.Component<BalanceDropletProps> {
 		this.state = {
 			explanationOpen: false,
 		};
+	}
+
+	componentDidMount() {
+		this.props.actionCreators.static.searchStaticInfo();
+		this.props.actionCreators.static.searchStatistics();
 	}
 
 	render() {
@@ -117,30 +126,26 @@ class BalanceDropletComponent extends React.Component<BalanceDropletProps> {
 		priceOfGoldPerGram: string,
 	) {
 		return (
-			<CalculatorExplanationWindow
-				rootComponent={
-					<div className={"mele-display"}>
-						<div className="mele-display-numbers">
-							<div className="mele-coins-amount">
-								<div className={"coin-count"}>{meleGold}</div>
-							</div>
-						</div>
-						<div className="mele-display-notions">
-							<div className="notification-icon" />
-							<div className="mele-notions">
-								<div className="coin-name mele-gold">MELG</div>
-								<div className="coin-rate">
-									$
-									{MeleCalculator.getMelGPrice(
-										melgPerGramOfGold,
-										priceOfGoldPerGram,
-									)}
-								</div>
-							</div>
+			<div className={"mele-display"}>
+				<div className="mele-display-numbers">
+					<div className="mele-coins-amount">
+						<div className={"coin-count"}>{meleGold}</div>
+					</div>
+				</div>
+				<div className="mele-display-notions">
+					<div className="notification-icon" />
+					<div className="mele-notions">
+						<div className="coin-name mele-gold">MELG</div>
+						<div className="coin-rate">
+							$
+							{MeleCalculator.getMelGPrice(
+								melgPerGramOfGold,
+								priceOfGoldPerGram,
+							)}
 						</div>
 					</div>
-				}
-			/>
+				</div>
+			</div>
 		);
 	}
 }

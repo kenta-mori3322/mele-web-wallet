@@ -25,7 +25,7 @@ function* loadStatic(action: IStaticReducerAction): SagaIterator {
 
 		return yield put({
 			type: StaticStateActionTypes.LOAD_STATIC_SUCCESS,
-			StaticInfo: StaticInfo,
+			statisticsInfo: StaticInfo,
 			staticInfo: staticInfo,
 		});
 	} catch (e) {

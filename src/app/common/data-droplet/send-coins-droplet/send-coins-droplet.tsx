@@ -55,11 +55,23 @@ class SendCoinsDropletComponent extends React.Component<
 
 	sendCoins = (localeData: any) => {
 		if (this.state.amount !== "" && this.state.recipient !== "") {
-			const mainDenomValue =
-				this.state.denom === "melc"
-					? Utils.toUmelc(this.state.amount, this.state.denom)
-					: Utils.toUmelg(this.state.amount, this.state.denom);
-			if (this.props.walletState.loadedWalletAddress === this.state.recipient) {
+			const amount = parseFloat(
+				Utils.toUmelc(this.state.amount, this.state.denom),
+			);
+			const wallet = this.props.walletState.loadedWallet;
+			if (amount <= 0) {
+				toast.error(localeData.send.sendMoreThanZero, {
+					position: "top-right",
+					autoClose: 2000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+				});
+			} else if (
+				this.props.walletState.loadedWalletAddress === this.state.recipient
+			) {
 				toast.error(localeData.send.sameWallet, {
 					position: "top-right",
 					autoClose: 2000,
@@ -69,7 +81,7 @@ class SendCoinsDropletComponent extends React.Component<
 					draggable: true,
 					progress: undefined,
 				});
-			} else if (this.props.walletState.loadedWallet === undefined) {
+			} else if (wallet === undefined) {
 				toast.error(localeData.send.notEnough, {
 					position: "top-right",
 					autoClose: 2000,
@@ -80,18 +92,12 @@ class SendCoinsDropletComponent extends React.Component<
 					progress: undefined,
 				});
 			} else if (
-				(this.state.denom ===
-					this.props.walletState.loadedWallet.value.coins[0].denom &&
-					parseFloat(this.state.amount) >
-						parseFloat(
-							this.props.walletState.loadedWallet.value.coins[0].amount,
-						)) ||
-				(this.state.denom ===
-					this.props.walletState.loadedWallet.value.coins[1].denom &&
-					parseFloat(this.state.amount) >
-						parseFloat(
-							this.props.walletState.loadedWallet.value.coins[1].amount,
-						))
+				(wallet.value.coins[0] !== undefined &&
+					`u${this.state.denom}` === wallet.value.coins[0].denom &&
+					amount > parseFloat(wallet.value.coins[0].amount)) ||
+				(wallet.value.coins[1] !== undefined &&
+					`u${this.state.denom}` === wallet.value.coins[1].denom &&
+					amount > parseFloat(wallet.value.coins[1].amount))
 			) {
 				toast.error(localeData.send.notEnough, {
 					position: "top-right",
@@ -106,7 +112,7 @@ class SendCoinsDropletComponent extends React.Component<
 				this.props.actionCreators.transactions.sendTransaction(
 					this.state.recipient,
 					`u${this.state.denom}`,
-					mainDenomValue.toString(),
+					amount.toString(),
 				);
 			}
 		}
@@ -199,10 +205,15 @@ class SendCoinsDropletComponent extends React.Component<
 							<StandardInput
 								value={this.state.amount}
 								className="amount-field"
-								onChange={(e) => this.setState({ amount: e.target.value })}
+								onChange={(e) => {
+									if (e.target.value === "" || e.target.value.length < 11) {
+										this.setState({ amount: e.target.value });
+									}
+								}}
 								placeholder={localeData.send.amount}
-								maxLength="10"
+								maxLength="11"
 								type="number"
+								min="0"
 							/>
 							<StandardInput
 								value={this.state.recipient}
