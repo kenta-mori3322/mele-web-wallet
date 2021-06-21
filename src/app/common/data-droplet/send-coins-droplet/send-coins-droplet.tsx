@@ -55,9 +55,10 @@ class SendCoinsDropletComponent extends React.Component<
 
 	sendCoins = (localeData: any) => {
 		if (this.state.amount !== "" && this.state.recipient !== "") {
-			const amount = parseFloat(
-				Utils.toUmelc(this.state.amount, this.state.denom),
-			);
+			const amount =
+				this.state.denom === "umelc"
+					? parseFloat(Utils.toUmelc(this.state.amount, this.state.denom))
+					: parseFloat(Utils.toUmelg(this.state.amount, this.state.denom));
 			const wallet = this.props.walletState.loadedWallet;
 			if (amount <= 0) {
 				toast.error(localeData.send.sendMoreThanZero, {
@@ -206,12 +207,18 @@ class SendCoinsDropletComponent extends React.Component<
 								value={this.state.amount}
 								className="amount-field"
 								onChange={(e) => {
-									if (e.target.value === "" || e.target.value.length < 11) {
+									if (
+										e.target.value === "" ||
+										(e.target.value.includes(".") &&
+											e.target.value.substr(e.target.value.indexOf("."))
+												.length < 11) ||
+										!e.target.value.includes(".")
+									) {
 										this.setState({ amount: e.target.value });
 									}
 								}}
 								placeholder={localeData.send.amount}
-								maxLength="11"
+								maxLength="12"
 								type="number"
 								min="0"
 							/>
