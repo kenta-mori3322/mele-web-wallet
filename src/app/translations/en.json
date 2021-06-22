@@ -67,6 +67,7 @@
 		"noWallet": "No Wallet",
 		"logout": "Logout",
 		"login": "Login",
-		"insertPIN": "Insert your PIN to login"
+		"insertPIN": "Insert your PIN to login",
+		"errorPIN": "Invalid PIN, please try again"
 	}
 }

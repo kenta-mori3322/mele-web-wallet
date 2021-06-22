@@ -12,6 +12,7 @@ import { TransactionsState } from "mele-web-wallet/redux/reducers/transactions-r
 import { PaginatedList } from "react-paginated-list";
 import { Utils } from "mele-sdk";
 import { WalletState } from "mele-web-wallet/redux/reducers/wallet-reducer";
+import { Timer } from "mele-web-wallet/app/common/utils/session-timer/session-timer";
 
 interface ITransactionsState {}
 
@@ -154,6 +155,7 @@ class TransactionsComponent extends React.Component<
 						)}
 					/>
 				</div>
+				<Timer />
 			</div>
 		);
 	}

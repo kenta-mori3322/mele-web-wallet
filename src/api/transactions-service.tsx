@@ -34,7 +34,7 @@ export default class TransactionsService extends MainService {
 	};
 
 	sendTransaction = async (address: string, denom: string, amount: string) => {
-		const mnemonic = cookies.get("mnemonic");
+		const mnemonic = atob(cookies.get("mnemonic"));
 		const mele = new Mele({
 			nodeUrl: "http://3.126.68.149:26657/",
 			indexerEndpoint: "http://18.192.179.29:3100/api/v1",
@@ -44,7 +44,7 @@ export default class TransactionsService extends MainService {
 		const response = await mele.bank
 			.transfer(address, [{ denom: denom, amount: amount }])
 			.sendTransaction();
-		console.log(response);
+
 		return response;
 	};
 }

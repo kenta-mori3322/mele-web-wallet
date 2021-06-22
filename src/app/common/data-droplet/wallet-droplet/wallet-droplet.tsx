@@ -27,6 +27,7 @@ interface WalletDropletState {
 	state: number;
 	open: boolean;
 	copied: boolean;
+	restore: boolean;
 	pin: string;
 	pinOne: string;
 	pinTwo: string;
@@ -70,6 +71,7 @@ class WalletDropletComponent extends React.Component<
 			state: 0,
 			open: false,
 			copied: false,
+			restore: false,
 			pin: "",
 			pinOne: "",
 			pinTwo: "",
@@ -97,7 +99,7 @@ class WalletDropletComponent extends React.Component<
 	}
 
 	componentDidMount() {
-		const address = cookies.get("address");
+		const address = cookies.get("address") ? atob(cookies.get("address")) : "";
 		if (
 			this.props.walletState.loadedWallet === undefined ||
 			this.props.walletState.loadedWalletAddress === "" ||
@@ -160,71 +162,92 @@ class WalletDropletComponent extends React.Component<
 		this.setState({ mnemonic: this.generateMnemonic(), state: 1 });
 	};
 
-	loginPIN = async () => {
-		const pin = `${this.state.loginPinOne},${this.state.loginPinTwo},${this.state.loginPinThree},${this.state.loginPinFour},${this.state.loginPinFive},${this.state.loginPinSix}`;
-		const cachedPin = cookies.get("pin");
-		if (pin === cachedPin) {
-			const address = cookies.get("address");
-			const mnemonic = cookies.get("mnemonic");
-			this.props.actionCreators.wallet.getWallet(mnemonic);
-			this.props.actionCreators.transactions.searchTransactions(address);
+	// loginPIN = async () => {
+	// 	const pin = `${this.state.loginPinOne},${this.state.loginPinTwo},${this.state.loginPinThree},${this.state.loginPinFour},${this.state.loginPinFive},${this.state.loginPinSix}`;
+	// 	const cachedPin = cookies.get("pin");
+	// 	if (pin === cachedPin) {
+	// 		const address = cookies.get("address");
+	// 		const mnemonic = cookies.get("mnemonic");
+	// 		this.props.actionCreators.wallet.getWallet(mnemonic);
+	// 		this.props.actionCreators.transactions.searchTransactions(address);
 
-			this.setState({
-				state: 0,
-				open: false,
-				confirmError: false,
-				updateWallet: false,
-			});
-			this.resetPIN();
-		}
-	};
+	// 		this.setState({
+	// 			state: 0,
+	// 			open: false,
+	// 			confirmError: false,
+	// 			updateWallet: false,
+	// 		});
+	// 		this.resetPIN();
+	// 	}
+	// };
 
 	checkPIN = async () => {
-		const pin = `${this.state.pinOneConfirm},${this.state.pinTwoConfirm},${this.state.pinThreeConfirm},${this.state.pinFourConfirm},${this.state.pinFiveConfirm},${this.state.pinSixConfirm}`;
-		if (this.state.pin === pin) {
-			await this.props.actionCreators.static.setMnemonicAndPin(
-				JSON.stringify(this.state.mnemonic)
-					.replace(/[\[\]']+/g, "")
-					.replace(/['"]+/g, "")
-					.replace(/,/g, " "),
-				pin,
-			);
-			await this.props.actionCreators.wallet.getWalletAddress(
-				JSON.stringify(this.state.mnemonic)
-					.replace(/[\[\]']+/g, "")
-					.replace(/['"]+/g, "")
-					.replace(/,/g, " "),
-			);
+		if (this.state.restore) {
+			const pin = `${this.state.pinOneConfirm},${this.state.pinTwoConfirm},${this.state.pinThreeConfirm},${this.state.pinFourConfirm},${this.state.pinFiveConfirm},${this.state.pinSixConfirm}`;
+			if (this.state.pin === pin) {
+				await this.props.actionCreators.static.setMnemonicAndPin(
+					this.state.recoveryPhrase.replace(/,/g, " "),
+					pin,
+				);
+				await this.props.actionCreators.wallet.getWalletAddress(
+					this.state.recoveryPhrase.replace(/,/g, " "),
+				);
 
-			this.setState({
-				state: 0,
-				open: false,
-				confirmError: false,
-				updateWallet: true,
-			});
-			this.resetPIN();
+				this.setState({
+					state: 0,
+					open: false,
+					confirmError: false,
+					updateWallet: true,
+				});
+				this.resetPIN();
+			} else {
+				this.setState({ confirmError: true });
+			}
 		} else {
-			this.setState({ confirmError: true });
+			const pin = `${this.state.pinOneConfirm},${this.state.pinTwoConfirm},${this.state.pinThreeConfirm},${this.state.pinFourConfirm},${this.state.pinFiveConfirm},${this.state.pinSixConfirm}`;
+			if (this.state.pin === pin) {
+				await this.props.actionCreators.static.setMnemonicAndPin(
+					JSON.stringify(this.state.mnemonic)
+						.replace(/[\[\]']+/g, "")
+						.replace(/['"]+/g, "")
+						.replace(/,/g, " "),
+					pin,
+				);
+				await this.props.actionCreators.wallet.getWalletAddress(
+					JSON.stringify(this.state.mnemonic)
+						.replace(/[\[\]']+/g, "")
+						.replace(/['"]+/g, "")
+						.replace(/,/g, " "),
+				);
+
+				this.setState({
+					state: 0,
+					open: false,
+					confirmError: false,
+					updateWallet: true,
+				});
+				this.resetPIN();
+			} else {
+				this.setState({ confirmError: true });
+			}
 		}
 	};
 
 	restoreWallet = async (mnemonic: string) => {
-		await this.props.actionCreators.static.setMnemonicAndPin(
-			mnemonic.replace(/,/g, " "),
-			"",
-		);
-		await this.props.actionCreators.wallet.getWalletAddress(
-			mnemonic.replace(/,/g, " "),
-		);
+		// await this.props.actionCreators.static.setMnemonicAndPin(
+		// 	mnemonic.replace(/,/g, " "),
+		// 	"",
+		// );
+		// await this.props.actionCreators.wallet.getWalletAddress(
+		// 	mnemonic.replace(/,/g, " "),
+		// );
 
 		this.setState({
-			state: 0,
-			open: false,
+			state: 2,
 			confirmError: false,
-			updateWallet: true,
-			recoveryPhrase: "",
+			recoveryPhrase: mnemonic,
+			restore: true,
 		});
-		this.resetPIN();
 	};
 
 	componentDidUpdate(prevProps: any) {
@@ -247,9 +270,9 @@ class WalletDropletComponent extends React.Component<
 		this.props.actionCreators.transactions.cleanTransactions();
 		this.setState({ state: 0, open: true, confirmError: false });
 		this.resetPIN();
-		cookies.remove("address", { path: "/en" });
-		cookies.remove("pin", { path: "/en" });
-		cookies.remove("mnemonic", { path: "/en" });
+		cookies.remove("address");
+		cookies.remove("pin");
+		cookies.remove("mnemonic");
 	};
 
 	render() {
@@ -752,7 +775,7 @@ class WalletDropletComponent extends React.Component<
 									</div>
 								</div>
 							)}
-							{this.state.state === 6 && (
+							{/* {this.state.state === 6 && (
 								<div id="wallet-pin-container-login">
 									<div id="wallet-pin-title">{localeData.wallet.login}</div>
 									<div id="wallet-pin-subtitle-error">
@@ -851,7 +874,7 @@ class WalletDropletComponent extends React.Component<
 										{localeData.wallet.login}
 									</StandardButton>
 								</div>
-							)}
+							)} */}
 						</div>
 					</>
 				) : (

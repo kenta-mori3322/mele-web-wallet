@@ -58,8 +58,8 @@ const staticReducer = (
 ): StaticState => {
 	switch (action.type) {
 		case StaticStateActionTypes.SET_MNEMONIC_AND_PIN:
-			cookies.set("pin", action.pin);
-			cookies.set("mnemonic", action.mnemonic);
+			cookies.set("pin", btoa(action.pin));
+			cookies.set("mnemonic", btoa(action.mnemonic));
 			return {
 				mnemonic: action.mnemonic,
 				pin: action.pin,
