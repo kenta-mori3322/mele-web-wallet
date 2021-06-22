@@ -12,10 +12,12 @@ import {
 import ApplicationState from "mele-web-wallet/redux/application-state";
 import { connect } from "react-redux";
 import IdleTimer from "react-idle-timer";
+import { WalletState } from "./../../../../redux/reducers/wallet-reducer";
 
 interface TimerProps extends React.HTMLAttributes<HTMLDivElement> {
 	languageState: LanguageState;
 	actionCreators: IActionCreators;
+	walletState: WalletState;
 }
 
 interface TimerState {
@@ -99,7 +101,8 @@ class TimerComponent extends React.Component<TimerProps, TimerState> {
 	handleOnActive(event: any) {}
 
 	handleOnIdle(event: any) {
-		this.setState({ idleModal: true });
+		if (this.props.walletState.loadedWallet !== undefined)
+			this.setState({ idleModal: true });
 	}
 	render() {
 		const localeData = languages[this.props.languageState.currentLanguage];
@@ -218,6 +221,7 @@ class TimerComponent extends React.Component<TimerProps, TimerState> {
 const mapStateToProps = (state: ApplicationState) => {
 	return {
 		languageState: state.language,
+		walletState: state.wallet,
 	};
 };
 
