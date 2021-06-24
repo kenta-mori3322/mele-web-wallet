@@ -13,6 +13,7 @@ import ApplicationState from "mele-web-wallet/redux/application-state";
 import { connect } from "react-redux";
 import IdleTimer from "react-idle-timer";
 import { WalletState } from "./../../../../redux/reducers/wallet-reducer";
+import { StaticState } from "./../../../../redux/reducers/static-reducer";
 
 interface TimerProps extends React.HTMLAttributes<HTMLDivElement> {
 	languageState: LanguageState;
@@ -71,6 +72,13 @@ class TimerComponent extends React.Component<TimerProps, TimerState> {
 		};
 	}
 
+	componentDidMount() {
+		const required = localStorage.getItem("pinRequired") === "true";
+		if (required) {
+			this.setState({ idleModal: true });
+		}
+	}
+
 	loginPIN = () => {
 		const pin = `${this.state.pinOne},${this.state.pinTwo},${this.state.pinThree},${this.state.pinFour},${this.state.pinFive},${this.state.pinSix}`;
 		const cachedPin = atob(cookies.get("pin"));
@@ -79,6 +87,7 @@ class TimerComponent extends React.Component<TimerProps, TimerState> {
 			const mnemonic = atob(cookies.get("mnemonic"));
 			this.props.actionCreators.wallet.getWallet(mnemonic);
 			this.props.actionCreators.transactions.searchTransactions(address);
+			localStorage.removeItem("pinRequired");
 
 			this.setState({
 				pinOne: "",
@@ -101,8 +110,10 @@ class TimerComponent extends React.Component<TimerProps, TimerState> {
 	handleOnActive(event: any) {}
 
 	handleOnIdle(event: any) {
-		if (this.props.walletState.loadedWallet !== undefined)
+		if (this.props.walletState.loadedWallet !== undefined) {
+			localStorage.setItem("pinRequired", "true");
 			this.setState({ idleModal: true });
+		}
 	}
 	render() {
 		const localeData = languages[this.props.languageState.currentLanguage];
