@@ -79,6 +79,14 @@ class TimerComponent extends React.Component<TimerProps, TimerState> {
 		}
 	}
 
+	componentDidUpdate() {
+		const logout = localStorage.getItem("logout");
+		if (logout === "true") {
+			this.setState({ idleModal: false });
+			localStorage.removeItem("logout");
+		}
+	}
+
 	loginPIN = () => {
 		const pin = `${this.state.pinOne},${this.state.pinTwo},${this.state.pinThree},${this.state.pinFour},${this.state.pinFive},${this.state.pinSix}`;
 		const cachedPin = atob(cookies.get("pin"));

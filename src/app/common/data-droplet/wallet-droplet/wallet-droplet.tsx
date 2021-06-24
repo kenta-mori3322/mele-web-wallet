@@ -273,6 +273,7 @@ class WalletDropletComponent extends React.Component<
 		cookies.remove("address");
 		cookies.remove("pin");
 		cookies.remove("mnemonic");
+		localStorage.setItem("logout", "true");
 	};
 
 	render() {
