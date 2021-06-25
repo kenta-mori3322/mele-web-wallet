@@ -84,6 +84,7 @@ class TimerComponent extends React.Component<TimerProps, TimerState> {
 		if (logout === "true") {
 			this.setState({ idleModal: false });
 			localStorage.removeItem("logout");
+			localStorage.removeItem("pinRequired");
 		}
 	}
 
