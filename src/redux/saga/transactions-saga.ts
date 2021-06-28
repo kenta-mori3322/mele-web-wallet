@@ -94,7 +94,6 @@ function* sendTransaction(action: ITransactionsReducerAction): SagaIterator {
 			action.denom,
 			action.amount,
 		);
-
 		return yield put({
 			type: TransactionsStateActionTypes.SEND_TRANSACTION_SUCCESS,
 		});

@@ -132,7 +132,7 @@ class TimerComponent extends React.Component<TimerProps, TimerState> {
 					ref={(ref: any) => {
 						this.idleTimer = ref;
 					}}
-					timeout={60000}
+					timeout={1800000}
 					onActive={this.handleOnActive}
 					onIdle={this.handleOnIdle}
 					onAction={this.handleOnAction}

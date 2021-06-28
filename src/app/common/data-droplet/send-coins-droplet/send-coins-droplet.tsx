@@ -55,7 +55,6 @@ class SendCoinsDropletComponent extends React.Component<
 
 	sendCoins = (localeData: any) => {
 		if (this.state.amount !== "" && this.state.recipient !== "") {
-			console.log(this.state.denom);
 			const amount =
 				this.state.denom === "melc"
 					? parseFloat(Utils.toUmelc(this.state.amount, this.state.denom))

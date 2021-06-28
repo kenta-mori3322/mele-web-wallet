@@ -34,7 +34,7 @@ class NavigationComponent extends React.Component<INavigationComponentProps> {
 
 	render() {
 		const localeData = languages[this.props.languageState.currentLanguage];
-		const wallet = this.props.walletState.loadedWallet;
+		const wallet = this.props.walletState.loadedWalletAddress;
 		return (
 			<div id="navigation">
 				<div className="top-button-container">

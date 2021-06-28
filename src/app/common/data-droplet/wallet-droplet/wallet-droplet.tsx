@@ -101,8 +101,8 @@ class WalletDropletComponent extends React.Component<
 	componentDidMount() {
 		const address = cookies.get("address") ? atob(cookies.get("address")) : "";
 		if (
-			this.props.walletState.loadedWallet === undefined ||
-			this.props.walletState.loadedWalletAddress === "" ||
+			this.props.walletState.loadedWallet === undefined &&
+			this.props.walletState.loadedWalletAddress === "" &&
 			address === undefined
 		) {
 			this.setState({ open: true });
@@ -162,25 +162,6 @@ class WalletDropletComponent extends React.Component<
 		this.setState({ mnemonic: this.generateMnemonic(), state: 1 });
 	};
 
-	// loginPIN = async () => {
-	// 	const pin = `${this.state.loginPinOne},${this.state.loginPinTwo},${this.state.loginPinThree},${this.state.loginPinFour},${this.state.loginPinFive},${this.state.loginPinSix}`;
-	// 	const cachedPin = cookies.get("pin");
-	// 	if (pin === cachedPin) {
-	// 		const address = cookies.get("address");
-	// 		const mnemonic = cookies.get("mnemonic");
-	// 		this.props.actionCreators.wallet.getWallet(mnemonic);
-	// 		this.props.actionCreators.transactions.searchTransactions(address);
-
-	// 		this.setState({
-	// 			state: 0,
-	// 			open: false,
-	// 			confirmError: false,
-	// 			updateWallet: false,
-	// 		});
-	// 		this.resetPIN();
-	// 	}
-	// };
-
 	checkPIN = async () => {
 		if (this.state.restore) {
 			const pin = `${this.state.pinOneConfirm},${this.state.pinTwoConfirm},${this.state.pinThreeConfirm},${this.state.pinFourConfirm},${this.state.pinFiveConfirm},${this.state.pinSixConfirm}`;
@@ -234,14 +215,6 @@ class WalletDropletComponent extends React.Component<
 	};
 
 	restoreWallet = async (mnemonic: string) => {
-		// await this.props.actionCreators.static.setMnemonicAndPin(
-		// 	mnemonic.replace(/,/g, " "),
-		// 	"",
-		// );
-		// await this.props.actionCreators.wallet.getWalletAddress(
-		// 	mnemonic.replace(/,/g, " "),
-		// );
-
 		this.setState({
 			state: 2,
 			confirmError: false,
