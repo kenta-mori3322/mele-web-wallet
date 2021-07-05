@@ -19,7 +19,7 @@
 			height: 43px;
 			background-size: 30px 30px;
 			border-radius: 10px !important;
-			background-image: url(../../../../public/images/wallet.png);
+			background-image: url(../../../../public/images/wallet.svg);
 			background-position: center;
 			background-repeat: no-repeat;
 		}
@@ -172,7 +172,7 @@
 					height: 43px;
 					background-size: 20px 25px;
 					border-radius: 10px !important;
-					background-image: url(../../../../public/images/Group1381.png);
+					background-image: url(../../../../public/images/Group1381.svg);
 					background-position: center;
 					background-repeat: no-repeat;
 					margin-top: 5%;
@@ -203,7 +203,7 @@
 					height: 43px;
 					background-size: 20px 20px;
 					border-radius: 10px !important;
-					background-image: url(../../../../public/images/upload-cloud.png);
+					background-image: url(../../../../public/images/upload-cloud.svg);
 					background-position: center;
 					background-repeat: no-repeat;
 					margin-top: 5%;
@@ -285,11 +285,18 @@
 			width: 83%;
 			margin-left: 8%;
 			margin-right: 8%;
+			color: white !important;
+			background: #0a27a8 0% 0% no-repeat padding-box !important;
+			input {
+				background: #0a27a8 0% 0% no-repeat padding-box !important;
+				color: white !important;
+			}
 		}
 
 		#importButton {
-			background: #013ec4 0% 0% no-repeat padding-box;
+			background: #f5bd2c 0% 0% no-repeat padding-box !important;
 			border-radius: 4px;
+			color: #053ec4 !important;
 			opacity: 1;
 			width: 80%;
 			margin: 5% auto;
