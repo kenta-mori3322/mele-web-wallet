@@ -13,6 +13,7 @@ import { PaginatedList } from "react-paginated-list";
 import { Utils } from "mele-sdk";
 import { WalletState } from "mele-web-wallet/redux/reducers/wallet-reducer";
 import { Timer } from "mele-web-wallet/app/common/utils/session-timer/session-timer";
+import { Redirect } from "react-router-dom";
 
 interface ITransactionsState {}
 
@@ -45,6 +46,14 @@ class TransactionsComponent extends React.Component<
 		const localeData = languages[this.props.languageState.currentLanguage];
 		const walletAddress = this.props.walletState.loadedWalletAddress;
 		const transactions = this.props.transactionsState.loadedTransactions;
+		//console.log(transactions)
+		if (walletAddress === undefined || walletAddress === "") {
+			return (
+				<Redirect
+					to={`/${this.props.languageState.currentLanguage}/dashboard`}
+				/>
+			);
+		}
 		return (
 			<div id="transactions-module">
 				<div id="transactions-title">{localeData.transactions.title}</div>
