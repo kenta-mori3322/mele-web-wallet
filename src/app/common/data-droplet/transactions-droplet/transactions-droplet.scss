@@ -4,18 +4,18 @@
 	flex-direction: column;
 	width: 100%;
 	min-height: 400px;
-	background-color: #f5f6fb;
+	background-color: white;
 
 	#transactions-content {
 		width: 100%;
 		display: flex;
 		margin: auto;
 		flex-direction: column;
-		background-color: white;
 		flex: 2;
 		margin-bottom: 5%;
 		border: 0.5px solid rgba(182, 184, 203, 0.4);
 		border-radius: 4px;
+		background-color: white;
 
 		#loadingTransactions {
 			width: 100%;
@@ -191,6 +191,7 @@
 			letter-spacing: -0.49px;
 			color: #013ec4;
 			opacity: 1;
+			padding-bottom: 5%;
 		}
 	}
 }
