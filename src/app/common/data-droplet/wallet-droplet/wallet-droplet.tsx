@@ -167,11 +167,17 @@ class WalletDropletComponent extends React.Component<
 			const pin = `${this.state.pinOneConfirm},${this.state.pinTwoConfirm},${this.state.pinThreeConfirm},${this.state.pinFourConfirm},${this.state.pinFiveConfirm},${this.state.pinSixConfirm}`;
 			if (this.state.pin === pin) {
 				await this.props.actionCreators.static.setMnemonicAndPin(
-					this.state.recoveryPhrase.replace(/,/g, " "),
+					this.state.recoveryPhrase
+						.replace(/[^a-zA-Z ]/g, "")
+						.replace(/,/g, " ")
+						.trim(),
 					pin,
 				);
 				await this.props.actionCreators.wallet.getWalletAddress(
-					this.state.recoveryPhrase.replace(/,/g, " "),
+					this.state.recoveryPhrase
+						.replace(/[^a-zA-Z ]/g, "")
+						.replace(/,/g, " ")
+						.trim(),
 				);
 
 				this.setState({
@@ -179,6 +185,7 @@ class WalletDropletComponent extends React.Component<
 					open: false,
 					confirmError: false,
 					updateWallet: true,
+					recoveryPhrase: "",
 				});
 				this.resetPIN();
 			} else {

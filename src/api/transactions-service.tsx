@@ -1,6 +1,6 @@
 import MainService from "./main-api-service";
 import Cookies from "universal-cookie";
-const { Mele, MnemonicSigner } = require("mele-sdk");
+const { Mele, MnemonicSigner, Utils } = require("mele-sdk");
 
 const sdk = new Mele({
 	nodeUrl: "http://3.126.68.149:26657/",
@@ -41,10 +41,11 @@ export default class TransactionsService extends MainService {
 			chainId: "devnet",
 			signer: new MnemonicSigner(mnemonic),
 		});
-		const response = await mele.bank
-			.transfer(address, [{ denom: denom, amount: amount }])
-			.sendTransaction();
-		console.log(response);
+		const response = Utils.promisify(
+			await mele.bank
+				.transfer(address, [{ denom: denom, amount: amount }])
+				.sendTransaction(),
+		);
 		return response;
 	};
 }
