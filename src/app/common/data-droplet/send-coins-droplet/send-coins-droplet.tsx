@@ -20,6 +20,14 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { StaticState } from "mele-web-wallet/redux/reducers/static-reducer";
 import { Utils } from "mele-sdk";
+import { css } from "@emotion/react";
+import ClipLoader from "react-spinners/ClipLoader";
+const override = css`
+	display: block;
+	margin-left: 300%;
+	margin-top: -80%;
+	z-index: 100;
+`;
 
 interface SendCoinsDropletProps extends React.HTMLAttributes<HTMLDivElement> {
 	languageState: LanguageState;
@@ -33,6 +41,7 @@ interface SendCoinsDropletState {
 	recipient: string;
 	amount: string;
 	denom: string;
+	loading: boolean;
 }
 
 const languages = {
@@ -50,6 +59,7 @@ class SendCoinsDropletComponent extends React.Component<
 			recipient: "",
 			amount: "",
 			denom: "melc",
+			loading: false,
 		};
 	}
 
@@ -110,6 +120,7 @@ class SendCoinsDropletComponent extends React.Component<
 					progress: undefined,
 				});
 			} else {
+				this.setState({ loading: true });
 				this.props.actionCreators.transactions.sendTransaction(
 					this.state.recipient,
 					`u${this.state.denom}`,
@@ -128,6 +139,7 @@ class SendCoinsDropletComponent extends React.Component<
 			this.props.transactionState.loadTransactionsStatus ===
 				LoadTransactionsStatus.SEND_SUCCESS
 		) {
+			this.setState({ loading: false });
 			toast.success(localeData.send.success, {
 				position: "top-right",
 				autoClose: 2000,
@@ -150,6 +162,7 @@ class SendCoinsDropletComponent extends React.Component<
 			this.props.transactionState.loadTransactionsStatus ===
 				LoadTransactionsStatus.SEND_ERROR
 		) {
+			this.setState({ loading: false });
 			toast.error(localeData.send.error, {
 				position: "top-right",
 				autoClose: 2000,
@@ -230,6 +243,12 @@ class SendCoinsDropletComponent extends React.Component<
 								maxLength="100"
 								type="text"
 							/>
+							<ClipLoader
+								color="black"
+								loading={this.state.loading}
+								css={override}
+								size={80}
+							/>
 						</div>
 					</div>
 					<div className="button-container">
@@ -239,6 +258,7 @@ class SendCoinsDropletComponent extends React.Component<
 						<StandardButton
 							className="send-button"
 							onClick={() => this.sendCoins(localeData)}
+							disabled={this.state.loading}
 						>
 							{localeData.send.send}
 						</StandardButton>
