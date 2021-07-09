@@ -14,6 +14,8 @@ import { MnemonicSigner, Utils } from "mele-sdk";
 import { WalletState } from "mele-web-wallet/redux/reducers/wallet-reducer";
 import Cookies from "universal-cookie";
 import { StaticState } from "mele-web-wallet/redux/reducers/static-reducer";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface WalletDropletProps extends React.HTMLAttributes<HTMLDivElement> {
 	languageState: LanguageState;
@@ -221,13 +223,30 @@ class WalletDropletComponent extends React.Component<
 		}
 	};
 
-	restoreWallet = async (mnemonic: string) => {
-		this.setState({
-			state: 2,
-			confirmError: false,
-			recoveryPhrase: mnemonic,
-			restore: true,
-		});
+	restoreWallet = async (mnemonic: string, localeData: any) => {
+		const mnemonicArray = mnemonic
+			.replace(/[^a-zA-Z ]/g, "")
+			.replace(/,/g, " ")
+			.trim()
+			.split(" ");
+		if (mnemonicArray.length >= 12) {
+			this.setState({
+				state: 2,
+				confirmError: false,
+				recoveryPhrase: mnemonic,
+				restore: true,
+			});
+		} else {
+			toast.error(localeData.wallet.wrongMnemonic, {
+				position: "top-right",
+				autoClose: 2000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+			});
+		}
 	};
 
 	componentDidUpdate(prevProps: any) {
@@ -262,6 +281,17 @@ class WalletDropletComponent extends React.Component<
 		const walletAddress = this.props.walletState.loadedWalletAddress;
 		return (
 			<BaseDroplet {...this.props} style={{ border: "none" }}>
+				<ToastContainer
+					position="top-right"
+					autoClose={5000}
+					hideProgressBar={false}
+					newestOnTop={false}
+					closeOnClick
+					rtl={false}
+					pauseOnFocusLoss
+					draggable
+					pauseOnHover
+				/>
 				{this.state.open ? (
 					<>
 						<div className="wallet-droplet-opened">
@@ -733,7 +763,10 @@ class WalletDropletComponent extends React.Component<
 										<StandardButton
 											id="importButton"
 											onClick={() =>
-												this.restoreWallet(this.state.recoveryPhrase)
+												this.restoreWallet(
+													this.state.recoveryPhrase,
+													localeData,
+												)
 											}
 										>
 											{localeData.wallet.import}

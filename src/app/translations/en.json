@@ -68,6 +68,7 @@
 		"logout": "Logout",
 		"login": "Login",
 		"insertPIN": "Insert your PIN to login",
-		"errorPIN": "Invalid PIN, please try again"
+		"errorPIN": "Invalid PIN, please try again",
+		"wrongMnemonic": "Your recovery phrase is wrong, please try again."
 	}
 }
