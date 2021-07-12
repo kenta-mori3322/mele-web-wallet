@@ -170,16 +170,20 @@ class WalletDropletComponent extends React.Component<
 			if (this.state.pin === pin) {
 				await this.props.actionCreators.static.setMnemonicAndPin(
 					this.state.recoveryPhrase
-						.replace(/[^a-zA-Z ]/g, "")
+						.replace(/[^,a-zA-Z ]/g, "")
 						.replace(/,/g, " ")
-						.trim(),
+						.replace(/  +/g, " ")
+						.trimEnd()
+						.trimStart(),
 					pin,
 				);
 				await this.props.actionCreators.wallet.getWalletAddress(
 					this.state.recoveryPhrase
-						.replace(/[^a-zA-Z ]/g, "")
+						.replace(/[^,a-zA-Z ]/g, "")
 						.replace(/,/g, " ")
-						.trim(),
+						.replace(/  +/g, " ")
+						.trimEnd()
+						.trimStart(),
 				);
 
 				this.setState({
@@ -225,9 +229,11 @@ class WalletDropletComponent extends React.Component<
 
 	restoreWallet = async (mnemonic: string, localeData: any) => {
 		const mnemonicArray = mnemonic
-			.replace(/[^a-zA-Z ]/g, "")
+			.replace(/[^,A-Za-z0-9]+/g, " ")
 			.replace(/,/g, " ")
+			.trimStart()
 			.trim()
+			.replace(/  +/g, " ")
 			.split(" ");
 		if (mnemonicArray.length >= 12) {
 			this.setState({

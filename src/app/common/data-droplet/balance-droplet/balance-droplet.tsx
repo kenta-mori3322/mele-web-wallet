@@ -53,6 +53,10 @@ class BalanceDropletComponent extends React.Component<BalanceDropletProps> {
 			meleCoinPrice = this.props.staticState.staticInfo.melecPrice;
 			priceOfGoldPerGram = this.props.staticState.staticInfo.priceOfGoldPerGram;
 			melgPerGramOfGold = this.props.staticState.staticInfo.melgPerGramOfGold;
+		} else {
+			meleCoinPrice = "370370000";
+			priceOfGoldPerGram = "61570000000";
+			melgPerGramOfGold = "10";
 		}
 
 		return (
