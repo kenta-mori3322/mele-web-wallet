@@ -115,6 +115,7 @@ class BalanceDropletComponent extends React.Component<BalanceDropletProps> {
 						<StandardButton
 							className="purchase-coins-button"
 							to={`/${this.props.languageState.currentLanguage}/purchase-coins`}
+							disabled
 						>
 							{localeData.dashboard.purchaseCoins}
 						</StandardButton>
