@@ -3,7 +3,7 @@ import axios, { AxiosRequestConfig, Method, AxiosResponse } from "axios";
 declare const global: {};
 
 const getUrl = () => {
-	return "http://18.192.179.29:3100/api/v1";
+	return "http://18.192.179.29/";
 };
 
 export const API_URL = getUrl();

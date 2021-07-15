@@ -3,9 +3,9 @@ import Cookies from "universal-cookie";
 const { Mele, MnemonicSigner, Utils } = require("mele-sdk");
 
 const sdk = new Mele({
-	nodeUrl: "http://3.126.68.149:26657/",
-	chainId: "devnet",
-	indexerEndpoint: "http://18.192.179.29:3100/api/v1",
+	nodeUrl: "http://18.158.228.202:26657/",
+	indexerEndpoint: "http://18.192.179.29/api/v1",
+	chainId: "testnet",
 });
 
 const cookies = new Cookies();
@@ -36,9 +36,9 @@ export default class TransactionsService extends MainService {
 	sendTransaction = async (address: string, denom: string, amount: string) => {
 		const mnemonic = atob(cookies.get("mnemonic"));
 		const mele = new Mele({
-			nodeUrl: "http://3.126.68.149:26657/",
-			indexerEndpoint: "http://18.192.179.29:3100/api/v1",
-			chainId: "devnet",
+			nodeUrl: "http://18.158.228.202:26657/",
+			indexerEndpoint: "http://18.192.179.29/api/v1",
+			chainId: "testnet",
 			signer: new MnemonicSigner(mnemonic),
 		});
 		const response = Utils.promisify(

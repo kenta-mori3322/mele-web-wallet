@@ -149,9 +149,9 @@ class TransactionsComponent extends React.Component<
 											<div className="transactions-list-td feeHeader">
 												{data.fee !== undefined
 													? `${Utils.fromUmelc(
-															data.fee.total_fee.substring(
+															data.fee.system_fee.substring(
 																0,
-																data.fee.total_fee.length - 5,
+																data.fee.system_fee.length - 5,
 															),
 															"melc",
 													  )} MELC`
