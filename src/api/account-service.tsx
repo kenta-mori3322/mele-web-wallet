@@ -6,10 +6,10 @@ const mnemonic =
 	"around fire birth cradle assault equal risk dune goat recycle torch hole control pluck cry math noble crystal language uncover leave ski dust answer";
 
 const sdk = new Mele({
-	nodeUrl: "http://3.126.68.149:26657/",
+	nodeUrl: "http://3.19.27.59:26657",
+	indexerEndpoint: "http://3.17.204.165:3100/api/v1",
 	chainId: "devnet",
 	signer: new MnemonicSigner(mnemonic),
-	indexerEndpoint: "http://18.192.179.29:3100/api/v1",
 });
 
 export interface ISearchAccountsParameter {
