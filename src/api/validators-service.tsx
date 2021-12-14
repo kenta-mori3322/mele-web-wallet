@@ -2,12 +2,12 @@ import MainService from "./main-api-service";
 const { Mele, MnemonicSigner, Utils } = require("mele-sdk");
 
 const sdk = new Mele({
-	nodeUrl: "http://3.126.68.149:26657/",
+	nodeUrl: "http://3.19.27.59:26657",
+	indexerEndpoint: "http://3.17.204.165:3100/api/v1",
 	chainId: "devnet",
 	signer: new MnemonicSigner(
 		"pet apart myth reflect stuff force attract taste caught fit exact ice slide sheriff state since unusual gaze practice course mesh magnet ozone purchase",
 	),
-	indexerEndpoint: "http://18.192.179.29:3100/api/v1",
 });
 
 export interface ISearchValidatorsParameter {
