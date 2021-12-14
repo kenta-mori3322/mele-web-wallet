@@ -3,9 +3,9 @@ import buildUrl from "build-url";
 const { Mele } = require("mele-sdk");
 
 const sdk = new Mele({
-	nodeUrl: "http://localhost:3000/",
+	nodeUrl: "http://3.19.27.59:26657",
+	indexerEndpoint: "http://3.17.204.165:3100/api/v1",
 	chainId: "test",
-	indexerEndpoint: "http://18.192.179.29:3100/api/v1",
 });
 
 export interface ISearchTransactionsParameter {
