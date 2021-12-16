@@ -5,7 +5,7 @@ const { Mele, MnemonicSigner, Utils } = require("mele-sdk");
 const sdk = new Mele({
 	nodeUrl: "http://3.19.27.59:26657",
 	indexerEndpoint: "http://3.17.204.165:3100/api/v1",
-	chainId: "testnet",
+	chainId: "test",
 });
 
 const cookies = new Cookies();
@@ -38,7 +38,7 @@ export default class TransactionsService extends MainService {
 		const mele = new Mele({
 			nodeUrl: "http://3.19.27.59:26657",
 			indexerEndpoint: "http://3.17.204.165:3100/api/v1",
-			chainId: "testnet",
+			chainId: "test",
 			signer: new MnemonicSigner(mnemonic),
 		});
 		const response = Utils.promisify(

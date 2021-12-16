@@ -24,7 +24,7 @@ export default class WalletService extends MainService {
 		const mele = new Mele({
 			nodeUrl: "http://3.19.27.59:26657",
 			indexerEndpoint: "http://3.17.204.165:3100/api/v1",
-			chainId: "testnet",
+			chainId: "test",
 			signer: new MnemonicSigner(p.mnemonic),
 		});
 		const wallet = await mele.query.getAccountInfo(
