@@ -17,7 +17,7 @@ export const staticSaga = function* handleMessage(params: any): SagaIterator {
 function* loadStatic(action: IStaticReducerAction): SagaIterator {
 	try {
 		const staticInfo = yield call(staticService.getStaticInfo);
-		const StaticInfo = yield call(staticService.getStaticNumbers);
+		/* const StaticInfo = yield call(staticService.getStaticNumbers); */
 
 		staticInfo.melecPrice = "370370000";
 		staticInfo.priceOfGoldPerGram = "61570000000";
@@ -25,7 +25,7 @@ function* loadStatic(action: IStaticReducerAction): SagaIterator {
 
 		return yield put({
 			type: StaticStateActionTypes.LOAD_STATIC_SUCCESS,
-			statisticsInfo: StaticInfo,
+			/* statisticsInfo: StaticInfo, */
 			staticInfo: staticInfo,
 		});
 	} catch (e) {

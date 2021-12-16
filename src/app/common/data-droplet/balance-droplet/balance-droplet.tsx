@@ -38,7 +38,6 @@ class BalanceDropletComponent extends React.Component<BalanceDropletProps> {
 
 	componentDidMount() {
 		this.props.actionCreators.static.searchStaticInfo();
-		this.props.actionCreators.static.searchStatistics();
 	}
 
 	render() {

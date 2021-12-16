@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, Method, AxiosResponse } from "axios";
 
 const getUrl = () => {
-	return "https://api.melechain.com";
+	return " https://api.dev1.melechain.com";
 };
 
 export const API_URL = getUrl();
@@ -21,11 +21,11 @@ export default class StaticService {
 			path: `/meta`,
 		});
 	};
-	getStaticNumbers = async () => {
+	/* 	getStaticNumbers = async () => {
 		return await this.get({
 			path: `/transaction?statistics`,
 		});
-	};
+	}; */
 
 	protected request = async (p: ServiceRequestParam): Promise<any> => {
 		const defaultHeaders: any = {

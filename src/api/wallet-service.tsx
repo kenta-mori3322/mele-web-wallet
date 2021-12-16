@@ -30,6 +30,7 @@ export default class WalletService extends MainService {
 		const wallet = await mele.query.getAccountInfo(
 			atob(cookies.get("address")),
 		);
+		console.log(wallet);
 		return wallet;
 	};
 }
