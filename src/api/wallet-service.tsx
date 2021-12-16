@@ -20,17 +20,17 @@ export default class WalletService extends MainService {
 	};
 
 	getWallet = async (p: ISearchWalletParameter) => {
+		const cookies = new Cookies();
 		const mele = new Mele({
 			nodeUrl: "http://3.19.27.59:26657",
 			indexerEndpoint: "http://3.17.204.165:3100/api/v1",
 			chainId: "testnet",
 			signer: new MnemonicSigner(p.mnemonic),
 		});
-		const cookies = new Cookies();
 		const wallet = await mele.query.getAccountInfo(
 			atob(cookies.get("address")),
 		);
-		console.log(wallet);
+		console.log(atob(cookies.get("address")));
 		return wallet;
 	};
 }
