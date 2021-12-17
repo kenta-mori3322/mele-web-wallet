@@ -135,16 +135,22 @@ class TransactionsComponent extends React.Component<
 												</div>
 											</div>
 											<div className="transactions-list-td senderCell">
-												{data.msgs[0].data.sender.substring(0, 15)}...
-												{data.msgs[0].data.sender.substr(
-													data.msgs[0].data.sender.length - 5,
-												)}
+												{data.msgs[0].data.sender !== undefined &&
+													data.msgs[0].data.sender.substring(0, 15)}
+												...
+												{data.msgs[0].data.sender !== undefined &&
+													data.msgs[0].data.sender.substr(
+														data.msgs[0].data.sender.length - 5,
+													)}
 											</div>
 											<div className="transactions-list-td recipientHeader">
-												{data.msgs[0].data.recipient.substring(0, 15)}...
-												{data.msgs[0].data.recipient.substr(
-													data.msgs[0].data.recipient.length - 5,
-												)}
+												{data.msgs[0].data.recipient !== undefined &&
+													data.msgs[0].data.recipient.substring(0, 15)}
+												...
+												{data.msgs[0].data.recipient !== undefined &&
+													data.msgs[0].data.recipient.substr(
+														data.msgs[0].data.recipient.length - 5,
+													)}
 											</div>
 											<div className="transactions-list-td feeHeader">
 												{data.fee !== undefined
