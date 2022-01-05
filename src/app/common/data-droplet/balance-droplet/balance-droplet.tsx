@@ -87,7 +87,7 @@ class BalanceDropletComponent extends React.Component<BalanceDropletProps> {
 								</div>
 								<div className="mele-display-notions">
 									<div className="mele-notions">
-										<div className={"coin-name mele-coin"}>MELC</div>
+										<div className={"coin-name mele-coin"}>MELX</div>
 										<div className="coin-rate">
 											${MeleCalculator.getMelCPrice(meleCoinPrice)}
 										</div>

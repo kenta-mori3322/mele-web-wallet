@@ -182,7 +182,7 @@ class SendCoinsDropletComponent extends React.Component<
 		const wallet = this.props.walletState.loadedWalletAddress;
 		const localeData = languages[this.props.languageState.currentLanguage];
 		const coins: { key: string; text: string; value: string }[] = [
-			{ key: "melc", text: "MELC", value: "melc" },
+			{ key: "melc", text: "MELX", value: "melc" },
 			{ key: "melg", text: "MELG", value: "melg" },
 		];
 		return (

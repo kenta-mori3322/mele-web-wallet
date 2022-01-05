@@ -110,7 +110,7 @@ class TransactionsComponent extends React.Component<
 																data.msgs[0].data.amount.length - 5,
 															),
 															"melc",
-													  )} MELC`
+													  )} MELX`
 													: `${Utils.fromUmelg(
 															data.msgs[0].data.amount.substring(
 																0,
@@ -160,7 +160,7 @@ class TransactionsComponent extends React.Component<
 																data.fee.system_fee.length - 5,
 															),
 															"melc",
-													  )} MELC`
+													  )} MELX`
 													: ""}
 											</div>
 										</div>

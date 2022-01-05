@@ -82,7 +82,7 @@ class CalculatorComponent extends React.Component<CalculatorProps> {
 										: "coin-name mele-coin"
 								}
 							>
-								MELC
+								MELX
 							</div>
 							<div className="coin-rate">
 								${MeleCalculator.getMelCPrice(meleCoinPrice)}
