@@ -22,9 +22,9 @@ export default class WalletService extends MainService {
 	getWallet = async (p: ISearchWalletParameter) => {
 		const cookies = new Cookies();
 		const mele = new Mele({
-			nodeUrl: "http://18.198.187.57:26657",
-			indexerEndpoint: "http://18.195.116.23:3100/api/v1",
-			chainId: "test",
+			nodeUrl: "http://3.19.27.59:26657",
+			indexerEndpoint: "http://3.17.204.165:3100/api/v1",
+			chainId: "devnet",
 			signer: new MnemonicSigner(p.mnemonic),
 		});
 		const wallet = await mele.query.getAccountInfo(
