@@ -120,7 +120,7 @@ class TransactionsComponent extends React.Component<
 												"melg",
 											),
 										).toFixed(2);
-										correctAmount = `${melx} MELX / ${melg} MELG`;
+										correctAmount = `${melx} MELX \n${melg} MELG`;
 									} else {
 										correctAmount =
 											denom === "umelc"
