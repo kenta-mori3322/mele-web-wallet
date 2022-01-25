@@ -90,22 +90,29 @@ class TransactionsDropletComponent extends React.Component<TransactionsDropletPr
 									const denom = data.msgs[0].data.amount.substr(
 										data.msgs[0].data.amount.length - 5,
 									);
+									const amount =
+											data.msgs[0] !== undefined &&
+											data.msgs[0].data !== undefined
+												? data.msgs[0].data.amount
+												: "";
+									const correctAmount =
+											amount !== undefined
+												? amount.includes(",")
+													? amount
+															.substring(amount.indexOf(",") + 1)
+															.slice(0, -5)
+													: amount.slice(0, -5)
+												: "0";
 									return (
 										<div key={id} className="transactions-list-tr">
 											<div className="transactions-list-td amountCell">
 												{denom === "umelc"
 													? `${Utils.fromUmelc(
-															data.msgs[0].data.amount.substring(
-																0,
-																data.msgs[0].data.amount.length - 5,
-															),
+															correctAmount,
 															"melc",
 													  )} MELX`
 													: `${Utils.fromUmelg(
-															data.msgs[0].data.amount.substring(
-																0,
-																data.msgs[0].data.amount.length - 5,
-															),
+															correctAmount,
 															"melg",
 													  )} MELG`}
 											</div>
