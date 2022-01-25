@@ -108,23 +108,28 @@ class TransactionsComponent extends React.Component<
 									let correctAmount = "";
 									if (amount.includes(",")) {
 										//MELX and MELG
-										let melx = Utils.fromUmelc(
-											amount.split(",")[0].slice(0, -5),
-											"melc",
-										);
-										let melg = Utils.fromUmelg(
-											amount.substring(amount.indexOf(",") + 1).slice(0, -5),
-											"melg",
-										);
+										let melx = parseFloat(
+											Utils.fromUmelc(
+												amount.split(",")[0].slice(0, -5),
+												"melc",
+											),
+										).toFixed(2);
+										let melg = parseFloat(
+											Utils.fromUmelg(
+												amount.substring(amount.indexOf(",") + 1).slice(0, -5),
+												"melg",
+											),
+										).toFixed(2);
 										correctAmount = `${melx} MELX / ${melg} MELG`;
 									} else {
 										correctAmount =
 											denom === "umelc"
-												? `${Utils.fromUmelc(amount.slice(0, -5), "melc")} MELX`
-												: `${Utils.fromUmelg(
-														amount.slice(0, -5),
-														"melg",
-												  )} MELG`;
+												? `${parseFloat(
+														Utils.fromUmelc(amount.slice(0, -5), "melc"),
+												  ).toFixed(2)} MELX`
+												: `${parseFloat(
+														Utils.fromUmelg(amount.slice(0, -5), "melg"),
+												  ).toFixed(2)} MELG`;
 									}
 
 									return (
