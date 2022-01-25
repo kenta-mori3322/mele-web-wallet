@@ -44,6 +44,7 @@ class BalanceDropletComponent extends React.Component<BalanceDropletProps> {
 		const walletAddress = this.props.walletState.loadedWalletAddress;
 		const wallet = this.props.walletState.loadedWallet;
 		const localeData = languages[this.props.languageState.currentLanguage];
+
 		let meleCoinPrice = "0";
 		let priceOfGoldPerGram = "1";
 		let melgPerGramOfGold = "1";
@@ -76,11 +77,21 @@ class BalanceDropletComponent extends React.Component<BalanceDropletProps> {
 											{wallet !== undefined &&
 											wallet.value.coins[0] !== undefined &&
 											wallet.value.coins[0].denom === "umelc"
-												? Utils.fromUmelc(wallet.value.coins[0].amount, "melc")
+												? parseFloat(
+														Utils.fromUmelc(
+															wallet.value.coins[0].amount,
+															"melc",
+														),
+												  ).toFixed(8)
 												: wallet !== undefined &&
 												  wallet.value.coins[1] !== undefined &&
 												  wallet.value.coins[1].denom === "umelc"
-												? Utils.fromUmelc(wallet.value.coins[1].amount, "melc")
+												? parseFloat(
+														Utils.fromUmelc(
+															wallet.value.coins[1].amount,
+															"melc",
+														),
+												  ).toFixed(8)
 												: "0"}
 										</div>
 									</div>

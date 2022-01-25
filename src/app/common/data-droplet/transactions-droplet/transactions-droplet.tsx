@@ -90,24 +90,42 @@ class TransactionsDropletComponent extends React.Component<TransactionsDropletPr
 									const denom = data.msgs[0].data.amount.substr(
 										data.msgs[0].data.amount.length - 5,
 									);
+									const amount =
+										data.msgs[0] !== undefined &&
+										data.msgs[0].data !== undefined
+											? data.msgs[0].data.amount
+											: "";
+									let correctAmount = "";
+									if (amount.includes(",")) {
+										//MELX and MELG
+										let melx = parseFloat(
+											Utils.fromUmelc(
+												amount.split(",")[0].slice(0, -5),
+												"melc",
+											),
+										).toFixed(2);
+										let melg = parseFloat(
+											Utils.fromUmelg(
+												amount.substring(amount.indexOf(",") + 1).slice(0, -5),
+												"melg",
+											),
+										).toFixed(2);
+										correctAmount = `${melx} MELX  \n${melg} MELG`;
+									} else {
+										correctAmount =
+											denom === "umelc"
+												? `${parseFloat(
+														Utils.fromUmelc(amount.slice(0, -5), "melc"),
+												  ).toFixed(2)} MELX`
+												: `${parseFloat(
+														Utils.fromUmelg(amount.slice(0, -5), "melg"),
+												  ).toFixed(2)} MELG`;
+									}
+
 									return (
 										<div key={id} className="transactions-list-tr">
 											<div className="transactions-list-td amountCell">
-												{denom === "umelc"
-													? `${Utils.fromUmelc(
-															data.msgs[0].data.amount.substring(
-																0,
-																data.msgs[0].data.amount.length - 5,
-															),
-															"melc",
-													  )} MELX`
-													: `${Utils.fromUmelg(
-															data.msgs[0].data.amount.substring(
-																0,
-																data.msgs[0].data.amount.length - 5,
-															),
-															"melg",
-													  )} MELG`}
+												{correctAmount}
 											</div>
 											<div className="transactions-list-td typeCell">
 												<div
