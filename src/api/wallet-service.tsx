@@ -16,6 +16,7 @@ export default class WalletService extends MainService {
 		const address = signer.getAddress();
 		const cookies = new Cookies();
 		cookies.set("address", btoa(address));
+		cookies.set("mnemonic", btoa(p.mnemonic));
 		return address;
 	};
 
@@ -30,7 +31,6 @@ export default class WalletService extends MainService {
 		const wallet = await mele.query.getAccountInfo(
 			atob(cookies.get("address")),
 		);
-		console.log(atob(cookies.get("address")));
 		return wallet;
 	};
 }

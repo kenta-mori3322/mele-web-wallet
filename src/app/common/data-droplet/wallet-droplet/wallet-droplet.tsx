@@ -102,6 +102,9 @@ class WalletDropletComponent extends React.Component<
 
 	componentDidMount() {
 		const address = cookies.get("address") ? atob(cookies.get("address")) : "";
+		const mnemonic = cookies.get("mnemonic")
+			? atob(cookies.get("mnemonic"))
+			: "";
 		if (
 			this.props.walletState.loadedWallet === undefined &&
 			this.props.walletState.loadedWalletAddress === "" &&
@@ -116,6 +119,11 @@ class WalletDropletComponent extends React.Component<
 			address !== ""
 		) {
 			this.setState({ state: 0 });
+		}
+
+		if (mnemonic !== "" && address !== "") {
+			this.props.actionCreators.wallet.getWallet(mnemonic);
+			this.props.actionCreators.transactions.searchTransactions(address);
 		}
 	}
 
