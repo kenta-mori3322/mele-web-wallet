@@ -1,11 +1,12 @@
 import MainService from "./main-api-service";
 import Cookies from "universal-cookie";
 const { Mele, MnemonicSigner, Utils } = require("mele-sdk");
+require("dotenv").config();
 
 const sdk = new Mele({
-	nodeUrl: "http://3.19.27.59:26657",
-	indexerEndpoint: "http://3.17.204.165:3100/api/v1",
-	chainId: "devnet",
+	nodeUrl: process.env.REACT_APP_DEV_NODE_URL,
+	indexerEndpoint: process.env.REACT_APP_DEV_INDEXER_ENDPOINT,
+	chainId: process.env.REACT_APP_DEV_CHAINID,
 });
 
 const cookies = new Cookies();
@@ -36,9 +37,9 @@ export default class TransactionsService extends MainService {
 	sendTransaction = async (address: string, denom: string, amount: string) => {
 		const mnemonic = atob(cookies.get("mnemonic"));
 		const mele = new Mele({
-			nodeUrl: "http://3.19.27.59:26657",
-			indexerEndpoint: "http://3.17.204.165:3100/api/v1",
-			chainId: "devnet",
+			nodeUrl: process.env.REACT_APP_DEV_NODE_URL,
+			indexerEndpoint: process.env.REACT_APP_DEV_INDEXER_ENDPOINT,
+			chainId: process.env.REACT_APP_DEV_CHAINID,
 			signer: new MnemonicSigner(mnemonic),
 		});
 		const response = Utils.promisify(

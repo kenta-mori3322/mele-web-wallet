@@ -1,9 +1,10 @@
 import axios, { AxiosRequestConfig, Method, AxiosResponse } from "axios";
+require("dotenv").config();
 
 declare const global: {};
 
 const getUrl = () => {
-	return "http://18.192.179.29/";
+	return process.env.REACT_APP_DEV_INDEXER_ENDPOINT;
 };
 
 export const API_URL = getUrl();

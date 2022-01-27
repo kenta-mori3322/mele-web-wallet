@@ -1,6 +1,7 @@
 import MainService from "./main-api-service";
 import Cookies from "universal-cookie";
 const { MnemonicSigner, Mele } = require("mele-sdk");
+require("dotenv").config();
 
 export interface ISearchWalletParameter {
 	mnemonic: string;
@@ -23,9 +24,9 @@ export default class WalletService extends MainService {
 	getWallet = async (p: ISearchWalletParameter) => {
 		const cookies = new Cookies();
 		const mele = new Mele({
-			nodeUrl: "http://3.19.27.59:26657",
-			indexerEndpoint: "http://3.17.204.165:3100/api/v1",
-			chainId: "devnet",
+			nodeUrl: process.env.REACT_APP_DEV_NODE_URL,
+			indexerEndpoint: process.env.REACT_APP_DEV_INDEXER_ENDPOINT,
+			chainId: process.env.REACT_APP_DEV_CHAINID,
 			signer: new MnemonicSigner(p.mnemonic),
 		});
 		const wallet = await mele.query.getAccountInfo(
