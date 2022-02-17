@@ -24,9 +24,9 @@ export default class WalletService extends MainService {
 	getWallet = async (p: ISearchWalletParameter) => {
 		const cookies = new Cookies();
 		const mele = new Mele({
-			nodeUrl: process.env.REACT_APP_DEV_NODE_URL,
-			indexerEndpoint: process.env.REACT_APP_DEV_INDEXER_ENDPOINT,
-			chainId: process.env.REACT_APP_DEV_CHAINID,
+			nodeUrl: process.env.REACT_APP_MAIN_NODE_URL,
+			indexerEndpoint: process.env.REACT_APP_MAIN_INDEXER_ENDPOINT,
+			chainId: process.env.REACT_APP_MAIN_CHAINID,
 			signer: new MnemonicSigner(p.mnemonic),
 		});
 		const wallet = await mele.query.getAccountInfo(

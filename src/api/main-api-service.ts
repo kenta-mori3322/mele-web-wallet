@@ -4,7 +4,7 @@ require("dotenv").config();
 declare const global: {};
 
 const getUrl = () => {
-	return process.env.REACT_APP_DEV_INDEXER_ENDPOINT;
+	return process.env.REACT_APP_MAIN_INDEXER_ENDPOINT;
 };
 
 export const API_URL = getUrl();
