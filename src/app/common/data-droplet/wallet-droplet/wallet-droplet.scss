@@ -19,7 +19,7 @@
 			height: 43px;
 			background-size: 30px 30px;
 			border-radius: 10px !important;
-			background-image: url(../../../../public/images/wallet.png);
+			background-image: url(../../../../public/images/wallet.svg);
 			background-position: center;
 			background-repeat: no-repeat;
 		}
@@ -38,8 +38,8 @@
 				font: normal normal normal 12px/16px Circular Std Book;
 				letter-spacing: 0px;
 				color: #101654;
-				opacity: 0.43;
-				margin-bottom: 2%;
+				opacity: 1;
+				margin-top: 7%;
 			}
 		}
 		#wallet-arrow {
@@ -81,7 +81,7 @@
 			height: 43px;
 			background-size: 30px 30px;
 			border-radius: 10px !important;
-			background-image: url(../../../../public/images/wallet.png);
+			background-image: url(../../../../public/images/wallet.svg);
 			background-position: center;
 			background-repeat: no-repeat;
 		}
@@ -100,8 +100,8 @@
 				font: normal normal normal 12px/16px Circular Std Book;
 				letter-spacing: 0px;
 				color: #101654;
-				opacity: 0.43;
-				margin-bottom: 2%;
+				opacity: 1;
+				margin-top: 7%;
 			}
 		}
 		#wallet-arrow {
@@ -119,7 +119,7 @@
 	}
 
 	#wallet-creation-container {
-		background: #ffffff 0% 0% no-repeat padding-box;
+		background: #053ec4 0% 0% no-repeat padding-box;
 		box-shadow: 0px 3px 6px #00000029;
 		border: 0.5px solid #0e11312b;
 		border-radius: 4px;
@@ -132,7 +132,7 @@
 			text-align: left;
 			font: normal normal normal 18px/26px Circular Std Bold;
 			letter-spacing: -0.63px;
-			color: #101654;
+			color: white;
 			opacity: 1;
 			margin-left: 8%;
 			margin-top: 5%;
@@ -141,7 +141,7 @@
 			text-align: left;
 			font: normal normal normal 14px/20px Circular Std Book;
 			letter-spacing: -0.49px;
-			color: #2d376b;
+			color: white;
 			opacity: 0.8;
 			margin: 0 8% 5% 8%;
 		}
@@ -155,14 +155,14 @@
 				cursor: pointer;
 				display: grid;
 				grid-template-rows: 50% 50%;
-				background: #013ec4 0% 0% no-repeat padding-box;
+				background: #f5bd2c 0% 0% no-repeat padding-box !important;
 				border: 0.5px solid #0e11312b;
 				border-radius: 4px;
 				opacity: 1;
 				text-align: left;
 				font: normal normal normal 14px/20px Circular Std Book;
 				letter-spacing: -0.49px;
-				color: #ffffff;
+				color: #053ec4;
 				opacity: 1;
 				margin-right: 2.5%;
 
@@ -170,9 +170,9 @@
 					grid-row: 1;
 					width: 50px;
 					height: 43px;
-					background-size: 30px 30px;
+					background-size: 20px 25px;
 					border-radius: 10px !important;
-					background-image: url(../../../../public/images/wallet.png);
+					background-image: url(../../../../public/images/Group1381.svg);
 					background-position: center;
 					background-repeat: no-repeat;
 					margin-top: 5%;
@@ -187,23 +187,23 @@
 				margin-left: 2.5%;
 				display: grid;
 				grid-template-rows: 50% 50%;
-				background: #ffffff 0% 0% no-repeat padding-box;
+				background: #053ec4 0% 0% no-repeat padding-box !important;
 				border: 0.5px solid #0e11312b;
 				border-radius: 4px;
 				opacity: 1;
 				text-align: left;
 				font: normal normal normal 14px/20px Circular Std Book;
 				letter-spacing: -0.49px;
-				color: #013ec4;
+				color: white;
 				opacity: 1;
 
 				#importIcon {
 					grid-row: 1;
 					width: 50px;
 					height: 43px;
-					background-size: 30px 30px;
+					background-size: 20px 20px;
 					border-radius: 10px !important;
-					background-image: url(../../../../public/images/wallet.png);
+					background-image: url(../../../../public/images/upload-cloud.svg);
 					background-position: center;
 					background-repeat: no-repeat;
 					margin-top: 5%;
@@ -216,34 +216,36 @@
 		}
 
 		#wallet-creation-mnemonic-container {
-			background: #dde5ed 0% 0% no-repeat padding-box;
+			background: #0329af 0% 0% no-repeat padding-box !important;
 			margin: 8%;
 			border-radius: 4px;
 			opacity: 1;
 			text-align: left;
 			font: normal normal normal 14px/20px Circular Std Book;
 			letter-spacing: -0.49px;
-			color: #2d376b;
-			opacity: 1;
+			color: #ffffff;
 			display: grid;
 			grid-template-columns: repeat(2, 50%);
 			grid-template-rows: repeat(12, 8.3%);
+			column-gap: 5%;
+			row-gap: 7%;
 
 			.mnemonic-cell {
 				margin: 5% 25%;
+				margin-top: 15%;
 			}
 		}
 
 		#copyButton {
-			border: 0.5px solid #101654;
+			border: 0.5px solid #ffffff !important;
 			border-radius: 4px;
 			opacity: 1;
 			text-align: left;
 			font: normal normal normal 12px/16px Circular Std Bold;
 			letter-spacing: 0px;
-			color: #101654 !important;
+			color: white !important;
 			opacity: 1;
-			background-color: white !important;
+			background-color: #053ec4 !important;
 			width: 83%;
 			margin-left: auto;
 			margin-right: auto;
@@ -268,13 +270,13 @@
 			margin-left: auto;
 			margin-right: auto;
 			margin-bottom: 5%;
-			background: #013ec4 0% 0% no-repeat padding-box;
-			border-radius: 4px;
+			color: #053ec4 !important;
 			opacity: 1;
+			background: #f5bd2c 0% 0% no-repeat padding-box !important;
+			border-radius: 4px;
 			text-align: left;
 			font: normal normal normal 12px/16px Circular Std Bold;
 			letter-spacing: 0px;
-			color: #ffffff;
 			opacity: 1;
 		}
 
@@ -283,19 +285,55 @@
 			width: 83%;
 			margin-left: 8%;
 			margin-right: 8%;
+			color: white !important;
+			background: #0a27a8 0% 0% no-repeat padding-box !important;
+			input {
+				background: #0a27a8 0% 0% no-repeat padding-box !important;
+				color: white !important;
+			}
 		}
 
 		#importButton {
-			background: #013ec4 0% 0% no-repeat padding-box;
+			background: #f5bd2c 0% 0% no-repeat padding-box !important;
 			border-radius: 4px;
+			color: #053ec4 !important;
 			opacity: 1;
 			width: 80%;
 			margin: 5% auto;
 		}
 	}
 
+	#wallet-creation-buttons-logout-container {
+		display: grid;
+		grid-template-columns: 50% 50%;
+		margin: 0 8% 5% 8%;
+		height: fit-content;
+		align-content: center;
+
+		#wallet-pin-subtitle-address {
+			width: 205%;
+			font: normal normal normal 12px/16px Circular Std Book;
+			letter-spacing: 0px;
+			color: white;
+			margin-top: 7%;
+			overflow-wrap: break-word;
+		}
+
+		#logoutButton {
+			background: #f5bd2c 0% 0% no-repeat padding-box !important;
+			border-radius: 4px;
+			opacity: 1;
+			width: 100%;
+			margin: 0 auto;
+			margin-top: 5%;
+			grid-column: span 2;
+			align-self: center;
+			color: #053ec4 !important;
+		}
+	}
+
 	#wallet-pin-container {
-		background: #ffffff 0% 0% no-repeat padding-box;
+		background: #053ec4 0% 0% no-repeat padding-box;
 		box-shadow: 0px 3px 6px #00000029;
 		border: 0.5px solid #0e11312b;
 		border-radius: 4px;
@@ -305,11 +343,20 @@
 		left: 50px;
 		z-index: 99;
 		width: 97.5%;
+
+		.login-field {
+			background: #0329af 0% 0% no-repeat padding-box !important;
+			color: white;
+			input {
+				background: #0329af 0% 0% no-repeat padding-box !important;
+				color: white;
+			}
+		}
 		#wallet-pin-title {
 			text-align: left;
 			font: normal normal normal 18px/26px Circular Std Bold;
 			letter-spacing: -0.63px;
-			color: #101654;
+			color: white;
 			opacity: 1;
 			margin-left: 8%;
 			margin-top: 5%;
@@ -318,7 +365,16 @@
 			text-align: left;
 			font: normal normal normal 14px/20px Circular Std Book;
 			letter-spacing: -0.49px;
-			color: #2d376b;
+			color: white;
+			opacity: 0.8;
+			margin: 0 8% 5% 8%;
+		}
+
+		#wallet-pin-subtitle-error {
+			text-align: left;
+			font: normal normal normal 14px/20px Circular Std Book;
+			letter-spacing: -0.49px;
+			color: darkred;
 			opacity: 0.8;
 			margin: 0 8% 5% 8%;
 		}
@@ -412,11 +468,150 @@
 		}
 
 		#finishButton {
-			background: #013ec4 0% 0% no-repeat padding-box;
+			background: #f5bd2c 0% 0% no-repeat padding-box !important;
 			border-radius: 4px;
 			opacity: 1;
 			width: 80%;
 			margin: 5% auto;
+			color: #053ec4 !important;
+		}
+	}
+
+	#wallet-pin-container-login {
+		background: #053ec4 0% 0% no-repeat padding-box;
+		box-shadow: 0px 3px 6px #00000029;
+		border: 0.5px solid #0e11312b;
+		border-radius: 4px;
+		opacity: 1;
+		position: relative;
+		top: 10px;
+		left: 50px;
+		z-index: 99;
+		width: 97.5%;
+		overflow: auto; /* Enable scroll if needed */
+
+		#wallet-pin-title {
+			text-align: left;
+			font: normal normal normal 18px/26px Circular Std Bold;
+			letter-spacing: -0.63px;
+			color: white;
+			opacity: 1;
+			margin-left: 8%;
+			margin-top: 5%;
+		}
+		#wallet-pin-subtitle {
+			text-align: left;
+			font: normal normal normal 14px/20px Circular Std Book;
+			letter-spacing: -0.49px;
+			color: white;
+			opacity: 0.8;
+			margin: 0 8% 5% 8%;
+		}
+
+		#wallet-pin-subtitle-error {
+			text-align: left;
+			font: normal normal normal 14px/20px Circular Std Book;
+			letter-spacing: -0.49px;
+			color: darkred;
+			opacity: 0.8;
+			margin: 0 8% 5% 8%;
+		}
+
+		#copyButton {
+			border: 0.5px solid #101654;
+			border-radius: 4px;
+			opacity: 1;
+			text-align: left;
+			font: normal normal normal 12px/16px Circular Std Bold;
+			letter-spacing: 0px;
+			color: #101654 !important;
+			opacity: 1;
+			background-color: white !important;
+			width: 83%;
+			margin-left: auto;
+			margin-right: auto;
+			margin-bottom: 5%;
+		}
+		#copiedButton {
+			border-radius: 4px;
+			opacity: 1;
+			text-align: left;
+			font: normal normal normal 12px/16px Circular Std Bold;
+			letter-spacing: 0px;
+			color: #101654 !important;
+			opacity: 1;
+			background: #80ffcb 0% 0% no-repeat padding-box !important;
+			width: 83%;
+			margin-left: auto;
+			margin-right: auto;
+			margin-bottom: 5%;
+		}
+		#savedButton {
+			width: 83%;
+			margin-left: auto;
+			margin-right: auto;
+			margin-bottom: 5%;
+			background: #013ec4 0% 0% no-repeat padding-box;
+			border-radius: 4px;
+			opacity: 1;
+			text-align: left;
+			font: normal normal normal 12px/16px Circular Std Bold;
+			letter-spacing: 0px;
+			color: #ffffff;
+			opacity: 1;
+		}
+
+		#pinContainer {
+			display: grid;
+			grid-template-columns: repeat(6, 16.7%);
+			margin-left: 5.5%;
+			margin-right: 9%;
+			column-gap: 1%;
+			margin-bottom: 10%;
+
+			.form-field {
+				height: 130% !important;
+			}
+
+			#pinOne {
+				grid-column: 1;
+				height: 20%;
+				width: 10px;
+			}
+			#pinTwo {
+				grid-column: 2;
+				height: 8%;
+				width: 10px;
+			}
+			#pinThree {
+				grid-column: 3;
+				height: 8%;
+				width: 10px;
+			}
+			#pinFour {
+				grid-column: 4;
+				height: 8%;
+				width: 10px;
+			}
+			#pinFive {
+				grid-column: 5;
+				height: 8%;
+				width: 10px;
+			}
+			#pinSix {
+				grid-column: 6;
+				height: 8%;
+				width: 10px;
+			}
+		}
+
+		#finishButton {
+			background: #f5bd2c 0% 0% no-repeat padding-box !important;
+			border-radius: 4px;
+			opacity: 1;
+			width: 80%;
+			margin: 5% auto;
+			color: #053ec4 !important;
 		}
 	}
 }

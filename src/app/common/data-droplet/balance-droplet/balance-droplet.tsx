@@ -2,18 +2,25 @@ import "./balance-droplet.scss";
 import * as React from "react";
 import { BaseDroplet } from "mele-web-wallet/app/common/data-droplet/base-droplet/base-droplet";
 import { connect } from "react-redux";
-import { mapDispatchToProps } from "mele-web-wallet/redux/methods/map-dispatch-to-props";
+import {
+	IActionCreators,
+	mapDispatchToProps,
+} from "mele-web-wallet/redux/methods/map-dispatch-to-props";
 import ApplicationState from "mele-web-wallet/redux/application-state";
 import { LanguageState } from "mele-web-wallet/redux/reducers/language-reducer";
-import { StatisticsState } from "mele-web-wallet/redux/reducers/statistics-reducer";
 import { MeleCalculator } from "mele-web-wallet/app/common/calculator/mele-calculator";
 import { Calculator } from "mele-web-wallet/app/common/calculator/calculator";
 import { StandardButton } from "mele-web-wallet/app/common/buttons/standard-button";
 import { CalculatorExplanationWindow } from "mele-web-wallet/app/common/calculator/calculator-explanation-window";
+import { WalletState } from "./../../../../redux/reducers/wallet-reducer";
+import { StaticState } from "mele-web-wallet/redux/reducers/static-reducer";
+import { Utils } from "mele-sdk";
 
 interface BalanceDropletProps extends React.HTMLAttributes<HTMLDivElement> {
 	languageState: LanguageState;
-	cents: string;
+	walletState: WalletState;
+	staticState: StaticState;
+	actionCreators: IActionCreators;
 }
 
 const languages = {
@@ -29,39 +36,96 @@ class BalanceDropletComponent extends React.Component<BalanceDropletProps> {
 		};
 	}
 
+	componentDidMount() {
+		this.props.actionCreators.static.searchStaticInfo();
+	}
+
 	render() {
-		const isLogged = false;
-		let totalUSD = MeleCalculator.centsToUSDFormatted(this.props.cents);
+		const walletAddress = this.props.walletState.loadedWalletAddress;
+		const wallet = this.props.walletState.loadedWallet;
 		const localeData = languages[this.props.languageState.currentLanguage];
+
+		let meleCoinPrice = "0";
+		let priceOfGoldPerGram = "1";
+		let melgPerGramOfGold = "1";
+
+		if (this.props.staticState.loaded) {
+			meleCoinPrice = this.props.staticState.staticInfo.melecPrice;
+			priceOfGoldPerGram = this.props.staticState.staticInfo.priceOfGoldPerGram;
+			melgPerGramOfGold = this.props.staticState.staticInfo.melgPerGramOfGold;
+		} else {
+			meleCoinPrice = "370370000";
+			priceOfGoldPerGram = "61570000000";
+			melgPerGramOfGold = "10";
+		}
+
 		return (
 			<BaseDroplet {...this.props}>
 				<div
-					className={isLogged ? "balance-droplet" : "balance-droplet-notlogged"}
+					className={
+						walletAddress !== undefined && walletAddress !== ""
+							? "balance-droplet"
+							: "balance-droplet-notlogged"
+					}
 				>
-					<div className="balance-droplet-title">
-						<div className="droplet-subtitle balance-droplet-subtitle">
-							${totalUSD}
-						</div>
-						<CalculatorExplanationWindow
-							rootComponent={<div className="notification-icon" />}
-						/>
-					</div>
 					<div className="calculator-container">
-						<Calculator
-							centsAmount={this.props.cents}
-							disableExplanationWindow={true}
-							// onExplanationTriggerZoneMouseEnter={() => {
-							// 	this.setState({ explanationOpen: true });
-							// }}
-							// onExplanationTriggerZoneMouseLeave={() => {
-							// 	this.setState({ explanationOpen: false });
-							// }}
-						/>
+						<div className="mele-calculator">
+							<div className={"mele-display"}>
+								<div className="mele-display-numbers">
+									<div className="mele-coins-amount">
+										<div className={"coin-count"}>
+											{wallet !== undefined &&
+											wallet.value.coins[0] !== undefined &&
+											wallet.value.coins[0].denom === "umelc"
+												? parseFloat(
+														Utils.fromUmelc(
+															wallet.value.coins[0].amount,
+															"melc",
+														),
+												  ).toFixed(8)
+												: wallet !== undefined &&
+												  wallet.value.coins[1] !== undefined &&
+												  wallet.value.coins[1].denom === "umelc"
+												? parseFloat(
+														Utils.fromUmelc(
+															wallet.value.coins[1].amount,
+															"melc",
+														),
+												  ).toFixed(8)
+												: "0"}
+										</div>
+									</div>
+								</div>
+								<div className="mele-display-notions">
+									<div className="mele-notions">
+										<div className={"coin-name mele-coin"}>MELX</div>
+										<div className="coin-rate">
+											${MeleCalculator.getMelCPrice(meleCoinPrice)}
+										</div>
+									</div>
+								</div>
+							</div>
+
+							{this.getMelegoldPart(
+								wallet !== undefined &&
+									wallet.value.coins[0] !== undefined &&
+									wallet.value.coins[0].denom === "umelg"
+									? Utils.fromUmelg(wallet.value.coins[0].amount, "melg")
+									: wallet !== undefined &&
+									  wallet.value.coins[1] !== undefined &&
+									  wallet.value.coins[1].denom === "umelg"
+									? Utils.fromUmelg(wallet.value.coins[1].amount, "melg")
+									: "0",
+								melgPerGramOfGold,
+								priceOfGoldPerGram,
+							)}
+						</div>
 					</div>
 					<div className="purchase-coins-container">
 						<StandardButton
 							className="purchase-coins-button"
 							to={`/${this.props.languageState.currentLanguage}/purchase-coins`}
+							disabled
 						>
 							{localeData.dashboard.purchaseCoins}
 						</StandardButton>
@@ -70,11 +134,42 @@ class BalanceDropletComponent extends React.Component<BalanceDropletProps> {
 			</BaseDroplet>
 		);
 	}
+
+	getMelegoldPart(
+		meleGold: string,
+		melgPerGramOfGold: string,
+		priceOfGoldPerGram: string,
+	) {
+		return (
+			<div className={"mele-display"}>
+				<div className="mele-display-numbers">
+					<div className="mele-coins-amount">
+						<div className={"coin-count"}>{meleGold}</div>
+					</div>
+				</div>
+				<div className="mele-display-notions">
+					<div className="notification-icon" />
+					<div className="mele-notions">
+						<div className="coin-name mele-gold">MELG</div>
+						<div className="coin-rate">
+							$
+							{MeleCalculator.getMelGPrice(
+								melgPerGramOfGold,
+								priceOfGoldPerGram,
+							)}
+						</div>
+					</div>
+				</div>
+			</div>
+		);
+	}
 }
 
 const mapStateToProps = (state: ApplicationState) => {
 	return {
 		languageState: state.language,
+		walletState: state.wallet,
+		staticState: state.static,
 	};
 };
 

@@ -12,12 +12,14 @@ import { LanguageState } from "mele-web-wallet/redux/reducers/language-reducer";
 import { NavigationButton } from "mele-web-wallet/app/common/navigation/navigation-button";
 import classNames from "classnames";
 import { useHistory } from "react-router-dom";
+import { WalletState } from "./../../../redux/reducers/wallet-reducer";
 
 interface INavigationComponentProps extends RouteComponentProps {
 	actionCreators: IActionCreators;
 	location: Location;
 	languageState: LanguageState;
 	activeButton: string;
+	walletState: WalletState;
 }
 
 const languages = {
@@ -32,6 +34,7 @@ class NavigationComponent extends React.Component<INavigationComponentProps> {
 
 	render() {
 		const localeData = languages[this.props.languageState.currentLanguage];
+		const wallet = this.props.walletState.loadedWalletAddress;
 		return (
 			<div id="navigation">
 				<div className="top-button-container">
@@ -41,12 +44,22 @@ class NavigationComponent extends React.Component<INavigationComponentProps> {
 						})}
 						to={`/${this.props.languageState.currentLanguage}/dashboard`}
 					/>
-					<NavigationButton
-						buttonIconClass={classNames("button-icon", "icon-transactions", {
-							selected: this.props.activeButton == "transactions",
-						})}
-						to={`/${this.props.languageState.currentLanguage}/transactions`}
-					/>
+					{wallet === undefined || wallet === "" ? (
+						<NavigationButton
+							buttonIconClass={classNames("button-icon", "icon-transactions", {
+								selected: this.props.activeButton == "transactions",
+								disabled: wallet === undefined || wallet === "",
+							})}
+						/>
+					) : (
+						<NavigationButton
+							buttonIconClass={classNames("button-icon", "icon-transactions", {
+								selected: this.props.activeButton == "transactions",
+								disabled: wallet === undefined || wallet === "",
+							})}
+							to={`/${this.props.languageState.currentLanguage}/transactions`}
+						/>
+					)}
 				</div>
 			</div>
 		);
@@ -56,6 +69,7 @@ class NavigationComponent extends React.Component<INavigationComponentProps> {
 const mapStateToProps = (state: ApplicationState) => {
 	return {
 		languageState: state.language,
+		walletState: state.wallet,
 	};
 };
 

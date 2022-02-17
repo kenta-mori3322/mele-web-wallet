@@ -24,9 +24,7 @@ const languages = {
 	ar: require("../../translations/ar.json"),
 };
 
-class HeaderAuthenticatedComponent extends React.Component<
-	IHeaderAuthenticatedComponentProps
-> {
+class HeaderAuthenticatedComponent extends React.Component<IHeaderAuthenticatedComponentProps> {
 	constructor(props: IHeaderAuthenticatedComponentProps) {
 		super(props);
 	}
@@ -63,7 +61,7 @@ class HeaderAuthenticatedComponent extends React.Component<
 
 const mapStateToProps = (state: ApplicationState) => {
 	return {
-		accountState: state.account,
+		walletState: state.wallet,
 		languageState: state.language,
 	};
 };

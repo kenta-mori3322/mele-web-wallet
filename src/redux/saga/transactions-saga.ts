@@ -23,6 +23,10 @@ export const transactionsSaga = function* handleMessage(
 		TransactionsStateActionTypes.LOAD_TRANSACTION_REQUEST,
 		getTransaction,
 	);
+	yield takeLatest(
+		TransactionsStateActionTypes.SEND_TRANSACTION_REQUEST,
+		sendTransaction,
+	);
 };
 
 function* searchTransactions(action: ITransactionsReducerAction): SagaIterator {
@@ -30,8 +34,8 @@ function* searchTransactions(action: ITransactionsReducerAction): SagaIterator {
 		const p: ISearchTransactionsParameter = {
 			page: action.page,
 			size: action.size || 9999,
+			address: action.address,
 		};
-
 		const response = yield call(transactionsService.getTransactions, p);
 		return yield put({
 			type: TransactionsStateActionTypes.LOAD_TRANSACTIONS_SUCCESS,
@@ -78,6 +82,24 @@ function* getTransaction(action: ITransactionsReducerAction): SagaIterator {
 		return yield put({
 			type: TransactionsStateActionTypes.LOAD_TRANSACTION_ERROR,
 			loadedTransactions: undefined,
+		});
+	}
+}
+
+function* sendTransaction(action: ITransactionsReducerAction): SagaIterator {
+	try {
+		const response = yield call(
+			transactionsService.sendTransaction,
+			action.address,
+			action.denom,
+			action.amount,
+		);
+		return yield put({
+			type: TransactionsStateActionTypes.SEND_TRANSACTION_SUCCESS,
+		});
+	} catch (e) {
+		return yield put({
+			type: TransactionsStateActionTypes.SEND_TRANSACTION_ERROR,
 		});
 	}
 }

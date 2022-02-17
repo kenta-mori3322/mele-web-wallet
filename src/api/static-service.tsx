@@ -1,10 +1,7 @@
 import axios, { AxiosRequestConfig, Method, AxiosResponse } from "axios";
-require("dotenv").config();
-
-declare const global: {};
 
 const getUrl = () => {
-	return process.env.REACT_APP_DEV_INDEXER_ENDPOINT;
+	return " https://api.dev1.melechain.com";
 };
 
 export const API_URL = getUrl();
@@ -18,7 +15,18 @@ export interface ServiceRequestParam {
 	body?: FormData;
 }
 
-export default class MainApiService {
+export default class StaticService {
+	getStaticInfo = async () => {
+		return await this.get({
+			path: `/meta`,
+		});
+	};
+	/* 	getStaticNumbers = async () => {
+		return await this.get({
+			path: `/transaction?statistics`,
+		});
+	}; */
+
 	protected request = async (p: ServiceRequestParam): Promise<any> => {
 		const defaultHeaders: any = {
 			Accept: "application/json",
@@ -58,3 +66,4 @@ export default class MainApiService {
 		return resp.body;
 	};
 }
+export const staticService = new StaticService();

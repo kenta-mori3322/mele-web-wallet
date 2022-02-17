@@ -1,6 +1,6 @@
 import { Reducer, applyMiddleware, compose } from "redux";
 import ApplicationState from "./application-state";
-import accountReducer from "./reducers/account-reducer";
+import walletReducer from "./reducers/wallet-reducer";
 import createSagaMiddleware from "redux-saga";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
@@ -10,26 +10,20 @@ import { rootSaga } from "./saga";
 import languageReducer from "mele-web-wallet/redux/reducers/language-reducer";
 import createReduxWaitForMiddleware from "redux-wait-for-action";
 import transactionsReducer from "mele-web-wallet/redux/reducers/transactions-reducer";
-import blocksReducer from "./reducers/blocks-reducer";
-import statisticsReducer from "./reducers/statistics-reducer";
-import validatorsReducer from "./reducers/validators-reducer";
+import staticReducer from "./reducers/static-reducer";
 
-const AccountPersistConfig = {
-	key: "account",
+const WalletPersistConfig = {
+	key: "wallet",
 	storage: storage,
-	whitelist: ["account"],
 };
 
-export const reducers: Reducer<ApplicationState> = combineReducers<
-	ApplicationState
->({
-	account: persistReducer(AccountPersistConfig, accountReducer) as any,
-	language: languageReducer,
-	transactions: transactionsReducer,
-	blocks: blocksReducer,
-	statistics: statisticsReducer,
-	validators: validatorsReducer,
-});
+export const reducers: Reducer<ApplicationState> =
+	combineReducers<ApplicationState>({
+		wallet: persistReducer(WalletPersistConfig, walletReducer) as any,
+		language: languageReducer,
+		transactions: transactionsReducer,
+		static: staticReducer,
+	});
 
 export const getApplicationStateStore = () => {
 	const sagaMiddleware = createSagaMiddleware();

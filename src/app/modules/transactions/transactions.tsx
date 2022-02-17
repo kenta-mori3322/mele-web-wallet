@@ -10,8 +10,10 @@ import { History, Location } from "history";
 import { LanguageState } from "mele-web-wallet/redux/reducers/language-reducer";
 import { TransactionsState } from "mele-web-wallet/redux/reducers/transactions-reducer";
 import { PaginatedList } from "react-paginated-list";
-import Moment from "react-moment";
-import Tooltip from "react-tooltip-lite";
+import { Utils } from "mele-sdk";
+import { WalletState } from "mele-web-wallet/redux/reducers/wallet-reducer";
+import { Timer } from "mele-web-wallet/app/common/utils/session-timer/session-timer";
+import { Redirect } from "react-router-dom";
 
 interface ITransactionsState {}
 
@@ -21,6 +23,7 @@ interface ITransactionsProps {
 	languageState: LanguageState;
 	transactionsState: TransactionsState;
 	actionCreators: IActionCreators;
+	walletState: WalletState;
 }
 
 const languages = {
@@ -32,38 +35,25 @@ class TransactionsComponent extends React.Component<
 	ITransactionsProps,
 	ITransactionsState
 > {
+	componentDidMount() {
+		if (this.props.walletState.loadedWalletAddress)
+			this.props.actionCreators.transactions.searchTransactions(
+				this.props.walletState.loadedWalletAddress,
+			);
+	}
+
 	render() {
 		const localeData = languages[this.props.languageState.currentLanguage];
-		const transactions = [
-			{
-				amount: "21,600 MELC",
-				type: "Send",
-				sender: "52CAA058...B8EC8A0A",
-				recipient: "52CAA058...B8EC8A0A",
-				fee: "0.02 MELC",
-			},
-			{
-				amount: "21,600 MELC",
-				type: "Receive",
-				sender: "52CAA058...B8EC8A0A",
-				recipient: "52CAA058...B8EC8A0A",
-				fee: "0.02 MELC",
-			},
-			{
-				amount: "21,600 MELC",
-				type: "Send",
-				sender: "52CAA058...B8EC8A0A",
-				recipient: "52CAA058...B8EC8A0A",
-				fee: "0.02 MELC",
-			},
-			{
-				amount: "21,600 MELC",
-				type: "Receive",
-				sender: "52CAA058...B8EC8A0A",
-				recipient: "52CAA058...B8EC8A0A",
-				fee: "0.02 MELC",
-			},
-		];
+		const walletAddress = this.props.walletState.loadedWalletAddress;
+		const transactions = this.props.transactionsState.loadedTransactions;
+		//console.log(transactions)
+		if (walletAddress === undefined || walletAddress === "") {
+			return (
+				<Redirect
+					to={`/${this.props.languageState.currentLanguage}/dashboard`}
+				/>
+			);
+		}
 		return (
 			<div id="transactions-module">
 				<div id="transactions-title">{localeData.transactions.title}</div>
@@ -88,40 +78,108 @@ class TransactionsComponent extends React.Component<
 					</div>
 					<PaginatedList
 						list={transactions}
-						isLoading={false}
+						isLoading={
+							walletAddress === undefined ||
+							walletAddress === "" ||
+							transactions === undefined ||
+							transactions.length === 0
+						}
 						loadingItem={() => (
 							<div id="loadingTransactions">
-								{localeData.transactions.loading}
+								{walletAddress !== undefined || walletAddress !== ""
+									? localeData.transactions.loading
+									: localeData.transactions.loadingNoLogged}
 							</div>
 						)}
-						itemsPerPage={20}
+						itemsPerPage={10}
 						nextText={localeData.navigation.next}
 						prevText={localeData.navigation.prev}
 						renderList={(list: any) => (
 							<>
 								{list.map((data: any, id: number) => {
+									const denom = data.msgs[0].data.amount.substr(
+										data.msgs[0].data.amount.length - 5,
+									);
+									const amount =
+										data.msgs[0] !== undefined &&
+										data.msgs[0].data !== undefined
+											? data.msgs[0].data.amount
+											: "";
+									let correctAmount = "";
+									if (amount.includes(",")) {
+										//MELX and MELG
+										let melx = parseFloat(
+											Utils.fromUmelc(
+												amount.split(",")[0].slice(0, -5),
+												"melc",
+											),
+										).toFixed(2);
+										let melg = parseFloat(
+											Utils.fromUmelg(
+												amount.substring(amount.indexOf(",") + 1).slice(0, -5),
+												"melg",
+											),
+										).toFixed(2);
+										correctAmount = `${melx} MELX \n${melg} MELG`;
+									} else {
+										correctAmount =
+											denom === "umelc"
+												? `${parseFloat(
+														Utils.fromUmelc(amount.slice(0, -5), "melc"),
+												  ).toFixed(2)} MELX`
+												: `${parseFloat(
+														Utils.fromUmelg(amount.slice(0, -5), "melg"),
+												  ).toFixed(2)} MELG`;
+									}
+
 									return (
 										<div key={id} className="transactions-list-tr">
 											<div className="transactions-list-td amountCell">
-												{data.amount}
+												{correctAmount}
 											</div>
 											<div className="transactions-list-td typeCell">
 												<div
 													className={
-														data.type === "Send" ? "pill-orange" : "pill-green"
+														data.msgs[0].data.recipient ===
+														this.props.walletState.loadedWalletAddress
+															? "pill-green"
+															: "pill-orange"
 													}
 												>
-													{data.type}
+													{data.msgs[0].data.recipient ===
+													this.props.walletState.loadedWalletAddress
+														? localeData.transactions.receive
+														: localeData.transactions.send}
 												</div>
 											</div>
 											<div className="transactions-list-td senderCell">
-												{data.sender}
+												{data.msgs[0].data.sender !== undefined &&
+													data.msgs[0].data.sender.substring(0, 15)}
+												...
+												{data.msgs[0].data.sender !== undefined &&
+													data.msgs[0].data.sender.substr(
+														data.msgs[0].data.sender.length - 5,
+													)}
 											</div>
 											<div className="transactions-list-td recipientHeader">
-												{data.recipient}
+												{data.msgs[0].data.recipient !== undefined &&
+													data.msgs[0].data.recipient.substring(0, 15)}
+												...
+												{data.msgs[0].data.recipient !== undefined &&
+													data.msgs[0].data.recipient.substr(
+														data.msgs[0].data.recipient.length - 5,
+													)}
 											</div>
 											<div className="transactions-list-td feeHeader">
-												{data.fee}
+												{data.fee !== undefined
+													? `${Utils.fromUmelc(
+															data.fee.system_fee.substring(
+																0,
+																data.fee.system_fee.length - 5,
+															),
+															"melc",
+													  )} MELX`
+													: ""}
 											</div>
 										</div>
 									);
@@ -130,6 +188,7 @@ class TransactionsComponent extends React.Component<
 						)}
 					/>
 				</div>
+				<Timer />
 			</div>
 		);
 	}
@@ -139,6 +198,7 @@ const mapStateToProps = (state: ApplicationState) => {
 	return {
 		languageState: state.language,
 		transactionsState: state.transactions,
+		walletState: state.wallet,
 	};
 };
 

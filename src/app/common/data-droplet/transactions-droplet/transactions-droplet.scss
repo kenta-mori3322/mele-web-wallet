@@ -4,16 +4,18 @@
 	flex-direction: column;
 	width: 100%;
 	min-height: 400px;
-	background-color: #f5f6fb;
+	background-color: white;
 
 	#transactions-content {
 		width: 100%;
 		display: flex;
 		margin: auto;
 		flex-direction: column;
-		background-color: white;
 		flex: 2;
 		margin-bottom: 5%;
+		border: 0.5px solid rgba(182, 184, 203, 0.4);
+		border-radius: 4px;
+		background-color: white;
 
 		#loadingTransactions {
 			width: 100%;
@@ -32,7 +34,7 @@
 		}
 		.transactions-list-th {
 			display: grid;
-			grid-template-columns: 20% 21% 20.5% 25% 15.5%;
+			grid-template-columns: 20% 18% 20.5% 24% 20.5%;
 			width: 100%;
 			border-bottom: 1px #eaedf9 solid;
 			padding-bottom: 1%;
@@ -54,7 +56,7 @@
 			float: left; /* fix for  buggy browsers */
 			display: table-column;
 			padding: 0.7% 0;
-			padding-left: 4%;
+			padding-left: 1%;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
@@ -94,10 +96,13 @@
 		.amountCell {
 			text-align: left;
 			width: 18%;
+			padding-left: 3.5% !important;
+			white-space: pre !important;
 		}
 		.typeCell {
 			text-align: left;
 			width: 22.5%;
+			padding-left: 2% !important;
 			.pill-green {
 				display: inline-block;
 				background: #f1fcf9 0% 0% no-repeat padding-box;
@@ -180,6 +185,16 @@
 				opacity: 1;
 				text-align: center;
 			}
+		}
+
+		#transactions-droplet-more {
+			text-align: center;
+			cursor: pointer;
+			font: normal normal normal 15px/20px Circular Std Book;
+			letter-spacing: -0.49px;
+			color: #013ec4;
+			opacity: 1;
+			padding-bottom: 5%;
 		}
 	}
 }

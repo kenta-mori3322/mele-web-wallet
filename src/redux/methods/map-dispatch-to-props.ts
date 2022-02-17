@@ -1,18 +1,14 @@
 import { Dispatch } from "redux";
 import LanguageActionCreator from "./language-action-creator";
-import BlocksActionCreator from "./blocks-action-creator";
 import TransactionsActionCreator from "./transactions-action-creator ";
-import StatisticsActionCreator from "./statistics-action-creator";
-import ValidatorsActionCreator from "./validators-action-creator";
-import AccountActionCreator from "./account-action-creator";
+import StaticActionCreator from "./static-action-creator";
+import WalletActionCreator from "./wallet-action-creator";
 
 export interface IActionCreators {
 	language: LanguageActionCreator;
-	blocks: BlocksActionCreator;
 	transactions: TransactionsActionCreator;
-	statistics: StatisticsActionCreator;
-	validators: ValidatorsActionCreator;
-	account: AccountActionCreator;
+	static: StaticActionCreator;
+	wallet: WalletActionCreator;
 }
 
 export const mapDispatchToProps = (
@@ -21,11 +17,9 @@ export const mapDispatchToProps = (
 	return {
 		actionCreators: {
 			language: new LanguageActionCreator(dispatch),
-			blocks: new BlocksActionCreator(dispatch),
 			transactions: new TransactionsActionCreator(dispatch),
-			statistics: new StatisticsActionCreator(dispatch),
-			validators: new ValidatorsActionCreator(dispatch),
-			account: new AccountActionCreator(dispatch),
+			static: new StaticActionCreator(dispatch),
+			wallet: new WalletActionCreator(dispatch),
 		},
 	};
 };

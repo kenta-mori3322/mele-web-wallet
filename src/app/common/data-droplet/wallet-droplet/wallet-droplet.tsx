@@ -2,15 +2,26 @@ import "./wallet-droplet.scss";
 import * as React from "react";
 import { BaseDroplet } from "mele-web-wallet/app/common/data-droplet/base-droplet/base-droplet";
 import { connect } from "react-redux";
-import { mapDispatchToProps } from "mele-web-wallet/redux/methods/map-dispatch-to-props";
+import {
+	IActionCreators,
+	mapDispatchToProps,
+} from "mele-web-wallet/redux/methods/map-dispatch-to-props";
 import ApplicationState from "mele-web-wallet/redux/application-state";
 import { LanguageState } from "mele-web-wallet/redux/reducers/language-reducer";
 import { StandardButton } from "mele-web-wallet/app/common/buttons/standard-button";
 import { StandardInput } from "../../standard-input/standard-input";
-import { Utils } from "mele-sdk";
+import { MnemonicSigner, Utils } from "mele-sdk";
+import { WalletState } from "mele-web-wallet/redux/reducers/wallet-reducer";
+import Cookies from "universal-cookie";
+import { StaticState } from "mele-web-wallet/redux/reducers/static-reducer";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface WalletDropletProps extends React.HTMLAttributes<HTMLDivElement> {
 	languageState: LanguageState;
+	actionCreators: IActionCreators;
+	walletState: WalletState;
+	staticState: StaticState;
 }
 
 interface WalletDropletState {
@@ -18,6 +29,7 @@ interface WalletDropletState {
 	state: number;
 	open: boolean;
 	copied: boolean;
+	restore: boolean;
 	pin: string;
 	pinOne: string;
 	pinTwo: string;
@@ -25,7 +37,22 @@ interface WalletDropletState {
 	pinFour: string;
 	pinFive: string;
 	pinSix: string;
+	setPINError: boolean;
+	pinOneConfirm: string;
+	pinTwoConfirm: string;
+	pinThreeConfirm: string;
+	pinFourConfirm: string;
+	pinFiveConfirm: string;
+	pinSixConfirm: string;
+	confirmError: boolean;
 	recoveryPhrase: string;
+	updateWallet: boolean;
+	loginPinOne: string;
+	loginPinTwo: string;
+	loginPinThree: string;
+	loginPinFour: string;
+	loginPinFive: string;
+	loginPinSix: string;
 }
 
 const languages = {
@@ -33,7 +60,7 @@ const languages = {
 	ar: require("../../../translations/ar.json"),
 };
 
-const isLogged = false;
+const cookies = new Cookies();
 
 class WalletDropletComponent extends React.Component<
 	WalletDropletProps,
@@ -46,6 +73,7 @@ class WalletDropletComponent extends React.Component<
 			state: 0,
 			open: false,
 			copied: false,
+			restore: false,
 			pin: "",
 			pinOne: "",
 			pinTwo: "",
@@ -53,317 +81,815 @@ class WalletDropletComponent extends React.Component<
 			pinFour: "",
 			pinFive: "",
 			pinSix: "",
+			setPINError: false,
+			pinOneConfirm: "",
+			pinTwoConfirm: "",
+			pinThreeConfirm: "",
+			pinFourConfirm: "",
+			pinFiveConfirm: "",
+			pinSixConfirm: "",
+			confirmError: false,
 			recoveryPhrase: "",
+			updateWallet: false,
+			loginPinOne: "",
+			loginPinTwo: "",
+			loginPinThree: "",
+			loginPinFour: "",
+			loginPinFive: "",
+			loginPinSix: "",
 		};
 	}
 
 	componentDidMount() {
-		if (!isLogged) {
+		const address = cookies.get("address") ? atob(cookies.get("address")) : "";
+		const mnemonic = cookies.get("mnemonic")
+			? atob(cookies.get("mnemonic"))
+			: "";
+		if (
+			this.props.walletState.loadedWallet === undefined &&
+			this.props.walletState.loadedWalletAddress === "" &&
+			address === undefined
+		) {
 			this.setState({ open: true });
+		}
+		if (
+			(this.props.walletState.loadedWallet === undefined ||
+				this.props.walletState.loadedWalletAddress === "") &&
+			address !== undefined &&
+			address !== ""
+		) {
+			this.setState({ state: 0 });
+		}
+
+		if (mnemonic !== "" && address !== "") {
+			this.props.actionCreators.wallet.getWallet(mnemonic);
+			this.props.actionCreators.transactions.searchTransactions(address);
 		}
 	}
 
+	resetPIN = () => {
+		this.setState({
+			pinOne: "",
+			pinTwo: "",
+			pinThree: "",
+			pinFour: "",
+			pinFive: "",
+			pinSix: "",
+			pinOneConfirm: "",
+			pinTwoConfirm: "",
+			pinThreeConfirm: "",
+			pinFourConfirm: "",
+			pinFiveConfirm: "",
+			pinSixConfirm: "",
+		});
+	};
+
 	generateMnemonic = () => {
-		return Utils.generateMnemonic().split(" ").slice(0, 12);
+		const mnemonic = Utils.generateMnemonic();
+		return mnemonic.split(" ").slice(0, 12);
+	};
+
+	setPIN = () => {
+		if (
+			this.state.pinOne !== "" &&
+			this.state.pinTwo !== "" &&
+			this.state.pinThree !== "" &&
+			this.state.pinFour !== "" &&
+			this.state.pinFive !== "" &&
+			this.state.pinSix !== ""
+		) {
+			this.setState({
+				pin: `${this.state.pinOne},${this.state.pinTwo},${this.state.pinThree},${this.state.pinFour},${this.state.pinFive},${this.state.pinSix}`,
+				state: 3,
+				setPINError: false,
+			});
+		} else {
+			this.setState({ setPINError: true });
+		}
+	};
+
+	createWallet = () => {
+		this.setState({ mnemonic: this.generateMnemonic(), state: 1 });
+	};
+
+	checkPIN = async () => {
+		if (this.state.restore) {
+			const pin = `${this.state.pinOneConfirm},${this.state.pinTwoConfirm},${this.state.pinThreeConfirm},${this.state.pinFourConfirm},${this.state.pinFiveConfirm},${this.state.pinSixConfirm}`;
+			if (this.state.pin === pin) {
+				await this.props.actionCreators.static.setMnemonicAndPin(
+					this.state.recoveryPhrase
+						.replace(/[^,a-zA-Z ]/g, "")
+						.replace(/,/g, " ")
+						.replace(/  +/g, " ")
+						.trimEnd()
+						.trimStart(),
+					pin,
+				);
+				await this.props.actionCreators.wallet.getWalletAddress(
+					this.state.recoveryPhrase
+						.replace(/[^,a-zA-Z ]/g, "")
+						.replace(/,/g, " ")
+						.replace(/  +/g, " ")
+						.trimEnd()
+						.trimStart(),
+				);
+
+				this.setState({
+					state: 0,
+					open: false,
+					confirmError: false,
+					updateWallet: true,
+					recoveryPhrase: "",
+				});
+				this.resetPIN();
+			} else {
+				this.setState({ confirmError: true });
+			}
+		} else {
+			const pin = `${this.state.pinOneConfirm},${this.state.pinTwoConfirm},${this.state.pinThreeConfirm},${this.state.pinFourConfirm},${this.state.pinFiveConfirm},${this.state.pinSixConfirm}`;
+			if (this.state.pin === pin) {
+				await this.props.actionCreators.static.setMnemonicAndPin(
+					JSON.stringify(this.state.mnemonic)
+						.replace(/[\[\]']+/g, "")
+						.replace(/['"]+/g, "")
+						.replace(/,/g, " "),
+					pin,
+				);
+				await this.props.actionCreators.wallet.getWalletAddress(
+					JSON.stringify(this.state.mnemonic)
+						.replace(/[\[\]']+/g, "")
+						.replace(/['"]+/g, "")
+						.replace(/,/g, " "),
+				);
+
+				this.setState({
+					state: 0,
+					open: false,
+					confirmError: false,
+					updateWallet: true,
+				});
+				this.resetPIN();
+			} else {
+				this.setState({ confirmError: true });
+			}
+		}
+	};
+
+	restoreWallet = async (mnemonic: string, localeData: any) => {
+		const mnemonicArray = mnemonic
+			.replace(/[^,A-Za-z0-9]+/g, " ")
+			.replace(/,/g, " ")
+			.trimStart()
+			.trim()
+			.replace(/  +/g, " ")
+			.split(" ");
+		if (mnemonicArray.length >= 12) {
+			this.setState({
+				state: 2,
+				confirmError: false,
+				recoveryPhrase: mnemonic,
+				restore: true,
+			});
+		} else {
+			toast.error(localeData.wallet.wrongMnemonic, {
+				position: "top-right",
+				autoClose: 2000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+			});
+		}
+	};
+
+	componentDidUpdate(prevProps: any) {
+		if (
+			this.props.walletState.loadedWalletAddress !== "" &&
+			this.state.updateWallet
+		) {
+			this.props.actionCreators.wallet.getWallet(
+				this.props.staticState.mnemonic ? this.props.staticState.mnemonic : "",
+			);
+			this.props.actionCreators.transactions.searchTransactions(
+				this.props.walletState.loadedWalletAddress,
+			);
+			this.setState({ updateWallet: false });
+		}
+	}
+
+	logout = async () => {
+		this.props.actionCreators.wallet.logout();
+		this.props.actionCreators.transactions.cleanTransactions();
+		this.setState({ state: 0, open: true, confirmError: false });
+		this.resetPIN();
+		cookies.remove("address");
+		cookies.remove("pin");
+		cookies.remove("mnemonic");
+		localStorage.setItem("logout", "true");
 	};
 
 	render() {
 		const localeData = languages[this.props.languageState.currentLanguage];
+		const wallet = this.props.walletState.loadedWallet;
+		const walletAddress = this.props.walletState.loadedWalletAddress;
 		return (
 			<BaseDroplet {...this.props} style={{ border: "none" }}>
+				<ToastContainer
+					position="top-right"
+					autoClose={5000}
+					hideProgressBar={false}
+					newestOnTop={false}
+					closeOnClick
+					rtl={false}
+					pauseOnFocusLoss
+					draggable
+					pauseOnHover
+				/>
 				{this.state.open ? (
 					<>
 						<div className="wallet-droplet-opened">
 							<div
 								className="wallet-container"
-								onClick={() =>
-									this.setState({ open: false, state: 0, copied: false })
-								}
+								onClick={() => {
+									this.setState({
+										open: false,
+										state: 0,
+										copied: false,
+										confirmError: false,
+										setPINError: false,
+									});
+									this.resetPIN();
+								}}
 								style={{
 									marginTop:
 										this.state.state === 1
-											? "200%"
-											: this.state.state === 3
+											? "162%"
+											: this.state.state === 4
 											? "88%"
+											: this.state.state === 2 && this.state.setPINError
+											? "75%"
+											: this.state.state === 3 && this.state.confirmError
+											? "75%"
+											: this.state.state === 3 && !this.state.confirmError
+											? "68%"
+											: this.state.state === 5
+											? "40%"
+											: this.state.state === 6
+											? "68%"
 											: "82%",
-									marginLeft: this.state.state === 2 ? "25%" : "20%",
+									marginLeft:
+										this.state.state === 2 && !this.state.setPINError
+											? "25%"
+											: this.state.state === 2 && this.state.setPINError
+											? "25%"
+											: this.state.state === 3
+											? "25%"
+											: this.state.state === 5
+											? "24.5%"
+											: "20%",
 								}}
 							>
 								<div id="walletIcon" />
 								<div className="text-container">
-									<div id="wallet-title">Test</div>
-									<div id="wallet-subtitle">asf3fdsad23321...123</div>
+									<div id="wallet-title">
+										{/* {walletAddress === undefined || wallet === ""
+											? localeData.wallet.noWallet
+											: wallet === undefined ? "" : wallet.value.account_number} */}
+									</div>
+									<div id="wallet-subtitle">
+										{walletAddress === undefined || walletAddress === ""
+											? localeData.wallet.createOrImport
+											: `${walletAddress.substring(
+													0,
+													15,
+											  )}...${walletAddress.substr(walletAddress.length - 5)}`}
+									</div>
 								</div>
 								<div id="wallet-arrow" />
 							</div>
-							{!isLogged && this.state.state === 0 && (
-								<div id="wallet-creation-container">
-									<div id="wallet-creation-title">
-										{localeData.wallet.creationTitle}
-									</div>
-									<div id="wallet-creation-subtitle">
-										{localeData.wallet.creationSubTitle}
-									</div>
-									<div id="wallet-creation-buttons-container">
-										<div
-											id="wallet-creation-button-create"
-											onClick={() => this.setState({ state: 1 })}
-										>
-											<div id="createIcon" />
-											<div id="create-text">
-												{localeData.wallet.createButton}
+							{(walletAddress === undefined || walletAddress === "") &&
+								this.state.state === 0 && (
+									<div id="wallet-creation-container">
+										<div id="wallet-creation-title">
+											{localeData.wallet.creationTitle}
+										</div>
+										<div id="wallet-creation-subtitle">
+											{localeData.wallet.creationSubTitle}
+										</div>
+										<div id="wallet-creation-buttons-container">
+											<div
+												id="wallet-creation-button-create"
+												onClick={() => this.createWallet()}
+											>
+												<div id="createIcon" />
+												<div id="create-text">
+													{localeData.wallet.createButton}
+												</div>
+											</div>
+											<div
+												id="wallet-creation-button-import"
+												onClick={() => this.setState({ state: 4 })}
+											>
+												<div id="importIcon" />
+												<div id="import-text">
+													{localeData.wallet.importButton}
+												</div>
 											</div>
 										</div>
-										<div
-											id="wallet-creation-button-import"
-											onClick={() => this.setState({ state: 3 })}
-										>
-											<div id="importIcon" />
-											<div id="import-text">
-												{localeData.wallet.importButton}
+									</div>
+								)}
+							{(wallet === undefined || wallet === "") &&
+								this.state.state === 1 && (
+									<div id="wallet-creation-container">
+										<div id="wallet-creation-title">
+											{localeData.wallet.creationTitleTwo}
+										</div>
+										<div id="wallet-creation-subtitle">
+											{localeData.wallet.creationSubtitleTwo}
+										</div>
+										<div id="wallet-creation-mnemonic-container">
+											<div
+												className="mnemonic-cell"
+												style={{ gridColumn: 1, gridRow: 1 }}
+											>
+												1 {this.state.mnemonic[0]}
+											</div>
+											<div
+												className="mnemonic-cell"
+												style={{ gridColumn: 2, gridRow: 1 }}
+											>
+												7 {this.state.mnemonic[6]}
+											</div>
+											<div
+												className="mnemonic-cell"
+												style={{ gridColumn: 1, gridRow: 2 }}
+											>
+												2 {this.state.mnemonic[1]}
+											</div>
+											<div
+												className="mnemonic-cell"
+												style={{ gridColumn: 2, gridRow: 2 }}
+											>
+												8 {this.state.mnemonic[7]}
+											</div>
+											<div
+												className="mnemonic-cell"
+												style={{ gridColumn: 1, gridRow: 3 }}
+											>
+												3 {this.state.mnemonic[2]}
+											</div>
+											<div
+												className="mnemonic-cell"
+												style={{ gridColumn: 2, gridRow: 3 }}
+											>
+												9 {this.state.mnemonic[8]}
+											</div>
+											<div
+												className="mnemonic-cell"
+												style={{ gridColumn: 1, gridRow: 4 }}
+											>
+												4 {this.state.mnemonic[3]}
+											</div>
+											<div
+												className="mnemonic-cell"
+												style={{ gridColumn: 2, gridRow: 4 }}
+											>
+												10 {this.state.mnemonic[9]}
+											</div>
+											<div
+												className="mnemonic-cell"
+												style={{ gridColumn: 1, gridRow: 5 }}
+											>
+												5 {this.state.mnemonic[4]}
+											</div>
+											<div
+												className="mnemonic-cell"
+												style={{ gridColumn: 2, gridRow: 5 }}
+											>
+												11 {this.state.mnemonic[10]}
+											</div>
+											<div
+												className="mnemonic-cell"
+												style={{ gridColumn: 1, gridRow: 6 }}
+											>
+												6 {this.state.mnemonic[5]}
+											</div>
+											<div
+												className="mnemonic-cell"
+												style={{ gridColumn: 2, gridRow: 6 }}
+											>
+												12 {this.state.mnemonic[11]}
 											</div>
 										</div>
+										<StandardButton
+											id={this.state.copied ? "copiedButton" : "copyButton"}
+											onClick={() => {
+												navigator.clipboard.writeText(
+													JSON.stringify(this.state.mnemonic)
+														.replace(/[\[\]']+/g, "")
+														.replace(/['"]+/g, ""),
+												);
+												this.setState({ copied: true });
+											}}
+										>
+											{this.state.copied
+												? localeData.wallet.copied
+												: localeData.wallet.copy}
+										</StandardButton>
+										<StandardButton
+											id="savedButton"
+											onClick={() => this.setState({ copied: false, state: 2 })}
+										>
+											{localeData.wallet.savedIt}
+										</StandardButton>
+									</div>
+								)}
+							{(walletAddress === undefined || walletAddress === "") &&
+								this.state.state === 2 && (
+									<div id="wallet-pin-container">
+										<div id="wallet-pin-title">
+											{localeData.wallet.choosePIN}
+										</div>
+										<div
+											id={
+												this.state.setPINError
+													? "wallet-pin-subtitle-error"
+													: "wallet-pin-subtitle"
+											}
+										>
+											{this.state.setPINError
+												? localeData.wallet.choosePINError
+												: localeData.wallet.choosePINDesc}
+										</div>
+										<div id="pinContainer">
+											<StandardInput
+												value={this.state.pinOne}
+												className="form-field login-field"
+												onChange={(e) => {
+													const reg = new RegExp("^[0-9]+$");
+
+													if (
+														reg.test(e.target.value) ||
+														e.target.value == ""
+													) {
+														this.setState({ pinOne: e.target.value });
+													}
+												}}
+												maxLength="1"
+												type="text"
+												id="pinOne"
+											/>
+											<StandardInput
+												value={this.state.pinTwo}
+												className="form-field login-field"
+												onChange={(e) => {
+													const reg = new RegExp("^[0-9]+$");
+
+													if (
+														reg.test(e.target.value) ||
+														e.target.value == ""
+													) {
+														this.setState({ pinTwo: e.target.value });
+													}
+												}}
+												maxLength="1"
+												type="text"
+												id="pinTwo"
+											/>
+											<StandardInput
+												value={this.state.pinThree}
+												className="form-field login-field"
+												onChange={(e) => {
+													const reg = new RegExp("^[0-9]+$");
+
+													if (
+														reg.test(e.target.value) ||
+														e.target.value == ""
+													) {
+														this.setState({ pinThree: e.target.value });
+													}
+												}}
+												maxLength="1"
+												type="text"
+												id="pinThree"
+											/>
+											<StandardInput
+												value={this.state.pinFour}
+												className="form-field login-field"
+												onChange={(e) => {
+													const reg = new RegExp("^[0-9]+$");
+
+													if (
+														reg.test(e.target.value) ||
+														e.target.value == ""
+													) {
+														this.setState({ pinFour: e.target.value });
+													}
+												}}
+												maxLength="1"
+												type="text"
+												id="pinFour"
+											/>
+											<StandardInput
+												value={this.state.pinFive}
+												className="form-field login-field"
+												onChange={(e) => {
+													const reg = new RegExp("^[0-9]+$");
+
+													if (
+														reg.test(e.target.value) ||
+														e.target.value == ""
+													) {
+														this.setState({ pinFive: e.target.value });
+													}
+												}}
+												maxLength="1"
+												type="text"
+												id="pinFive"
+											/>
+											<StandardInput
+												value={this.state.pinSix}
+												className="form-field login-field"
+												onChange={(e) => {
+													const reg = new RegExp("^[0-9]+$");
+
+													if (
+														reg.test(e.target.value) ||
+														e.target.value == ""
+													) {
+														this.setState({ pinSix: e.target.value });
+													}
+												}}
+												maxLength="1"
+												type="text"
+												id="pinSix"
+											/>
+										</div>
+										<StandardButton
+											id="finishButton"
+											onClick={() => this.setPIN()}
+										>
+											{localeData.wallet.continue}
+										</StandardButton>
+									</div>
+								)}
+							{(walletAddress === undefined || walletAddress === "") &&
+								this.state.state === 3 && (
+									<div id="wallet-pin-container">
+										<div id="wallet-pin-title">
+											{localeData.wallet.confirmPIN}
+										</div>
+										<div id="wallet-pin-subtitle-error">
+											{this.state.confirmError &&
+												localeData.wallet.choosePINError}
+										</div>
+										<div id="pinContainer">
+											<StandardInput
+												value={this.state.pinOneConfirm}
+												className="form-field login-field"
+												onChange={(e) => {
+													const reg = new RegExp("^[0-9]+$");
+
+													if (
+														reg.test(e.target.value) ||
+														e.target.value == ""
+													) {
+														this.setState({ pinOneConfirm: e.target.value });
+													}
+												}}
+												maxLength="1"
+												type="text"
+												id="pinOne"
+											/>
+											<StandardInput
+												value={this.state.pinTwoConfirm}
+												className="form-field login-field"
+												onChange={(e) => {
+													const reg = new RegExp("^[0-9]+$");
+
+													if (
+														reg.test(e.target.value) ||
+														e.target.value == ""
+													) {
+														this.setState({ pinTwoConfirm: e.target.value });
+													}
+												}}
+												maxLength="1"
+												type="text"
+												id="pinTwo"
+											/>
+											<StandardInput
+												value={this.state.pinThreeConfirm}
+												className="form-field login-field"
+												onChange={(e) => {
+													const reg = new RegExp("^[0-9]+$");
+
+													if (
+														reg.test(e.target.value) ||
+														e.target.value == ""
+													) {
+														this.setState({ pinThreeConfirm: e.target.value });
+													}
+												}}
+												maxLength="1"
+												type="text"
+												id="pinThree"
+											/>
+											<StandardInput
+												value={this.state.pinFourConfirm}
+												className="form-field login-field"
+												onChange={(e) => {
+													const reg = new RegExp("^[0-9]+$");
+
+													if (
+														reg.test(e.target.value) ||
+														e.target.value == ""
+													) {
+														this.setState({ pinFourConfirm: e.target.value });
+													}
+												}}
+												maxLength="1"
+												type="text"
+												id="pinFour"
+											/>
+											<StandardInput
+												value={this.state.pinFiveConfirm}
+												className="form-field login-field"
+												onChange={(e) => {
+													const reg = new RegExp("^[0-9]+$");
+
+													if (
+														reg.test(e.target.value) ||
+														e.target.value == ""
+													) {
+														this.setState({ pinFiveConfirm: e.target.value });
+													}
+												}}
+												maxLength="1"
+												type="text"
+												id="pinFive"
+											/>
+											<StandardInput
+												value={this.state.pinSixConfirm}
+												className="form-field login-field"
+												onChange={(e) => {
+													const reg = new RegExp("^[0-9]+$");
+
+													if (
+														reg.test(e.target.value) ||
+														e.target.value == ""
+													) {
+														this.setState({ pinSixConfirm: e.target.value });
+													}
+												}}
+												maxLength="1"
+												type="text"
+												id="pinSix"
+											/>
+										</div>
+										<StandardButton
+											id="finishButton"
+											onClick={() => this.checkPIN()}
+										>
+											{localeData.wallet.finish}
+										</StandardButton>
+									</div>
+								)}
+							{(walletAddress === undefined || walletAddress === "") &&
+								this.state.state === 4 && (
+									<div id="wallet-creation-container">
+										<div id="wallet-creation-title">
+											{localeData.wallet.importTitle}
+										</div>
+										<div id="wallet-creation-subtitle">
+											{localeData.wallet.importSubtitle}
+										</div>
+										<StandardInput
+											value={this.state.recoveryPhrase}
+											className="form-field recoveryContainer"
+											placeholder={localeData.wallet.importPlaceholder}
+											onChange={(e) =>
+												this.setState({ recoveryPhrase: e.target.value })
+											}
+											type="text"
+										/>
+										<StandardButton
+											id="importButton"
+											onClick={() =>
+												this.restoreWallet(
+													this.state.recoveryPhrase,
+													localeData,
+												)
+											}
+										>
+											{localeData.wallet.import}
+										</StandardButton>
+									</div>
+								)}
+							{this.state.state === 5 && (
+								<div
+									id="wallet-creation-container"
+									style={{ marginLeft: "25%" }}
+								>
+									<div id="wallet-creation-buttons-logout-container">
+										<div id="wallet-pin-subtitle-address">{walletAddress}</div>
+										<StandardButton
+											id="logoutButton"
+											onClick={() => this.logout()}
+										>
+											{localeData.wallet.logout}
+										</StandardButton>
 									</div>
 								</div>
 							)}
-							{!isLogged && this.state.state === 1 && (
-								<div id="wallet-creation-container">
-									<div id="wallet-creation-title">
-										{localeData.wallet.creationTitleTwo}
-									</div>
-									<div id="wallet-creation-subtitle">
-										{localeData.wallet.creationSubtitleTwo}
-									</div>
-									<div id="wallet-creation-mnemonic-container">
-										<div
-											className="mnemonic-cell"
-											style={{ gridColumn: 1, gridRow: 1 }}
-										>
-											1 switch
-										</div>
-										<div
-											className="mnemonic-cell"
-											style={{ gridColumn: 2, gridRow: 1 }}
-										>
-											12 switch
-										</div>
-										<div
-											className="mnemonic-cell"
-											style={{ gridColumn: 1, gridRow: 2 }}
-										>
-											2 switch
-										</div>
-										<div
-											className="mnemonic-cell"
-											style={{ gridColumn: 2, gridRow: 2 }}
-										>
-											14 switch
-										</div>
-										<div
-											className="mnemonic-cell"
-											style={{ gridColumn: 1, gridRow: 3 }}
-										>
-											3 switch
-										</div>
-										<div
-											className="mnemonic-cell"
-											style={{ gridColumn: 2, gridRow: 3 }}
-										>
-											15 switch
-										</div>
-										<div
-											className="mnemonic-cell"
-											style={{ gridColumn: 1, gridRow: 4 }}
-										>
-											4 switch
-										</div>
-										<div
-											className="mnemonic-cell"
-											style={{ gridColumn: 2, gridRow: 4 }}
-										>
-											16 switch
-										</div>
-										<div
-											className="mnemonic-cell"
-											style={{ gridColumn: 1, gridRow: 5 }}
-										>
-											5 switch
-										</div>
-										<div
-											className="mnemonic-cell"
-											style={{ gridColumn: 2, gridRow: 5 }}
-										>
-											17 switch
-										</div>
-										<div
-											className="mnemonic-cell"
-											style={{ gridColumn: 1, gridRow: 6 }}
-										>
-											6 switch
-										</div>
-										<div
-											className="mnemonic-cell"
-											style={{ gridColumn: 2, gridRow: 6 }}
-										>
-											18 switch
-										</div>
-										<div
-											className="mnemonic-cell"
-											style={{ gridColumn: 1, gridRow: 7 }}
-										>
-											7 switch
-										</div>
-										<div
-											className="mnemonic-cell"
-											style={{ gridColumn: 2, gridRow: 7 }}
-										>
-											19 switch
-										</div>
-										<div
-											className="mnemonic-cell"
-											style={{ gridColumn: 1, gridRow: 8 }}
-										>
-											8 switch
-										</div>
-										<div
-											className="mnemonic-cell"
-											style={{ gridColumn: 2, gridRow: 8 }}
-										>
-											20 switch
-										</div>
-										<div
-											className="mnemonic-cell"
-											style={{ gridColumn: 1, gridRow: 9 }}
-										>
-											9 switch
-										</div>
-										<div
-											className="mnemonic-cell"
-											style={{ gridColumn: 2, gridRow: 9 }}
-										>
-											21 switch
-										</div>
-										<div
-											className="mnemonic-cell"
-											style={{ gridColumn: 1, gridRow: 10 }}
-										>
-											10 switch
-										</div>
-										<div
-											className="mnemonic-cell"
-											style={{ gridColumn: 2, gridRow: 10 }}
-										>
-											22 switch
-										</div>
-										<div
-											className="mnemonic-cell"
-											style={{ gridColumn: 1, gridRow: 11 }}
-										>
-											11 switch
-										</div>
-										<div
-											className="mnemonic-cell"
-											style={{ gridColumn: 2, gridRow: 11 }}
-										>
-											23 switch
-										</div>
-										<div
-											className="mnemonic-cell"
-											style={{ gridColumn: 1, gridRow: 12 }}
-										>
-											12 switch
-										</div>
-										<div
-											className="mnemonic-cell"
-											style={{ gridColumn: 2, gridRow: 12 }}
-										>
-											24 switch
-										</div>
-									</div>
-									<StandardButton
-										id={this.state.copied ? "copiedButton" : "copyButton"}
-										onClick={() => {
-											navigator.clipboard.writeText(
-												JSON.stringify(this.state.mnemonic),
-											);
-											this.setState({ copied: true });
-										}}
-									>
-										{this.state.copied
-											? localeData.wallet.copied
-											: localeData.wallet.copy}
-									</StandardButton>
-									<StandardButton
-										id="savedButton"
-										onClick={() => this.setState({ copied: false, state: 2 })}
-									>
-										{localeData.wallet.savedIt}
-									</StandardButton>
-								</div>
-							)}
-							{!isLogged && this.state.state === 2 && (
-								<div id="wallet-pin-container">
-									<div id="wallet-pin-title">{localeData.wallet.choosePIN}</div>
-									<div id="wallet-pin-subtitle">
-										{localeData.wallet.choosePINDesc}
+							{/* {this.state.state === 6 && (
+								<div id="wallet-pin-container-login">
+									<div id="wallet-pin-title">{localeData.wallet.login}</div>
+									<div id="wallet-pin-subtitle-error">
+										{this.state.confirmError && localeData.wallet.insertPIN}
 									</div>
 									<div id="pinContainer">
 										<StandardInput
-											value={this.state.pinOne}
+											value={this.state.loginPinOne}
 											className="form-field login-field"
-											onChange={(e) =>
-												this.setState({ pinOne: e.target.value })
-											}
+											onChange={(e) => {
+												const reg = new RegExp("^[0-9]+$");
+
+												if (reg.test(e.target.value) || e.target.value == "") {
+													this.setState({ loginPinOne: e.target.value });
+												}
+											}}
 											maxLength="1"
 											type="text"
 											id="pinOne"
 										/>
 										<StandardInput
-											value={this.state.pinTwo}
+											value={this.state.loginPinTwo}
 											className="form-field login-field"
-											onChange={(e) =>
-												this.setState({ pinTwo: e.target.value })
-											}
+											onChange={(e) => {
+												const reg = new RegExp("^[0-9]+$");
+
+												if (reg.test(e.target.value) || e.target.value == "") {
+													this.setState({ loginPinTwo: e.target.value });
+												}
+											}}
 											maxLength="1"
 											type="text"
 											id="pinTwo"
 										/>
 										<StandardInput
-											value={this.state.pinThree}
+											value={this.state.loginPinThree}
 											className="form-field login-field"
-											onChange={(e) =>
-												this.setState({ pinThree: e.target.value })
-											}
+											onChange={(e) => {
+												const reg = new RegExp("^[0-9]+$");
+
+												if (reg.test(e.target.value) || e.target.value == "") {
+													this.setState({ loginPinThree: e.target.value });
+												}
+											}}
 											maxLength="1"
 											type="text"
 											id="pinThree"
 										/>
 										<StandardInput
-											value={this.state.pinFour}
+											value={this.state.loginPinFour}
 											className="form-field login-field"
-											onChange={(e) =>
-												this.setState({ pinFour: e.target.value })
-											}
+											onChange={(e) => {
+												const reg = new RegExp("^[0-9]+$");
+
+												if (reg.test(e.target.value) || e.target.value == "") {
+													this.setState({ loginPinFour: e.target.value });
+												}
+											}}
 											maxLength="1"
 											type="text"
 											id="pinFour"
 										/>
 										<StandardInput
-											value={this.state.pinFive}
+											value={this.state.loginPinFive}
 											className="form-field login-field"
-											onChange={(e) =>
-												this.setState({ pinFive: e.target.value })
-											}
+											onChange={(e) => {
+												const reg = new RegExp("^[0-9]+$");
+
+												if (reg.test(e.target.value) || e.target.value == "") {
+													this.setState({ loginPinFive: e.target.value });
+												}
+											}}
 											maxLength="1"
 											type="text"
 											id="pinFive"
 										/>
 										<StandardInput
-											value={this.state.pinSix}
+											value={this.state.loginPinSix}
 											className="form-field login-field"
-											onChange={(e) =>
-												this.setState({ pinSix: e.target.value })
-											}
+											onChange={(e) => {
+												const reg = new RegExp("^[0-9]+$");
+
+												if (reg.test(e.target.value) || e.target.value == "") {
+													this.setState({ loginPinSix: e.target.value });
+												}
+											}}
 											maxLength="1"
 											type="text"
 											id="pinSix"
@@ -371,50 +897,39 @@ class WalletDropletComponent extends React.Component<
 									</div>
 									<StandardButton
 										id="finishButton"
-										onClick={() => this.setState({ state: 0, open: false })}
+										onClick={() => this.loginPIN()}
 									>
-										{localeData.wallet.finish}
+										{localeData.wallet.login}
 									</StandardButton>
 								</div>
-							)}
-							{!isLogged && this.state.state === 3 && (
-								<div id="wallet-creation-container">
-									<div id="wallet-creation-title">
-										{localeData.wallet.importTitle}
-									</div>
-									<div id="wallet-creation-subtitle">
-										{localeData.wallet.importSubtitle}
-									</div>
-									<StandardInput
-										value={this.state.recoveryPhrase}
-										className="form-field recoveryContainer"
-										placeholder={localeData.wallet.importPlaceholder}
-										onChange={(e) =>
-											this.setState({ recoveryPhrase: e.target.value })
-										}
-										maxLength="50"
-										type="text"
-									/>
-									<StandardButton
-										id="importButton"
-										onClick={() => this.setState({ state: 0, open: false })}
-									>
-										{localeData.wallet.import}
-									</StandardButton>
-								</div>
-							)}
+							)} */}
 						</div>
 					</>
 				) : (
 					<div className="wallet-droplet">
 						<div
 							className="wallet-container"
-							onClick={() => this.setState({ open: true })}
+							onClick={() => {
+								walletAddress !== ""
+									? this.setState({ open: true, state: 5 })
+									: this.setState({ open: true, state: 0 });
+							}}
 						>
 							<div id="walletIcon" />
 							<div className="text-container">
-								<div id="wallet-title">Test</div>
-								<div id="wallet-subtitle">asf3fdsad23321...123</div>
+								{/* <div id="wallet-title">
+									{walletAddress === undefined || walletAddress === ""
+										? localeData.wallet.noWallet
+										: wallet === undefined ? "" : wallet.value.account_number}
+								</div> */}
+								<div id="wallet-subtitle">
+									{walletAddress === undefined || walletAddress === ""
+										? localeData.wallet.createOrImport
+										: `${walletAddress.substring(
+												0,
+												15,
+										  )}...${walletAddress.substr(walletAddress.length - 5)}`}
+								</div>
 							</div>
 							<div id="wallet-arrow" />
 						</div>
@@ -428,6 +943,8 @@ class WalletDropletComponent extends React.Component<
 const mapStateToProps = (state: ApplicationState) => {
 	return {
 		languageState: state.language,
+		walletState: state.wallet,
+		staticState: state.static,
 	};
 };
 

@@ -12,8 +12,8 @@ import { MatchProp } from "mele-web-wallet/app/common/utils/match-props/match-pr
 import { LanguageState } from "mele-web-wallet/redux/reducers/language-reducer";
 import { TransactionsDroplet } from "mele-web-wallet/app/common/data-droplet/transactions-droplet/transactions-droplet";
 import { BalanceDroplet } from "mele-web-wallet/app/common/data-droplet/balance-droplet/balance-droplet";
-import { localeData } from "moment";
 import { SendCoinsDroplet } from "./../../common/data-droplet/send-coins-droplet/send-coins-droplet";
+import { Timer } from "./../../common/utils/session-timer/session-timer";
 
 interface IDashboardProps {
 	location: Location;
@@ -59,7 +59,7 @@ class DashboardComponent extends React.Component<IDashboardProps> {
 							<SendCoinsDroplet />
 						</div>
 						<div className="right-column">
-							<BalanceDroplet cents={"0"} />
+							<BalanceDroplet />
 						</div>
 					</div>
 					<div id="dashboard-transationsTitle">
@@ -69,9 +69,10 @@ class DashboardComponent extends React.Component<IDashboardProps> {
 						{localeData.transactions.recentText}
 					</div>
 					<div className="bottom-column">
-						<TransactionsDroplet />
+						<TransactionsDroplet history={this.props.history} />
 					</div>
 				</div>
+				<Timer />
 			</div>
 		);
 	}

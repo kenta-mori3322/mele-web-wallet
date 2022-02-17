@@ -4,13 +4,11 @@ import { connect } from "react-redux";
 import { mapDispatchToProps } from "mele-web-wallet/redux/methods/map-dispatch-to-props";
 import ApplicationState from "mele-web-wallet/redux/application-state";
 import { LanguageState } from "mele-web-wallet/redux/reducers/language-reducer";
-import { StatisticsState } from "mele-web-wallet/redux/reducers/statistics-reducer";
 import Popup from "reactjs-popup";
 
 interface CalculatorExplanationWindowProps {
 	open?: boolean;
 	languageState: LanguageState;
-	statisticsState: StatisticsState;
 	onClose?: () => void;
 	rootComponent: any;
 }
@@ -20,9 +18,7 @@ const languages = {
 	ar: require("../../translations/ar.json"),
 };
 
-class CalculatorExplanationWindowComponent extends React.Component<
-	CalculatorExplanationWindowProps
-> {
+class CalculatorExplanationWindowComponent extends React.Component<CalculatorExplanationWindowProps> {
 	render() {
 		const localeData = languages[this.props.languageState.currentLanguage];
 		return (
@@ -57,7 +53,6 @@ class CalculatorExplanationWindowComponent extends React.Component<
 const mapStateToProps = (state: ApplicationState) => {
 	return {
 		languageState: state.language,
-		statisticsState: state.statistics,
 	};
 };
 

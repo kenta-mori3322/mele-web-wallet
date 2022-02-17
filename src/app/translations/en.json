@@ -14,7 +14,10 @@
 		"loading": "When you get started, all your fund transfers will show up here.  \n Simply buy coins, and away you go.",
 		"loadingNoLogged": "Create/Import you wallet to start making transactions.",
 		"recent": "Recent Transactions",
-		"recentText": "A list of your recent transactions"
+		"recentText": "A list of your recent transactions",
+		"receive": "Receive",
+		"send": "Send",
+		"seeMore": "See all Transactions"
 	},
 	"dashboard": {
 		"send": "Send Coins",
@@ -30,7 +33,15 @@
 	"send": {
 		"reset": "Reset",
 		"send": "Send",
-		"fees": "Fees"
+		"fees": "Fees",
+		"sendTo": "Send To:",
+		"amount": "Amount",
+		"recipient": "Recipient",
+		"success": "Transaction successful",
+		"error": "Error on transaction, please check the recipient address",
+		"sameWallet": "Can't transfer MELC or MELG between the same wallet.",
+		"notEnough": "Not enough credits for this transaction",
+		"sendMoreThanZero": "Please choose a value greater than 0"
 	},
 	"wallet": {
 		"creationTitle": "Access Wallet",
@@ -44,10 +55,20 @@
 		"copied": "Copied",
 		"choosePIN": "Choose your PIN",
 		"choosePINDesc": "You will use your PIN to access your wallet.",
+		"confirmPIN": "Confirm your PIN",
+		"choosePINError": "Please check your PIN again",
+		"continue": "Continue",
 		"finish": "Finish",
 		"import": "Import",
 		"importTitle": "Import Existing Wallet",
 		"importSubtitle": "Paste your recovery phrase below to import your wallet.",
-		"importPlaceholder": "Paste your phrase here"
+		"importPlaceholder": "Paste your phrase here",
+		"createOrImport": "Create/Import your Wallet",
+		"noWallet": "No Wallet",
+		"logout": "Logout",
+		"login": "Login",
+		"insertPIN": "Insert your PIN to login",
+		"errorPIN": "Invalid PIN, please try again",
+		"wrongMnemonic": "Your recovery phrase is wrong, please try again."
 	}
 }
