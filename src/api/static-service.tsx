@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, Method, AxiosResponse } from "axios";
 
 const getUrl = () => {
-	return " https://api.dev1.melechain.com";
+	return " https://api.melechain.com";
 };
 
 export const API_URL = getUrl();
